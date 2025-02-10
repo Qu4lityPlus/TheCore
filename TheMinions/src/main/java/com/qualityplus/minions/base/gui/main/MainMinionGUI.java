@@ -16,6 +16,7 @@ import com.qualityplus.minions.base.gui.recipes.MinionsRecipesGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -66,6 +67,13 @@ public final class MainMinionGUI extends MinionGUI {
     @Override
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
+
+        if (event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT) {
+            if (event.getClickedInventory().equals(player.getInventory())) {
+                event.setCancelled(true);
+            }
+            return;
+        }
 
         ClickTarget target = getTarget(event);
 
