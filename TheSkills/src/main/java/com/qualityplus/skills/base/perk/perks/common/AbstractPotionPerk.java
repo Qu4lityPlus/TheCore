@@ -37,15 +37,15 @@ public abstract class AbstractPotionPerk extends Perk {
         ).get());
     }
 
-    protected int getFinalLevel(){
+    protected int getFinalLevel() {
         return Math.max(0, level - 1);
     }
 
-    protected int getDurationTicks(int level){
+    protected int getDurationTicks(int level) {
         return baseSecondsDuration + (secondsDurationPerLevel * level) * 20;
     }
 
-    private int getDurationSeconds(int level){
+    private int getDurationSeconds(int level) {
         return baseSecondsDuration + (secondsDurationPerLevel * level);
     }
 }

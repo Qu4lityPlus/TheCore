@@ -44,33 +44,33 @@ public final class StatsAndPerksGUI extends SkillsGUI {
         setItem(config.getCloseGUI());
         setItem(config.goBack);
 
-        if(page > 1)
+        if (page > 1)
             setItem(config.previousPage);
-        if(hasNext)
+        if (hasNext)
             setItem(config.nextPage);
 
         UserData data = box.service().getData(uuid).orElse(new UserData());
 
-        if(type.equals(GUIType.STAT)){
+        if (type.equals(GUIType.STAT)) {
             setItem(config.statInfoItem, Collections.singletonList(new Placeholder("player", PlayerUtils.getPlayerName(uuid))));
 
-            for(Stat stat : Stats.values(CommonObject::isEnabled)){
+            for (Stat stat : Stats.values(CommonObject::isEnabled)) {
                 GUIOptions options = stat.getGuiOptions();
 
-                if(options.getPage() != this.page) continue;
+                if (options.getPage() != this.page) continue;
 
                 inventory.setItem(options.getSlot(), SkillsItemStackUtil.makeItem(config.statItem, Arrays.asList(
                         new Placeholder("stat_displayname", stat.getDisplayName()),
                         new Placeholder("stat_description", stat.getFormattedDescription(data.getSkills().getLevel(stat.getId())))
                 ), options));
             }
-        }else{
+        } else {
             setItem(config.perkInfoItem, Collections.singletonList(new Placeholder("player", PlayerUtils.getPlayerName(uuid))));
 
-            for(Perk perk : Perks.values(CommonObject::isEnabled)){
+            for (Perk perk : Perks.values(CommonObject::isEnabled)) {
                 GUIOptions options = perk.getGuiOptions();
 
-                if(options.getPage() != this.page) continue;
+                if (options.getPage() != this.page) continue;
 
                 inventory.setItem(options.getSlot(), SkillsItemStackUtil.makeItem(config.perkItem, Arrays.asList(
                         new Placeholder("perk_displayname", perk.getDisplayName()),
@@ -93,17 +93,17 @@ public final class StatsAndPerksGUI extends SkillsGUI {
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.goBack)){
+        } else if (isItem(slot, config.goBack)) {
             player.openInventory(new MainGUI(box, player).getInventory());
-        }else if(isItem(slot, config.previousPage) && page > 1){
+        } else if (isItem(slot, config.previousPage) && page > 1) {
             player.openInventory(new StatsAndPerksGUI(box, player, page - 1, type).getInventory());
-        }else if(isItem(slot, config.nextPage) && hasNext){
+        } else if (isItem(slot, config.nextPage) && hasNext) {
             player.openInventory(new StatsAndPerksGUI(box, player, page + 1, type).getInventory());
-        }else if(isItem(slot, config.nextPage) && hasNext){
+        } else if (isItem(slot, config.nextPage) && hasNext) {
             player.openInventory(new StatsAndPerksGUI(box, player, page + 1, type).getInventory());
-        }else if(isItem(slot, config.switchMode)){
+        } else if (isItem(slot, config.switchMode)) {
             player.openInventory(new StatsAndPerksGUI(box, player, 1, type.equals(GUIType.STAT) ? GUIType.PERK : GUIType.STAT).getInventory());
         }
     }

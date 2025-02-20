@@ -28,7 +28,7 @@ public final class Pet extends OkaeriConfig {
     private Map<Integer, PetLevel> petLevels;
     private PetEntityOptions petEntityOptions;
 
-    public double getLevelRequirement(int level){
+    public double getLevelRequirement(int level) {
         return getPetLevel(level)
                 .map(PetLevel::getRequiredXp)
                 .orElse(1D);

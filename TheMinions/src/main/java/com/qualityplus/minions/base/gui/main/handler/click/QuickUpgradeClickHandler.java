@@ -43,7 +43,7 @@ public final class QuickUpgradeClickHandler implements ClickHandler {
 
         int maxLevel = minion.map(Minion::getMaxLevel).orElse(0);
 
-        if(level >= maxLevel) {
+        if (level >= maxLevel) {
             player.sendMessage(StringUtils.color(messages.upgradeMaxLevelMessage));
             return;
         }
@@ -57,7 +57,7 @@ public final class QuickUpgradeClickHandler implements ClickHandler {
         int amount = InventoryUtils.getItemQuantity(player.getInventory().getContents(), item);
         int required = matRequirement.getRequiredMaterialAmount();
 
-        if(amount >= required){
+        if (amount >= required) {
             minionData.ifPresent(MinionData::addOneLevel);
 
             minionEntity.updateInventory();
@@ -68,7 +68,7 @@ public final class QuickUpgradeClickHandler implements ClickHandler {
                     .alone();
 
             player.sendMessage(StringUtils.processMulti(messages.upgradeMessage, placeholders));
-        }else{
+        } else {
             List<IPlaceholder> placeholders = PlaceholderBuilder.create(
                     new Placeholder("minion_upgrade_material_amount", required - amount),
                     new Placeholder("minion_upgrade_current_amount", amount),

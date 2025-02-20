@@ -53,7 +53,7 @@ public final class Minions {
     }
 
     @Delayed(time = 1)
-    public static void reloadMinions(@Inject SnowMinion snowMinion, @Inject DiamondMinion diamondMinion, @Inject WheatMinion wheatMinion, @Inject CowMinion cowMinion){
+    public static void reloadMinions(@Inject SnowMinion snowMinion, @Inject DiamondMinion diamondMinion, @Inject WheatMinion wheatMinion, @Inject CowMinion cowMinion) {
         registerNewMinion(diamondMinion.getMinion());
         registerNewMinion(wheatMinion.getMinion());
         registerNewMinion(snowMinion.getMinion());
@@ -62,11 +62,11 @@ public final class Minions {
         loadMinionsConfig().forEach(Minions::registerNewMinion);
     }
 
-    private static List<Minion> loadMinionsConfig(){
+    private static List<Minion> loadMinionsConfig() {
 
         File folder = new File(TheMinions.getInstance().getDataFolder() + "/custom_minions");
 
-        if(!folder.exists())
+        if (!folder.exists())
             Optional.of(folder).ifPresent(File::mkdirs);
 
         return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
@@ -80,7 +80,7 @@ public final class Minions {
                 .collect(Collectors.toList());
     }
 
-    private static Optional<Minion> loadMinion(File file){
+    private static Optional<Minion> loadMinion(File file) {
         try {
             MinionConfig minionConfig = ConfigManager.create(MinionConfig.class, (it) -> {
                 it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer()));
@@ -92,7 +92,7 @@ public final class Minions {
             LOGGER.info(String.format("Successfully loaded custom minion with id %s!", minionConfig.getId()));
 
             return Optional.ofNullable(minionConfig.getMinion());
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.log(Level.WARNING, String.format("Error occurred loading config file %s", file.getName()), e);
             return Optional.empty();
         }

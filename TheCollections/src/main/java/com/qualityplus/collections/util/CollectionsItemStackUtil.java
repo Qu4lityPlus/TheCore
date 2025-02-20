@@ -16,7 +16,7 @@ import java.util.List;
 
 @UtilityClass
 public final class CollectionsItemStackUtil {
-    public static ItemStack makeItem(Item item, List<IPlaceholder> placeholders, GUIOptions guiOptions){
+    public static ItemStack makeItem(Item item, List<IPlaceholder> placeholders, GUIOptions guiOptions) {
         try {
             Item item1 = ItemBuilder.of(guiOptions.getItem(), 1, 1, "", Collections.emptyList()).headData(guiOptions.getTexture()).build();
 

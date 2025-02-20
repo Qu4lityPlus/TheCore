@@ -38,7 +38,7 @@ public final class DefenseConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI1ODcxYzcyOTg3MjY2ZTE1ZjFiZTQ5YjFlYzMzNGVmNmI2MThlOTY1M2ZiNzhlOTE4YWJkMzk1NjNkYmI5MyJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_defense_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return DefenseStat.builder()
                 .id(id)
                 .displayName(displayName)

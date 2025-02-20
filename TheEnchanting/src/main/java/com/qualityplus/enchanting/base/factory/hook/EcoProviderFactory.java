@@ -18,16 +18,16 @@ public final class EcoProviderFactory {
     private @Inject("injector") OkaeriInjector injector;
 
     @Bean("ecoProvider")
-    private EnchantmentProvider setupEco(){
-        if(EnchantingAddonsUtil.ECO_ENCHANTMENTS) {
+    private EnchantmentProvider setupEco() {
+        if (EnchantingAddonsUtil.ECO_ENCHANTMENTS) {
             return injector.createInstance(EcoEnchantmentProvider.class);
-        }else
+        } else
             return injector.createInstance(VanillaEnchantmentProvider.class);
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    private void sendEcoIncompatibilityMessage(){
-        if(!EnchantingAddonsUtil.ECO_ENCHANTMENTS) return;
+    private void sendEcoIncompatibilityMessage() {
+        if (!EnchantingAddonsUtil.ECO_ENCHANTMENTS) return;
 
         injector.createInstance(EcoHookSettings.class).sendWarning();
     }

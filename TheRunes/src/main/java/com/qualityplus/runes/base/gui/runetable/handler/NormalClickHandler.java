@@ -27,15 +27,15 @@ public final class NormalClickHandler implements ClickHandler {
     private final EffectHandler<RuneTableGUI> effectHandler;
 
     @Override
-    public void handle(InventoryClickEvent event){
+    public void handle(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(event.getSlot() == gui.getConfig().getClickToCombineRunesItem().getSlot() || event.getSlot() == gui.getConfig().getClickToCombineItemAndRuneItem().getSlot()){
+        if (event.getSlot() == gui.getConfig().getClickToCombineRunesItem().getSlot() || event.getSlot() == gui.getConfig().getClickToCombineItemAndRuneItem().getSlot()) {
             event.setCancelled(true);
 
-            if(!session.bothItemsAreSet()) return;
+            if (!session.bothItemsAreSet()) return;
 
-            if(!RuneFinderUtil.hasRequiredLevel(session, player)){
+            if (!RuneFinderUtil.hasRequiredLevel(session, player)) {
                 player.sendMessage(StringUtils.color(box.files().messages().runeMessages.youDontHaveEnoughRunecraftingLevel));
                 return;
             }
@@ -47,8 +47,8 @@ public final class NormalClickHandler implements ClickHandler {
             effectHandler.handle(player, gui, event.getClickedInventory());
 
 
-        } else if(event.getSlot() == gui.getConfig().getCombinedFilledItem().getSlot()){
-            if(BukkitItemUtil.isNull(session.getResult())) {
+        } else if (event.getSlot() == gui.getConfig().getCombinedFilledItem().getSlot()) {
+            if (BukkitItemUtil.isNull(session.getResult())) {
                 event.setCancelled(true);
                 return;
             }
@@ -59,14 +59,14 @@ public final class NormalClickHandler implements ClickHandler {
 
             player.setItemOnCursor(session.getResult());
 
-        }else{
+        } else {
             event.setCancelled(true);
 
-            if(session.isFusing())
+            if (session.isFusing())
                 return;
 
 
-            if(!BukkitItemUtil.isNull(session.getResult())) {
+            if (!BukkitItemUtil.isNull(session.getResult())) {
                 player.sendMessage(StringUtils.color(box.files().messages().runeMessages.thereIsAnItemToPickup));
                 return;
             }
@@ -74,7 +74,7 @@ public final class NormalClickHandler implements ClickHandler {
             final ItemStack copy = Optional.ofNullable(event.getCursor()).map(ItemStack::clone).orElse(null);
             final ItemStack current = Optional.ofNullable(event.getCurrentItem()).map(ItemStack::clone).orElse(null);
 
-            if(BukkitItemUtil.isNull(copy)){
+            if (BukkitItemUtil.isNull(copy)) {
 
                 RuneSession newSession = event.getSlot() == gui.getConfig().getToSacrificeSlot() ?
                         new RuneSessionImpl(player.getUniqueId(), null, session.getItemToUpgrade(), null, null) :
@@ -85,9 +85,9 @@ public final class NormalClickHandler implements ClickHandler {
                 event.setCurrentItem(null);
                 player.openInventory(new RuneTableGUI(box, newSession).getInventory());
                 player.setItemOnCursor(current);
-            }else{
+            } else {
 
-                if(!BukkitItemUtil.isNull(current)){
+                if (!BukkitItemUtil.isNull(current)) {
                     event.setCancelled(true);
                     return;
                 }

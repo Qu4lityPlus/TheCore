@@ -17,7 +17,7 @@ public final class UserCollections extends Document implements Levellable<String
     private Map<String, Integer> level = new HashMap<>();
     private Map<String, Double> xp = new HashMap<>();
 
-    public void fillIfEmpty(){
+    public void fillIfEmpty() {
         CollectionsRegistry.values().stream().map(Collection::getId).forEach(skill -> level.putIfAbsent(skill, 0));
         CollectionsRegistry.values().stream().map(Collection::getId).forEach(skill -> xp.putIfAbsent(skill, 0D));
     }

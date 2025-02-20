@@ -16,7 +16,7 @@ public final class RuneTable {
     private @Getter Location spawnLocation;
     private List<UUID> entities = new ArrayList<>();
 
-    public void removeTable(){
+    public void removeTable() {
         entities.stream()
                 .map(Bukkit::getEntity)
                 .filter(Objects::nonNull)

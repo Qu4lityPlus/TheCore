@@ -2,6 +2,7 @@ package com.qualityplus.minions.base.commands.giveitems;
 
 import com.qualityplus.assistant.TheAssistantPlugin;
 import com.qualityplus.assistant.api.commands.command.AssistantCommand;
+import com.qualityplus.assistant.api.util.NumberUtil;
 import com.qualityplus.assistant.lib.eu.okaeri.injector.annotation.Inject;
 import com.qualityplus.assistant.util.StringUtils;
 import com.qualityplus.minions.api.box.Box;
@@ -24,50 +25,72 @@ import java.util.stream.Collectors;
 
 @Component
 public final class GiveMinionCommand extends AssistantCommand {
+    private static final String INVALID_LEVEL_FALLBACK_MSG = "&cInvalid level!";
     private @Inject Box box;
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
-        if(args.length == 3){
-            Player toGive = Bukkit.getPlayer(args[1]);
+        if (args.length != 3 && args.length != 4) {
+            final String message = this.box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax);
 
-            Minion pet = Minions.getByID(args[2]);
+            sender.sendMessage(StringUtils.color(message));
+        } else {
+            final Player toGive = Bukkit.getPlayer(args[1]);
+            final Minion minion = Minions.getByID(args[2]);
 
-            if(toGive == null){
+            if (toGive == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
 
-            if(pet == null){
+            if (minion == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidMinion));
                 return false;
             }
 
-            Optional<ItemStack> petEgg = MinionEggUtil.createNewEgg(toGive, box.files().config().minionEggItem, pet);
+            int level = 1;
+            if (args.length == 4) {
+                final int tempLevel = NumberUtil.intOrZero(args[3]);
 
-            if(!petEgg.isPresent()){
+                if (tempLevel < 1) {
+                    final Optional<String> msg = Optional.ofNullable(this.box.files().messages().pluginMessages.invalidLevel);
+                    final String message = msg.orElse(INVALID_LEVEL_FALLBACK_MSG);
+                    sender.sendMessage(StringUtils.color(message));
+                    return false;
+                }
+
+                level = tempLevel;
+            }
+
+            final Optional<ItemStack> minionEgg = MinionEggUtil.createNewEgg(toGive, box.files().config().minionEggItem, minion, level);
+
+            if (minionEgg.isEmpty()) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidEgg));
                 return false;
             }
 
-            toGive.getInventory().addItem(petEgg.get());
-
-        }else{
-            String message = box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax);
-
-            sender.sendMessage(StringUtils.color(message));
+            toGive.getInventory().addItem(minionEgg.get());
         }
+
         return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command command, String label, String[] args) {
-        return args.length == 2 ? null : args.length == 3 ? Minions.values().stream().map(Minion::getId).collect(Collectors.toList()) : Collections.emptyList();
+        return switch (args.length) {
+            case 2 -> null;
+            case 3 -> Minions.values()
+                    .stream()
+                    .map(Minion::getId)
+                    .collect(Collectors.toList());
+            case 4 -> NumberUtil.stringSecuence(1, 10);
+            default -> Collections.emptyList();
+        };
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveMinionCommand));
     }
 

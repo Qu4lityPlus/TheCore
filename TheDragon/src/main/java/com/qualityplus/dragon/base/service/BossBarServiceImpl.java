@@ -28,12 +28,12 @@ public final class BossBarServiceImpl implements BossBarService {
     private Integer task;
 
     @Override
-    public void startBossBar(){
+    public void startBossBar() {
         this.task = Bukkit.getScheduler().scheduleAsyncRepeatingTask(TheDragon.getApi().getPlugin(), this::handleBossBar, 20, 20);
     }
 
     @Override
-    public void stopBossBar(){
+    public void stopBossBar() {
 
         Optional.ofNullable(this.task).ifPresent(Bukkit.getScheduler()::cancelTask);
 
@@ -48,7 +48,7 @@ public final class BossBarServiceImpl implements BossBarService {
         sendBossBar();
     }
 
-    private void sendBossBar(){
+    private void sendBossBar() {
         TheDragonAPI api = TheDragon.getApi();
 
         TheDragonEntity theDragonEntity = api.getDragonService().getActiveDragon();

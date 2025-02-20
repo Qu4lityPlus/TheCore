@@ -24,6 +24,7 @@ public final class Messages extends OkaeriConfig {
 
         public String recipeNotFoundPlaceholder = "&cRecipe not found!";
         public String noPermissionPlaceholder = "&cYou don't have permission to use that recipe!";
+        public String noItemsMessage = "&cYou don't have required items to craft that recipe!";
         public String blockedCraftingPlaceholder = "&cThis recipe is disabled!";
         public String recipeResultCantBeEmpty = "&cRecipe result can't be empty!";
         public String recipeIngredientsCantBeEmpty = "&cRecipe ingredients can't be empty!";

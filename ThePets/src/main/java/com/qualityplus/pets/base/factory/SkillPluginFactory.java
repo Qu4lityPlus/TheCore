@@ -17,14 +17,14 @@ public final class SkillPluginFactory {
     private @Inject Logger logger;
 
     @Bean
-    public SkillDependency getSkillDependency(){
-        if(TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheSkills")){
+    public SkillDependency getSkillDependency() {
+        if (TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheSkills")) {
             logger.info("TheSkills Plugin hook created for stats!");
             return new TheSkillsPlugin();
-        }else if(TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("AureliumSkills")){
+        } else if (TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("AureliumSkills")) {
             logger.info("AureliumSkills Plugin hook created for stats!");
             return new AureliumSkillsPlugin();
-        }else{
+        } else {
             logger.warning("No Skills Plugin hook was found for stats!");
             return new EmptySkillsPlugin();
         }

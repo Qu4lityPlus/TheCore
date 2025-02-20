@@ -18,7 +18,7 @@ public final class PetData extends Document {
     private double xp;
     private String petId;
 
-    public void addXp(double xp){
+    public void addXp(double xp) {
         this.xp += xp;
     }
 

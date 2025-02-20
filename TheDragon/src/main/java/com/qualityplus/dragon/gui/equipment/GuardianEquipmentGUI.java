@@ -43,43 +43,43 @@ public final class GuardianEquipmentGUI extends TheDragonGUI {
 
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         ItemStack itemStack = Optional.ofNullable(event.getCurrentItem())
                 .filter(BukkitItemUtil::isNotNull)
                 .map(ItemStack::clone)
                 .orElse(null);
 
-        if(itemStack == null) return;
+        if (itemStack == null) return;
 
         Player player = (Player) event.getWhoClicked();
 
         GuardianArmor armor = guardian.getGuardianArmor();
 
 
-        switch (equipmentType){
+        switch (equipmentType) {
             case BOOTS:
-                if(!itemMatch(player, itemStack, "boots")) return;
+                if (!itemMatch(player, itemStack, "boots")) return;
 
                 armor.setBoots(itemStack);
                 break;
             case HELMET:
-                if(!itemMatch(player, itemStack, "helmet")) return;
+                if (!itemMatch(player, itemStack, "helmet")) return;
 
                 armor.setHelmet(itemStack);
                 break;
             case LEGGINGS:
-                if(!itemMatch(player, itemStack, "leggings")) return;
+                if (!itemMatch(player, itemStack, "leggings")) return;
 
                 armor.setLeggings(itemStack);
                 break;
             case CHESTPLATE:
-                if(!itemMatch(player, itemStack, "chestplate")) return;
+                if (!itemMatch(player, itemStack, "chestplate")) return;
 
                 armor.setChestplate(itemStack);
                 break;
             case WEAPON:
-                if(!itemMatch(player, itemStack, "chestplate", "hoe", "axe", "pickaxe")) return;
+                if (!itemMatch(player, itemStack, "chestplate", "hoe", "axe", "pickaxe")) return;
 
                 armor.setWeapon(itemStack);
                 break;
@@ -88,11 +88,11 @@ public final class GuardianEquipmentGUI extends TheDragonGUI {
         player.openInventory(new GuardianGUI(box, guardian).getInventory());
     }
 
-    private boolean itemMatch(Player player, ItemStack itemStack, String... toMatch){
+    private boolean itemMatch(Player player, ItemStack itemStack, String... toMatch) {
 
         String item = BukkitItemUtil.getMaterialName(itemStack).toLowerCase();
 
-        if(Arrays.stream(toMatch).anyMatch(item::contains)) return true;
+        if (Arrays.stream(toMatch).anyMatch(item::contains)) return true;
 
         player.sendMessage(StringUtils.color(box.files().messages().setupMessages.guardianEquipItemDoesntMatch));
 

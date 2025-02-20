@@ -30,6 +30,7 @@ public final class WizardPerk extends AbstractPotionPerk {
             return;
 
         Optional.of(XPotion.CONFUSION)
+        //Optional.of(XPotion.NAUSEA)
                 .map(potion -> potion.buildPotionEffect(getDurationTicks(getStat(p)), getLevel()))
                 .ifPresent(p::addPotionEffect);
     }

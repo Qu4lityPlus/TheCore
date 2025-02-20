@@ -6,8 +6,11 @@ import org.bukkit.inventory.ItemStack;
 
 public interface AnvilSession {
     ItemStack getResult();
+    void setResult(ItemStack itemStack);
     ItemStack getItemToUpgrade();
     ItemStack getItemToSacrifice();
+    void setItemToUpgrade(ItemStack itemStack);
+    void setItemToSacrifice(ItemStack itemStack);
     SessionResult getSessionResult();
 
     @AllArgsConstructor

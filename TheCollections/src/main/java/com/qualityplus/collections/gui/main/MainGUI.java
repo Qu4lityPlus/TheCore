@@ -36,7 +36,7 @@ public final class MainGUI extends CollectionsGUI {
 
         UserData data = box.service().getData(uuid).orElse(new UserData());
 
-        for(CollectionCategory category : box.files().categories().collectionCategories)
+        for (CollectionCategory category : box.files().categories().collectionCategories)
             Optional.ofNullable(category.getGuiOptions()).ifPresent(option -> inventory.setItem(option.getSlot(), getItem(data, category, option)));
 
         setItem(config.getAllCollectionsItem(), CollectionsPlaceholderUtil.getAllCategoriesPlaceholders(data));
@@ -46,11 +46,11 @@ public final class MainGUI extends CollectionsGUI {
         return inventory;
     }
 
-    private ItemStack getItem(UserData data, CollectionCategory category, GUIOptions option){
+    private ItemStack getItem(UserData data, CollectionCategory category, GUIOptions option) {
         return CollectionsItemStackUtil.makeItem(config.getCollectionsItem(), getPlaceholders(data, category), option);
     }
 
-    private List<IPlaceholder> getPlaceholders(UserData data, CollectionCategory category){
+    private List<IPlaceholder> getPlaceholders(UserData data, CollectionCategory category) {
         return CollectionsPlaceholderUtil.getCategoryPlaceholders(data, category)
                 .with(CollectionsPlaceholderUtil.getCategoryStatePlaceholder(data, category, box))
                 .get();
@@ -64,11 +64,11 @@ public final class MainGUI extends CollectionsGUI {
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getCustomGoBackItem())){
+        } else if (isItem(slot, config.getCustomGoBackItem())) {
             handleItemCommandClick(player, config.getCustomGoBackItem());
-        }else{
+        } else {
             Optional<CollectionCategory> optionalCategory = box.files().categories().getBySlot(slot);
 
             optionalCategory.ifPresent(category -> player.openInventory(new CategoryGUI(box, player, category).getInventory()));

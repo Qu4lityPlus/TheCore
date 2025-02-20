@@ -46,7 +46,7 @@ public final class DragonServiceImpl implements DragonService {
     @Override
     public CompletableFuture<Void> killDragon() {
 
-        if(this.dragonController != null && this.dragonController.dragon() != null){
+        if (this.dragonController != null && this.dragonController.dragon() != null) {
             this.dragonController.setAfk(true);
             this.dragonController.kill();
         }

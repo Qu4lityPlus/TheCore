@@ -36,7 +36,7 @@ public final class BankUpgrade extends OkaeriConfig implements ItemPayable {
         this.upgradeInterestList = upgradeInterestList;
     }
 
-    public Optional<UpgradeInterest> getInterest(Double bankMoney){
+    public Optional<UpgradeInterest> getInterest(Double bankMoney) {
         return upgradeInterestList.stream().filter(interest -> bankMoney >= interest.getFrom() && bankMoney <= interest.getTo()).findFirst();
     }
 }

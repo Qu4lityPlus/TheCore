@@ -26,7 +26,7 @@ public final class TradesCheckerProvider implements CheckerProvider<TradeSession
 
         PluginTrade trade = session.getTrade();
 
-        if(!trade.hasPermission(player)){
+        if (!trade.hasPermission(player)) {
             player.sendMessage(StringUtils.color(messages.tradeMessages.noPermission));
             return;
         }
@@ -35,7 +35,7 @@ public final class TradesCheckerProvider implements CheckerProvider<TradeSession
 
         double price = trade.getPrice() * session.getAmount();
 
-        if(playerMoney < price){
+        if (playerMoney < price) {
             player.sendMessage(StringUtils.color(messages.tradeMessages.noMoney));
             return;
         }
@@ -44,14 +44,14 @@ public final class TradesCheckerProvider implements CheckerProvider<TradeSession
 
         Map<XMaterial, Integer> tradeCost = new HashMap<>();
 
-        for(Map.Entry<XMaterial, Integer> itemCost : trade.getItemCost().entrySet()) {
+        for (Map.Entry<XMaterial, Integer> itemCost : trade.getItemCost().entrySet()) {
             int toMultiply = itemCost.getValue() / resultAmount;
 
             int amount = session.getAmount() == 0 ? itemCost.getValue() : session.getAmount() * Math.max(toMultiply, 1);
 
             int playerAmount = InventoryUtils.getItemQuantity(player.getInventory().getContents(), itemCost.getKey().parseItem());
 
-            if(amount > playerAmount) {
+            if (amount > playerAmount) {
                 player.sendMessage(StringUtils.color(messages.tradeMessages.noItems));
                 return;
             }

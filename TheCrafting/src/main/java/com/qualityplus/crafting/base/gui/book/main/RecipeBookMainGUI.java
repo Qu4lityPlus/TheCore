@@ -43,7 +43,7 @@ public final class RecipeBookMainGUI extends CraftingGUI {
                 config.getGeneralProgressItem(),
                 getCategoryPlaceholders(new ArrayList<>(Recipes.values()))));
 
-        for(Category category : box.files().categories().categoryList){
+        for (Category category : box.files().categories().categoryList) {
             inventory.setItem(category.getSlot(), CraftingItemStackUtil.makeCategoryItem(
                     config.getCategoryItem(),
                     getCategoryPlaceholders(category),
@@ -64,18 +64,18 @@ public final class RecipeBookMainGUI extends CraftingGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         int slot = event.getSlot();
 
         Player player = (Player) event.getWhoClicked();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(recipeMap.containsKey(slot)){
+        } else if (recipeMap.containsKey(slot)) {
             Category category = recipeMap.getOrDefault(slot, null);
 
-            if(category == null) return;
+            if (category == null) return;
 
             player.openInventory(new RecipeBookSubGUI(box, player.getUniqueId(), category, 1, edition).getInventory());
 

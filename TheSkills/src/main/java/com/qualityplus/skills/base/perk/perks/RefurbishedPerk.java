@@ -39,13 +39,13 @@ public final class RefurbishedPerk extends Perk {
     public void handlePerk(PlayerInteractEvent e) {
         Player p = e.getPlayer();
 
-        if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && !e.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
+        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && !e.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
 
         ItemStack inHand = p.getItemInHand();
 
-        if(BukkitItemUtil.isNull(inHand)) return;
+        if (BukkitItemUtil.isNull(inHand)) return;
 
-        if(!toolList.contains(XMaterial.matchXMaterial(inHand.getType()))) return;
+        if (!toolList.contains(XMaterial.matchXMaterial(inHand.getType()))) return;
 
         if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p))
             return;

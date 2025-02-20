@@ -1,12 +1,12 @@
 package com.qualityplus.minions.util;
 
-import com.google.common.collect.ImmutableMap;
 import com.qualityplus.assistant.util.faster.FastMap;
 import com.qualityplus.minions.util.vector.VectorSection;
 import lombok.experimental.UtilityClass;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -14,26 +14,62 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class MinionAnimationUtil {
-    static {
-        AXIS_POSITIONS = FastMap.builder(Integer.class, VectorSection.class)
-                .put(1, new VectorSection(new Vector(0, 0, 1), new Vector(0, 0, 2), new Vector(0, 0, 3)))
-                .put(2, new VectorSection(new Vector(1, 0, 1), new Vector(1, 0, 2), new Vector(1, 0, 3)))
-                .put(3, new VectorSection(new Vector(2, 0, 1), new Vector(2, 0, 2), new Vector(2, 0, 3)))
-                .put(4, new VectorSection(new Vector(3, 0, 1), new Vector(3, 0, 2), new Vector(3, 0, 3)))
-                .put(5, new VectorSection(new Vector(1, 0, 0), new Vector(2, 0, 0), new Vector(3, 0, 0)))
-                .put(6, new VectorSection(new Vector(3, 0, -1), new Vector(3, 0, -2), new Vector(3, 0, -3)))
-                .put(7, new VectorSection(new Vector(2, 0, -1), new Vector(2, 0, -2), new Vector(2, 0, -3)))
-                .put(8, new VectorSection(new Vector(1, 0, -1), new Vector(1, 0, -2), new Vector(1, 0, -3)))
-                .put(9, new VectorSection(new Vector(0, 0, -1), new Vector(0, 0, -2), new Vector(0, 0, -3)))
-                .put(10, new VectorSection(new Vector(-1, 0, -1), new Vector(-1, 0, -2), new Vector(-1, 0, -3)))
-                .put(11, new VectorSection(new Vector(-2, 0, -1), new Vector(-2, 0, -2), new Vector(-2, 0, -3)))
-                .put(12, new VectorSection(new Vector(-3, 0, -1), new Vector(-3, 0, -2), new Vector(-3, 0, -3)))
-                .put(13, new VectorSection(new Vector(-1, 0, 0), new Vector(-2, 0, 0), new Vector(-3, 0, 0)))
-                .put(14, new VectorSection(new Vector(-3, 0, 1), new Vector(-3, 0, 2), new Vector(-3, 0, 3)))
-                .put(15, new VectorSection(new Vector(-2, 0, 1), new Vector(-2, 0, 2), new Vector(-2, 0, 3)))
-                .put(16, new VectorSection(new Vector(-1, 0, 1), new Vector(-1, 0, 2), new Vector(-1, 0, 3)))
-                .build();
+    private static final List<Vector> AXIS_FIRST = List.of(
+            new Vector(0, 0, 1),
+            new Vector(1, 0, 1),
+            new Vector(1, 0, 0),
+            new Vector(1, 0, -1),
+            new Vector(0, 0, -1),
+            new Vector(-1, 0, 1),
+            new Vector(-1, 0, 0),
+            new Vector(-1, 0, -1)
+        );
+    private static final List<Vector> AXIS_SEC = List.of(
+            new Vector(0, 0, 2),
+            new Vector(1, 0, 2),
+            new Vector(2, 0, 0),
+            new Vector(2, 0, 1),
+            new Vector(2, 0, 2),
+            new Vector(2, 0, -2),
+            new Vector(2, 0, -1),
+            new Vector(1, 0, -2),
+            new Vector(0, 0, -2),
+            new Vector(-1, 0, -2),
+            new Vector(-2, 0, -1),
+            new Vector(-2, 0, 0),
+            new Vector(-2, 0, 1),
+            new Vector(-1, 0, 2),
+            new Vector(-2, 0, 2),
+            new Vector(-2, 0, -2)
+    );
+    private static final List<Vector> AXIS_THIRD = List.of(
+            new Vector(0, 0, 3),
+            new Vector(1, 0, 3),
+            new Vector(2, 0, 3),
+            new Vector(3, 0, 1),
+            new Vector(3, 0, 2),
+            new Vector(3, 0, 3),
+            new Vector(3, 0, 0),
+            new Vector(3, 0, -1),
+            new Vector(3, 0, -2),
+            new Vector(3, 0, -3),
+            new Vector(2, 0, -3),
+            new Vector(1, 0, -3),
+            new Vector(0, 0, -3),
+            new Vector(-1, 0, -3),
+            new Vector(-2, 0, -3),
+            new Vector(-3, 0, -1),
+            new Vector(-3, 0, -2),
+            new Vector(-3, 0, -3),
+            new Vector(-3, 0, 1),
+            new Vector(-3, 0, 2),
+            new Vector(-3, 0, 3),
+            new Vector(-2, 0, 3),
+            new Vector(-1, 0, 3),
+            new Vector(-3, 0, 0)
+    );
 
+    static {
         SUGAR_WATER_POSITIONS = FastMap.builder(Integer.class, VectorSection.class)
                 .put(1, new VectorSection(new Vector(0, 0, 2)))
                 .put(3, new VectorSection(new Vector(2, 0, 1)))
@@ -64,28 +100,23 @@ public class MinionAnimationUtil {
             new EulerAngle(4.1D, 0.0D, 0.0D), new EulerAngle(4.4D, 0.0D, 0.0D), new EulerAngle(4.7D, 0.0D, 0.0D), new EulerAngle(5D, 0.0D, 0.0D), new EulerAngle(5.3D, 0.0D, 0.0D), new EulerAngle(5.6D, 0.0D, 0.0D)
     };
 
-    public static final Map<Integer, VectorSection> AXIS_POSITIONS;
     public static final Map<Integer, VectorSection> SUGAR_WATER_POSITIONS;
 
-    public List<Vector> getThree(){
-        return AXIS_POSITIONS.values().stream()
-                .map(VectorSection::getThirds)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public List<Vector> getThree() {
+        List<Vector> vectors = getSecond();
+        vectors.addAll(AXIS_THIRD);
+        return vectors;
     }
 
-    public List<Vector> getSecond(){
-        return AXIS_POSITIONS.values().stream()
-                .map(VectorSection::getSeconds)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public List<Vector> getSecond() {
+        final List<Vector> vectors = new ArrayList<>();
+        vectors.addAll(AXIS_FIRST);
+        vectors.addAll(AXIS_SEC);
+        return vectors;
     }
 
-    public List<Vector> getFirst(){
-        return AXIS_POSITIONS.values().stream()
-                .map(VectorSection::getFirsts)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public List<Vector> getFirst() {
+        return AXIS_FIRST;
     }
 }
 

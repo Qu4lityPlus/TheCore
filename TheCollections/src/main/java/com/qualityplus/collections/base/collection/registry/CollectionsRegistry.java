@@ -33,7 +33,7 @@ public final class CollectionsRegistry {
     public static void registerNewCollection(@NotNull final Collection collection) {
         COLLECTIONS_REGISTRY.put(collection.getId().toLowerCase(), collection);
 
-        if(collection.getCollectionExecutor().getExecutorType().equals(ExecutorType.BY_PICK_UP_MATERIAL))
+        if (collection.getCollectionExecutor().getExecutorType().equals(ExecutorType.BY_PICK_UP_MATERIAL))
             ITEM_COLLECTIONS_REGISTRY.put(collection.getCollectionExecutor().getMaterial().parseItem(), collection.getId());
         else
             ITEM_COLLECTIONS_REGISTRY.put(collection.getCollectionExecutor().getItem(), collection.getId());
@@ -49,11 +49,11 @@ public final class CollectionsRegistry {
         return COLLECTIONS_REGISTRY.get(key.getKey());
     }
 
-    public static Set<Collection> getByCategory(CollectionCategory category){
+    public static Set<Collection> getByCategory(CollectionCategory category) {
         return getByCategory(category.getId());
     }
 
-    public static Set<Collection> getByCategory(String id){
+    public static Set<Collection> getByCategory(String id) {
         return COLLECTIONS_REGISTRY.values().stream()
                 .filter(collection -> collection.getCategory().equals(id))
                 .collect(Collectors.toSet());
@@ -85,7 +85,7 @@ public final class CollectionsRegistry {
 
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND, async = true)
-    public static void reloadCollections(@Inject Box box){
+    public static void reloadCollections(@Inject Box box) {
         COLLECTIONS_REGISTRY.clear();
         ITEM_COLLECTIONS_REGISTRY.clear();
 

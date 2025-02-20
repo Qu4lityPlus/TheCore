@@ -37,14 +37,14 @@ public final class EnchantingSkill extends Skill {
 
         double xp = rewardForAllEnchantments + getExtraXp(e);
 
-        if(xp <= 0) return;
+        if (xp <= 0) return;
 
         TheSkills.getApi().getSkillsService().addXp(player, true, true, this, xp);
     }
 
-    private double getExtraXp(EnchantItemEvent event){
+    private double getExtraXp(EnchantItemEvent event) {
         double xp = 0;
-        for(Integer i : event.getEnchantsToAdd().values())
+        for (Integer i : event.getEnchantsToAdd().values())
             xp+=rewardsPerLevel.getOrDefault(i, 0d);
         return xp;
     }

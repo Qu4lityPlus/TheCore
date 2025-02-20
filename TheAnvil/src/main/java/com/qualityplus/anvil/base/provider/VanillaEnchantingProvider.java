@@ -26,15 +26,17 @@ public final class VanillaEnchantingProvider extends CommonEnchantmentProvider {
     private @Inject Config config;
 
     @Override
-    public AnvilSession.SessionResult getAnswer(AnvilSession session) {
-        AnvilSession.SessionResult commonResult = getCommonAnswer(session);
+    public AnvilSession.SessionResult getAnswer(final AnvilSession session) {
+        final AnvilSession.SessionResult commonResult = getCommonAnswer(session);
 
-        if(commonResult != null) return commonResult;
+        if (commonResult != null) {
+            return commonResult;
+        }
 
-        if(getEnchantments(session.getItemToSacrifice())
+        if (getEnchantments(session.getItemToSacrifice())
                 .keySet()
                 .stream()
-                .anyMatch(enchantment -> getIncompatibility(session.getItemToUpgrade(), enchantment).isPresent()))
+                .anyMatch(itemToSacrificeEnch -> getIncompatibility(session.getItemToUpgrade(), itemToSacrificeEnch).isPresent()))
             return AnvilSession.SessionResult.ERROR_CONFLICT_ENCHANTMENTS;
 
         return AnvilSession.SessionResult.BOTH_ITEMS_SET;
@@ -44,7 +46,7 @@ public final class VanillaEnchantingProvider extends CommonEnchantmentProvider {
     public ItemStack getFinalItem(AnvilSession session) {
         ItemStack newItem = session.getItemToUpgrade().clone();
 
-        for(Map.Entry<Enchantment, Integer> entry : getNewEnchantments(session).entrySet()) {
+        for (Map.Entry<Enchantment, Integer> entry : getNewEnchantments(session).entrySet()) {
             Enchantment enchantment = entry.getKey();
 
             newItem = addEnchantment(newItem, new VanillaEnchantmentSession(enchantment, entry.getValue()));
@@ -91,7 +93,7 @@ public final class VanillaEnchantingProvider extends CommonEnchantmentProvider {
     }
 
 
-    private Optional<Enchantment> getIncompatibility(ItemStack itemStack, Enchantment enchantment){
+    private Optional<Enchantment> getIncompatibility(ItemStack itemStack, Enchantment enchantment) {
         return getEnchantments(itemStack)
                 .keySet()
                 .stream()
@@ -125,10 +127,10 @@ public final class VanillaEnchantingProvider extends CommonEnchantmentProvider {
         return itemStack;
     }
 
-    private void removeAllEnchantments(ItemStack itemStack, Map<Enchantment, Integer> toRemove){
+    private void removeAllEnchantments(ItemStack itemStack, Map<Enchantment, Integer> toRemove) {
         ItemMeta meta = itemStack.getItemMeta();
 
-        if(meta instanceof EnchantmentStorageMeta)
+        if (meta instanceof EnchantmentStorageMeta)
             toRemove.forEach((key, value) -> ((EnchantmentStorageMeta) meta).removeStoredEnchant(key));
         else
             toRemove.forEach((key, value) -> Optional.ofNullable(meta).ifPresent(m -> m.removeEnchant(key)));
@@ -136,33 +138,33 @@ public final class VanillaEnchantingProvider extends CommonEnchantmentProvider {
         itemStack.setItemMeta(meta);
     }
 
-    private void addAllEnchantments(ItemStack itemStack, Map<Enchantment, Integer> toAdd){
+    private void addAllEnchantments(ItemStack itemStack, Map<Enchantment, Integer> toAdd) {
         ItemMeta meta = itemStack.getItemMeta();
 
-        if(meta instanceof EnchantmentStorageMeta) {
+        if (meta instanceof EnchantmentStorageMeta) {
             toAdd.forEach((ench, level) -> ((EnchantmentStorageMeta) meta).addStoredEnchant(ench, level, false));
-        }else {
+        } else {
             toAdd.forEach((ench, level) -> Optional.ofNullable(meta).ifPresent(m -> m.addEnchant(ench, level, false)));
         }
 
         itemStack.setItemMeta(meta);
     }
 
-    private Map<Enchantment, Integer> getNewEnchantments(AnvilSession session){
+    private Map<Enchantment, Integer> getNewEnchantments(AnvilSession session) {
         Map<Enchantment, Integer> toUpgradeEnchants = getEnchantments(session.getItemToUpgrade());
         Map<Enchantment, Integer> toSacrificeEnchants = getEnchantments(session.getItemToSacrifice());
 
         Map<Enchantment, Integer> newEnchants = new HashMap<>();
 
-        for(Enchantment enchantment : toSacrificeEnchants.keySet()){
+        for (Enchantment enchantment : toSacrificeEnchants.keySet()) {
 
-            if(!toUpgradeEnchants.containsKey(enchantment)){
+            if (!toUpgradeEnchants.containsKey(enchantment)) {
                 newEnchants.put(enchantment, toSacrificeEnchants.get(enchantment));
-            }else{
+            } else {
                 int sacrificeLevel = toSacrificeEnchants.get(enchantment);
                 int upgradeLevel = toUpgradeEnchants.get(enchantment);
 
-                if(upgradeLevel + sacrificeLevel > enchantment.getMaxLevel()) continue;
+                if (upgradeLevel + sacrificeLevel > enchantment.getMaxLevel()) continue;
 
                 newEnchants.put(enchantment, upgradeLevel + sacrificeLevel);
             }

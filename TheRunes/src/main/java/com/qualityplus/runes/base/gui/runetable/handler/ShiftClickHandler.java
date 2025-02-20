@@ -22,10 +22,10 @@ public final class ShiftClickHandler implements ClickHandler {
     private final RuneSession session;
 
     @Override
-    public void handle(InventoryClickEvent event){
+    public void handle(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if(event.getSlot() == gui.getConfig().getCombinedFilledItem().getSlot()){
-            if(BukkitItemUtil.isNull(session.getResult())) {
+        if (event.getSlot() == gui.getConfig().getCombinedFilledItem().getSlot()) {
+            if (BukkitItemUtil.isNull(session.getResult())) {
                 event.setCancelled(true);
                 return;
             }
@@ -36,14 +36,14 @@ public final class ShiftClickHandler implements ClickHandler {
 
             player.getInventory().addItem(session.getResult());
 
-        }else{
-            if(!BukkitItemUtil.isNull(session.getResult())) {
+        } else {
+            if (!BukkitItemUtil.isNull(session.getResult())) {
                 player.sendMessage(StringUtils.color(box.files().messages().runeMessages.thereIsAnItemToPickup));
                 event.setCancelled(true);
                 return;
             }
 
-            if(session.isFusing()) {
+            if (session.isFusing()) {
                 event.setCancelled(true);
                 return;
             }
@@ -51,14 +51,14 @@ public final class ShiftClickHandler implements ClickHandler {
             final ItemStack copy = Optional.ofNullable(event.getCursor()).map(ItemStack::clone).orElse(null);
             final ItemStack current = Optional.ofNullable(event.getCurrentItem()).map(ItemStack::clone).orElse(null);
 
-            if(event.getSlot() == gui.getConfig().getToSacrificeSlot()){
-                if(BukkitItemUtil.isNull(copy) && !BukkitItemUtil.isNull(current)){
+            if (event.getSlot() == gui.getConfig().getToSacrificeSlot()) {
+                if (BukkitItemUtil.isNull(copy) && !BukkitItemUtil.isNull(current)) {
                     gui.setGiveItem(false);
                     player.openInventory(new RuneTableGUI(box, new RuneSessionImpl(player.getUniqueId(), null, session.getItemToUpgrade(), null, null)).getInventory());
                     player.getInventory().addItem(current);
                 }
-            }else{
-                if(BukkitItemUtil.isNull(copy) && !BukkitItemUtil.isNull(current)){
+            } else {
+                if (BukkitItemUtil.isNull(copy) && !BukkitItemUtil.isNull(current)) {
                     gui.setGiveItem(false);
                     player.openInventory(new RuneTableGUI(box, new RuneSessionImpl(player.getUniqueId(), null, null, session.getItemToSacrifice(), RunesUtils.getRuneInstance(session.getItemToSacrifice()))).getInventory());
                     player.getInventory().addItem(current);
@@ -77,13 +77,13 @@ public final class ShiftClickHandler implements ClickHandler {
 
         ShiftTarget target = getTarget();
 
-        if(!BukkitItemUtil.isNull(session.getResult())) {
+        if (!BukkitItemUtil.isNull(session.getResult())) {
             player.sendMessage(StringUtils.color(box.files().messages().runeMessages.thereIsAnItemToPickup));
             event.setCancelled(true);
             return;
         }
 
-        if(BukkitItemUtil.isNull(session.getItemToSacrifice()) && !BukkitItemUtil.isNull(current) && target.equals(ShiftTarget.SACRIFICE)){
+        if (BukkitItemUtil.isNull(session.getItemToSacrifice()) && !BukkitItemUtil.isNull(current) && target.equals(ShiftTarget.SACRIFICE)) {
 
             gui.setGiveItem(false);
 
@@ -92,7 +92,7 @@ public final class ShiftClickHandler implements ClickHandler {
             player.openInventory(new RuneTableGUI(box, new RuneSessionImpl(player.getUniqueId(), null, session.getItemToUpgrade(), current, RunesUtils.getRuneInstance(current))).getInventory());
         }
 
-        if(BukkitItemUtil.isNull(session.getItemToUpgrade()) && !BukkitItemUtil.isNull(current) && target.equals(ShiftTarget.UPGRADE)){
+        if (BukkitItemUtil.isNull(session.getItemToUpgrade()) && !BukkitItemUtil.isNull(current) && target.equals(ShiftTarget.UPGRADE)) {
 
             gui.setGiveItem(false);
 
@@ -102,7 +102,7 @@ public final class ShiftClickHandler implements ClickHandler {
         }
     }
 
-    private ShiftTarget getTarget(){
+    private ShiftTarget getTarget() {
         boolean toUpgradeIsNull = BukkitItemUtil.isNull(session.getItemToUpgrade());
 
         return toUpgradeIsNull ? ShiftTarget.UPGRADE : ShiftTarget.SACRIFICE;

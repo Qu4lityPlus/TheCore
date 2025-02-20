@@ -26,7 +26,7 @@ public final class UserSkills extends Document implements Levellable<String, Int
     private Map<String, Integer> level = new HashMap<>();
     private Map<String, Double> xp = new HashMap<>();
 
-    public void fillIfEmpty(){
+    public void fillIfEmpty() {
         Skills.values().stream().map(Skill::getId).forEach(skill -> level.putIfAbsent(skill, 0));
         Skills.values().stream().map(Skill::getId).forEach(skill -> xp.putIfAbsent(skill, 0D));
         Skills.values().stream().map(Skill::getId).forEach(skill -> fromArmor.putIfAbsent(skill, 0));

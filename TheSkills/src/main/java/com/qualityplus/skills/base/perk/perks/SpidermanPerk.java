@@ -50,9 +50,9 @@ public final class SpidermanPerk extends Perk {
     public void handlePerk(EntityDamagedByPlayerEvent e) {
         Player p = e.getPlayer();
 
-        if(!enabledWorlds.contains(p.getWorld().getName())) return;
+        if (!enabledWorlds.contains(p.getWorld().getName())) return;
 
-        if(!canBeUsedWithPlayers && e.getEntity() instanceof Player) return;
+        if (!canBeUsedWithPlayers && e.getEntity() instanceof Player) return;
 
         if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p))
             return;

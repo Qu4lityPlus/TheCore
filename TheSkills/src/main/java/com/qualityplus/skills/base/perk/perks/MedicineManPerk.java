@@ -50,7 +50,7 @@ public final class MedicineManPerk extends Perk {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(new Placeholder("regen_percent", getPercentage())).get());
     }
 
-    private double getPercentage(){
+    private double getPercentage() {
         return healPercentageToRegenerateBase + healPercentageToRegeneratePerLevel;
     }
 }

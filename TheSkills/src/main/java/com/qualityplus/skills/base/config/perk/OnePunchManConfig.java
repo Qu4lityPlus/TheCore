@@ -37,7 +37,7 @@ public final class OnePunchManConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmUyMmM2N2MwOTI3OWE4YzczMzQ4MzgzNzI4MjE5ZGEwZDEwYjU5MzI3NGYxYWIzOGNhODU3NDg3ZTMyMWU3NSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_one_punch_man_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return OnePunchManPerk.builder()
                 .id(id)
                 .displayName(displayName)

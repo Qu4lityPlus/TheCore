@@ -38,6 +38,6 @@ public final class TheSouls extends OkaeriSilentPlugin {
 
     @Planned(ExecutionPhase.POST_STARTUP)
     private void whenStart(@Inject Box box) {
-        box.files().souls().soulList.forEach(soul -> soul.enable(box));
+        box.files().souls().soulList.forEach(soul -> soul.enable(box, true));
     }
 }

@@ -22,17 +22,17 @@ public final class CollectionExecutor extends OkaeriConfig {
         this.material = material;
     }
 
-    public ItemStack getItem(){
-        if(item == null) item = BukkitItemUtil.deserialize(itemStack);
+    public ItemStack getItem() {
+        if (item == null) item = BukkitItemUtil.deserialize(itemStack);
 
         return item;
     }
 
-    public static CollectionExecutor ofMaterial(XMaterial material){
+    public static CollectionExecutor ofMaterial(XMaterial material) {
         return new CollectionExecutor(ExecutorType.BY_PICK_UP_MATERIAL, material, null);
     }
 
-    public static CollectionExecutor ofItemStack(ItemStack itemStack){
+    public static CollectionExecutor ofItemStack(ItemStack itemStack) {
         return new CollectionExecutor(ExecutorType.BY_PICK_UP_ITEM_STACK, null, BukkitItemUtil.serialize(itemStack));
     }
 

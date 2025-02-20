@@ -38,26 +38,26 @@ public final class SoulEditionImpl implements SoulEdition, Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 
         EditionObject editionObject = editMap.getOrDefault(player.getUniqueId(), null);
 
-        if(editionObject == null) return;
+        if (editionObject == null) return;
 
         String message = event.getMessage();
 
-        if(message == null) return;
+        if (message == null) return;
 
         EditionType type = editionObject.getType();
 
         SoulsGUI gui = type == EditionType.ADD_COMMAND ? new AddCommandsGUI(box, editionObject.getSoul(), 1, this) : new AddMessagesGUI(box, editionObject.getSoul(), 1, this);
 
-        if(!message.equalsIgnoreCase("cancel") && !message.equalsIgnoreCase("exit")){
+        if (!message.equalsIgnoreCase("cancel") && !message.equalsIgnoreCase("exit")) {
 
-            if(type == EditionType.ADD_COMMAND)
+            if (type == EditionType.ADD_COMMAND)
                 editionObject.getSoul().getCommands().add(message);
-            else if(type == EditionType.ADD_MESSAGE)
+            else if (type == EditionType.ADD_MESSAGE)
                 editionObject.getSoul().getMessages().add(message);
 
             String toSend = type == EditionType.ADD_COMMAND ?
@@ -71,12 +71,12 @@ public final class SoulEditionImpl implements SoulEdition, Listener {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event){
+    public void onQuit(PlayerQuitEvent event) {
         editMap.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
-    public void onKick(PlayerKickEvent event){
+    public void onKick(PlayerKickEvent event) {
         editMap.remove(event.getPlayer().getUniqueId());
     }
 }

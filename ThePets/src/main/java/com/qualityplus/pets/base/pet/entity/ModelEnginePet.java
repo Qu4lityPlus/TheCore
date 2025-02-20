@@ -1,10 +1,10 @@
 package com.qualityplus.pets.base.pet.entity;
 
+import com.qualityplus.pets.ThePets;
 import com.qualityplus.pets.api.pet.entity.PetEntity;
 import com.qualityplus.pets.base.pet.Pet;
 import com.ticxo.modelengine.api.ModelEngineAPI;
 import com.ticxo.modelengine.api.animation.AnimationHandler;
-import com.ticxo.modelengine.api.animation.AnimationProperty;
 import com.ticxo.modelengine.api.animation.property.IAnimationProperty;
 import com.ticxo.modelengine.api.model.ActiveModel;
 import com.ticxo.modelengine.api.model.ModeledEntity;
@@ -12,18 +12,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public final class ModelEnginePet extends MinecraftPet{
+public final class ModelEnginePet extends MinecraftPet {
     private ArmorStand armorStand;
 
     private ModelEnginePet(UUID petUniqueId, UUID owner, Pet pet) {
         super(petUniqueId, owner, pet);
     }
 
-    public static ModelEnginePet create(UUID petUniqueId, UUID owner, Pet pet){
+    public static ModelEnginePet create(UUID petUniqueId, UUID owner, Pet pet) {
         return new ModelEnginePet(petUniqueId, owner, pet);
     }
 
@@ -80,17 +81,17 @@ public final class ModelEnginePet extends MinecraftPet{
                 .ifPresent(this::teleportAndRotate);
     }
 
-    private void teleportAndRotate(Location location){
+    private void teleportAndRotate(Location location) {
         armorStand.teleport(location);
         armorStand.setRotation((float) (20 * count / (2 * Math.PI)), 0f);
     }
 
 
-    private static boolean entityIsValid(ArmorStand armorStand){
+    private static boolean entityIsValid(ArmorStand armorStand) {
         return armorStand != null && !armorStand.isDead();
     }
 
-    private void createArmorStand(Location location){
+    private void createArmorStand(Location location) {
 
         armorStand = location.getWorld().spawn(location, ArmorStand.class);
 

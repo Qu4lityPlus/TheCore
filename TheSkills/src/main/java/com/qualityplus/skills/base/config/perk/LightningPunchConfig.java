@@ -37,7 +37,7 @@ public final class LightningPunchConfig extends OkaeriConfig implements PerkFile
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg1YzE5YmVhMWUwYWExYjNmOGY5ODUzYzc1NGI1MzQ2NzcxOGNlMGY5MGRlODg2ZmQ0ZWYyYjQyMDk5NTVjNSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_lightning_punch_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return LightningPunchPerk.builder()
                 .id(id)
                 .displayName(displayName)

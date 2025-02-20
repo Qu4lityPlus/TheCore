@@ -12,11 +12,13 @@ public final class BankTransaction extends Document {
     private long whenHappened;
     private TransactionType type;
     private GUIType guiType;
+    private TransactionCaller caller;
 
-    public BankTransaction(double amount, TransactionType type, GUIType guiType) {
+    public BankTransaction(double amount, TransactionType type, GUIType guiType, TransactionCaller caller) {
         this.whenHappened = System.currentTimeMillis();
         this.guiType = guiType;
         this.amount = amount;
+        this.caller = caller;
         this.type = type;
     }
 }

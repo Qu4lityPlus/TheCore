@@ -27,7 +27,7 @@ public final class UpgradeClickHandler implements ClickHandler {
 
         event.setCancelled(true);
 
-        if(event.isShiftClick()) return;
+        if (event.isShiftClick()) return;
 
         Optional<MinionData> data = TheMinions.getApi().getMinionsService().getData(minionEntity.getMinionUniqueId());
         UpgradeEntity entity = slot.equals(UpgradeSlot.FIRST_SLOT) ? data
@@ -40,18 +40,18 @@ public final class UpgradeClickHandler implements ClickHandler {
         ItemStack oldToGive = getTaken(box, entity, minionEntity);
         boolean cursorIsEntity = MinionUpgradeUtil.isUpgrade(cursor);
 
-        if(cursorIsEntity){
+        if (cursorIsEntity) {
             UpgradeEntity newUpgrade = getEntityFromItem(box, entity, data, cursor, slot);
             data.ifPresent(d -> setUpgrade(d, slot, newUpgrade));
 
             player.setItemOnCursor(oldToGive);
 
-        }else{
-            if(entity == null) return;
+        } else {
+            if (entity == null) return;
 
-            if(BukkitItemUtil.isNull(cursor)) {
+            if (BukkitItemUtil.isNull(cursor)) {
                 Optional.ofNullable(oldToGive).ifPresent(player::setItemOnCursor);
-            }else
+            } else
                 Optional.ofNullable(oldToGive).ifPresent(item -> BukkitItemUtil.dropItem(player, item));
 
             data.ifPresent(d -> d.removeUpgrade(slot));
@@ -69,8 +69,8 @@ public final class UpgradeClickHandler implements ClickHandler {
         return modified;
     }
 
-    private void setUpgrade(MinionData data, UpgradeSlot slot, UpgradeEntity modified){
-        if(slot == UpgradeSlot.FIRST_SLOT)
+    private void setUpgrade(MinionData data, UpgradeSlot slot, UpgradeEntity modified) {
+        if (slot == UpgradeSlot.FIRST_SLOT)
             data.setFirstUpgrade(modified);
         else
             data.setSecondUpgrade(modified);
@@ -78,18 +78,18 @@ public final class UpgradeClickHandler implements ClickHandler {
 
 
     @SuppressWarnings("all")
-    private ItemStack getTaken(Box box, UpgradeEntity upgradeEntity, MinionEntity entity){
-        if(upgradeEntity == null) return null;
+    private ItemStack getTaken(Box box, UpgradeEntity upgradeEntity, MinionEntity entity) {
+        if (upgradeEntity == null) return null;
 
         MinionUpgrade upgrade = box.files().upgrades().normalUpgrades.getOrDefault(upgradeEntity.getId(), null);
 
-        if(upgrade == null) return null;
+        if (upgrade == null) return null;
 
 
         return upgrade.getItemStack();
     }
 
-    private UpgradeSlot getSlot(InventoryClickEvent event, Box box){
+    private UpgradeSlot getSlot(InventoryClickEvent event, Box box) {
         MainMinionGUIConfig config = box.files().inventories().getMinionGUIConfig();
 
         int slot = event.getSlot();

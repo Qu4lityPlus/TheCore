@@ -31,11 +31,11 @@ public final class SetLevelCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 4) {
+        if (args.length == 4) {
 
             Player player = Bukkit.getPlayer(args[1]);
 
-            if(player == null){
+            if (player == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
@@ -44,17 +44,17 @@ public final class SetLevelCommand extends AssistantCommand {
 
             Integer level = NumberUtil.intOrNull(args[3]);
 
-            if(collection == null){
+            if (collection == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.invalidCollection));
                 return false;
             }
 
-            if(level == null){
+            if (level == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidAmount));
                 return false;
             }
 
-            if(level > collection.getMaxLevel()){
+            if (level > collection.getMaxLevel()) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.levelCantBeHigherThanMaxLevel));
 
                 return false;
@@ -74,7 +74,7 @@ public final class SetLevelCommand extends AssistantCommand {
 
             sender.sendMessage(StringUtils.processMulti(box.files().messages().collectionsMessages.setLevel, placeholders));
 
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         return true;
     }
@@ -87,7 +87,7 @@ public final class SetLevelCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().setLevelCommand));
     }
 }

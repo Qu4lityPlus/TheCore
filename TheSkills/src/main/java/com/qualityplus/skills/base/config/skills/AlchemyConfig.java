@@ -70,7 +70,7 @@ public final class AlchemyConfig extends OkaeriConfig {
             ))
             .build();
 
-    public Skill getSkill(){
+    public Skill getSkill() {
         return AlchemySkill.builder()
                 .id(id)
                 .enabled(enabled)
@@ -88,7 +88,7 @@ public final class AlchemyConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return FastMap.listBuilder(Integer.class, String.class)
                 .put(1, Arrays.asList("&7Abilities To Upgrade:",
                                 "&8» &f+1 %skill_defense_displayname%",
@@ -111,14 +111,14 @@ public final class AlchemyConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<StatReward>> getInternalRewards(){
+    private Map<Integer, List<StatReward>> getInternalRewards() {
         return FastMap.listBuilder(Integer.class, StatReward.class)
                 .put(1, Arrays.asList(new StatReward("defense", 1), new StatReward("ferocity", 1), new StatReward("brew_chance", 1), new StatReward("potion_master", 1)))
                 .put(10, Arrays.asList(new StatReward("defense", 2), new StatReward("ferocity", 2), new StatReward("brew_chance", 1), new StatReward("potion_master", 1)))
                 .build();
     }
 
-    private Map<Integer, Double> getLevelsMap(){
+    private Map<Integer, Double> getLevelsMap() {
         Map<Integer, Double> levels = new HashMap<>();
 
         NumberUtil.intStream(0, maxLevel).forEach(n -> levels.put(n, n*15d));

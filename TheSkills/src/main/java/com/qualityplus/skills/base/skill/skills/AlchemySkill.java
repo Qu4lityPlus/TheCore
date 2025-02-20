@@ -37,7 +37,7 @@ public final class AlchemySkill extends Skill {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBrewEvent(BrewEvent event){
+    public void onBrewEvent(BrewEvent event) {
         Location loc = event.getBlock().getLocation();
 
         Player player = (Player) loc.getWorld()
@@ -46,17 +46,17 @@ public final class AlchemySkill extends Skill {
                 .filter(entity -> entity instanceof Player)
                 .findFirst().orElse(null);
 
-        if(player == null) return;
+        if (player == null) return;
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return;
 
         Optional<XMaterial> material = Optional.ofNullable(event.getContents().getIngredient()).map(ItemStack::getType).map(XMaterial::matchXMaterial);
 
-        if(!material.isPresent()) return;
+        if (!material.isPresent()) return;
 
         double xp = rewards.getOrDefault(material.get(), 0D);
 
-        if(xp <= 0) return;
+        if (xp <= 0) return;
 
         TheSkills.getApi().getSkillsService().addXp(player, true, true, this, xp);
 

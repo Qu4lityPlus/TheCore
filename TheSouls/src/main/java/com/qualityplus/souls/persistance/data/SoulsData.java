@@ -14,7 +14,7 @@ public final class SoulsData extends Document {
     private List<UUID> soulsCollected;
     private List<UUID> tiaSoulsCollected;
 
-    public void removeAmount(int amount){
+    public void removeAmount(int amount) {
         if (amount <= 0) return;
 
         tiaSoulsCollected = tiaSoulsCollected.subList(0, tiaSoulsCollected.size() - amount);

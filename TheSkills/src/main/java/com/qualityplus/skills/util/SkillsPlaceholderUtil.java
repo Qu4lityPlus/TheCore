@@ -49,7 +49,7 @@ public class SkillsPlaceholderUtil {
 
         PlaceholderBuilder builder = PlaceholderBuilder.create();
 
-        for(Perk perk : Perks.values())
+        for (Perk perk : Perks.values())
             placeholders.addAll(getCommonPlaceholders(perk, userData.getSkills().getLevel(perk.getId())));
 
         builder.with(placeholders);
@@ -62,7 +62,7 @@ public class SkillsPlaceholderUtil {
 
         PlaceholderBuilder builder = PlaceholderBuilder.create();
 
-        for(Perk perk : Perks.values())
+        for (Perk perk : Perks.values())
             placeholders.addAll(getCommonPlaceholders(perk, level));
 
         builder.with(placeholders);
@@ -75,7 +75,7 @@ public class SkillsPlaceholderUtil {
 
         PlaceholderBuilder builder = PlaceholderBuilder.create();
 
-        for(Stat stat : Stats.values())
+        for (Stat stat : Stats.values())
             placeholders.addAll(getCommonPlaceholders(stat, userData.getSkills().getLevel(stat.getId())));
 
         builder.with(placeholders);
@@ -88,7 +88,7 @@ public class SkillsPlaceholderUtil {
 
         PlaceholderBuilder builder = PlaceholderBuilder.create();
 
-        for(Stat stat : Stats.values())
+        for (Stat stat : Stats.values())
             placeholders.addAll(getCommonPlaceholders(stat, level));
 
         builder.with(placeholders);
@@ -96,7 +96,7 @@ public class SkillsPlaceholderUtil {
         return builder;
     }
 
-    private static List<IPlaceholder> getCommonPlaceholders(CommonObject object, int level){
+    private static List<IPlaceholder> getCommonPlaceholders(CommonObject object, int level) {
         List<IPlaceholder> placeholders = new ArrayList<>();
         placeholders.add(new Placeholder("skill_level_" + object.getId() + "_number", level));
         placeholders.add(new Placeholder("skill_level_" + object.getId() + "_roman", NumberUtil.toRoman(level)));
@@ -105,20 +105,20 @@ public class SkillsPlaceholderUtil {
         return placeholders;
     }
 
-    public static PlaceholderBuilder getHealthPlaceholders(Player player){
+    public static PlaceholderBuilder getHealthPlaceholders(Player player) {
         return PlaceholderBuilder.create()
                 .with(new Placeholder("player_max_health", NumberUtil.toInt(player.getMaxHealth())))
                 .with(new Placeholder("player_health", NumberUtil.toInt(player.getHealth())));
     }
 
-    public static PlaceholderBuilder getAllPlaceholders(UserData userData, Skill skill){
+    public static PlaceholderBuilder getAllPlaceholders(UserData userData, Skill skill) {
         return PlaceholderBuilder.create()
                 .with(getSkillsPlaceholders(userData, skill))
                 .with(getPerksPlaceholders(userData))
                 .with(getStatPlaceholders(userData));
     }
 
-    public static PlaceholderBuilder getAllPlaceholders(UserData userData, Skill skill, int level){
+    public static PlaceholderBuilder getAllPlaceholders(UserData userData, Skill skill, int level) {
         return PlaceholderBuilder.create()
                 .with(getSkillsPlaceholders(userData, skill, level))
                 .with(getPerksPlaceholders(level))

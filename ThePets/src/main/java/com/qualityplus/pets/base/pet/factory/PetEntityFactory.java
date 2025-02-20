@@ -9,10 +9,10 @@ import com.qualityplus.pets.base.pet.entity.ModelEnginePet;
 import java.util.UUID;
 
 public final class PetEntityFactory {
-    public static PetEntity create(UUID petUniqueId, UUID owner, Pet pet){
+    public static PetEntity create(UUID petUniqueId, UUID owner, Pet pet) {
         PetEgg petEgg = pet.getPetEgg();
 
-        if(petEgg.getPetModelEngine().isUseModelEngine())
+        if (petEgg.getPetModelEngine().isUseModelEngine())
             return ModelEnginePet.create(petUniqueId, owner, pet);
         else
             return ArmorStandPet.create(petUniqueId, owner, pet, true);

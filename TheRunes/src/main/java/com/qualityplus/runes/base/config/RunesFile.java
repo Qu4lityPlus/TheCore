@@ -243,7 +243,7 @@ public final class RunesFile extends OkaeriConfig {
                     .build()
     );
 
-    private Map<Integer, RuneLevel> defaultMap(){
+    private Map<Integer, RuneLevel> defaultMap() {
         return FastMap.builder(Integer.class, RuneLevel.class)
                 .put(1, new RuneLevel(1, 80, 1))
                 .put(2, new RuneLevel(2, 70, 2))

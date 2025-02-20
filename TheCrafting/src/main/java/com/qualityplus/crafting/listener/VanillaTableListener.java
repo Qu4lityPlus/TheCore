@@ -18,18 +18,18 @@ public final class VanillaTableListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    public void onOpenTable(PlayerInteractEvent e){
-        if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+    public void onOpenTable(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = e.getPlayer();
 
         Block bl = e.getClickedBlock();
 
-        if(!box.files().config().useAsVanillaCraftingTable) return;
+        if (!box.files().config().useAsVanillaCraftingTable) return;
 
-        if(bl == null || bl.getType() != XMaterial.CRAFTING_TABLE.parseMaterial()) return;
+        if (bl == null || bl.getType() != XMaterial.CRAFTING_TABLE.parseMaterial()) return;
 
-        if(player.isSneaking()) return;
+        if (player.isSneaking()) return;
 
         e.setCancelled(true);
 

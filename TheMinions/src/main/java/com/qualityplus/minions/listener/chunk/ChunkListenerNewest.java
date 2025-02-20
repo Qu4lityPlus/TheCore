@@ -4,8 +4,6 @@ import com.qualityplus.minions.api.minion.MinionEntity;
 import com.qualityplus.minions.base.minions.entity.tracker.MinionArmorStandTracker;
 import com.qualityplus.minions.base.minions.entity.tracker.MinionEntityTracker;
 
-import com.qualityplus.assistant.lib.eu.okaeri.platform.core.annotation.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Location;
@@ -15,10 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;
 
@@ -27,33 +22,33 @@ public final class ChunkListenerNewest implements Listener {
     public void onChunk(ChunkLoadEvent e) {
         Chunk chunk = e.getChunk();
 
-        for(MinionEntity entity : MinionEntityTracker.values()){
-            if(entity.getState().isLoaded()) continue;
+        for (MinionEntity entity : MinionEntityTracker.values()) {
+            if (entity.getState().isArmorStandLoaded()) continue;
 
             Location location = entity.getState().getSpawn();
 
-            if(!isIn(chunk.getChunkSnapshot(), location)) return;
+            if (!isIn(chunk.getChunkSnapshot(), location)) return;
 
-            if(entity.getState().isLoaded()) continue;
+            if (entity.getState().isArmorStandLoaded()) continue;
 
-            entity.load();
+            entity.spawnMinionEntity();
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChunk(EntitiesUnloadEvent e) {
 
-        for(Entity entity : e.getEntities()){
+        for (Entity entity : e.getEntities()) {
 
-            if(!(entity instanceof ArmorStand)) continue;
+            if (!(entity instanceof ArmorStand)) continue;
 
             Optional<MinionEntity> minionEntity = MinionArmorStandTracker.getByID(entity.getUniqueId());
 
-            if(!minionEntity.isPresent()) continue;
+            if (!minionEntity.isPresent()) continue;
 
-            if(!minionEntity.get().getState().isLoaded()) continue;
+            if (!minionEntity.get().getState().isArmorStandLoaded()) continue;
 
-            minionEntity.get().unload();
+            minionEntity.get().unloadMinionEntity();
         }
     }
 

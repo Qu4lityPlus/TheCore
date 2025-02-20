@@ -49,8 +49,8 @@ public final class EnchantMainGUI extends EnchantingGUI {
 
 
 
-    private static List<ICoreEnchantment> getEnchantments(ItemStack item){
-        if(BukkitItemUtil.isNull(item)) return Collections.emptyList();
+    private static List<ICoreEnchantment> getEnchantments(ItemStack item) {
+        if (BukkitItemUtil.isNull(item)) return Collections.emptyList();
 
         return CoreEnchants.values().stream()
                 .filter(enchant -> enchant.canEnchantItem(item))
@@ -61,33 +61,33 @@ public final class EnchantMainGUI extends EnchantingGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(getTarget(event).equals(ClickTarget.INSIDE)){
+        if (getTarget(event).equals(ClickTarget.INSIDE)) {
             int slot = event.getSlot();
 
 
-            if(isItem(slot, config.getCloseGUI())) {
+            if (isItem(slot, config.getCloseGUI())) {
                 event.setCancelled(true);
                 player.closeInventory();
-            }else if(slot == 19) {
+            } else if (slot == 19) {
                 handler.handle(event);
-            }else if(isItem(slot, config.getCustomGoBackItem())){
+            } else if (isItem(slot, config.getCustomGoBackItem())) {
                 handleItemCommandClick(player, config.getCustomGoBackItem());
-            }else {
+            } else {
                 event.setCancelled(true);
 
                 if (enchantments.containsKey(slot)) {
                     giveItem = false;
                     Optional.ofNullable(enchantments.getOrDefault(slot, null))
                             .ifPresent(enchant -> player.openInventory(new EnchantSubGUI(box, bookShelf, item, enchant, player.getUniqueId()).getInventory()));
-                } else if (isItem(slot, config.getNextPageItem()) && hasNext){
+                } else if (isItem(slot, config.getNextPageItem()) && hasNext) {
                     giveItem = false;
                     player.openInventory(new EnchantMainGUI(box, page + 1, bookShelf, item).getInventory());
-                }else if(isItem(slot, config.getBackPageItem()) && page > 1) {
+                } else if (isItem(slot, config.getBackPageItem()) && page > 1) {
                     giveItem = false;
                     player.openInventory(new EnchantMainGUI(box, page - 1, bookShelf, item).getInventory());
                 }
             }
-        }else{
+        } else {
 
             handler.handleOutSide(event);
 
@@ -103,7 +103,7 @@ public final class EnchantMainGUI extends EnchantingGUI {
         try {
             int slot = 0;
             int i = maxPerPage * (page - 1);
-            if(enchantmentList.size() > 0){
+            if (enchantmentList.size() > 0) {
                 while (slot < maxPerPage) {
                     if (enchantmentList.size() > i && i >= 0) {
                         ICoreEnchantment enchantment = enchantmentList.get(i);
@@ -112,7 +112,7 @@ public final class EnchantMainGUI extends EnchantingGUI {
 
                         int finalSlot = config.getEnchantmentSlots().get(slot);
 
-                        if(enchantment.getRequiredBookShelf() > bookShelf)
+                        if (enchantment.getRequiredBookShelf() > bookShelf)
                             inventory.setItem(finalSlot, ItemStackUtils.makeItem(config.getEnchantItemNoBookShelfPower(), placeholders));
                         else
                             inventory.setItem(finalSlot, ItemStackUtils.makeItem(config.getEnchantItem(), placeholders));
@@ -126,22 +126,22 @@ public final class EnchantMainGUI extends EnchantingGUI {
                     slot++;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(page > 1)
+        if (page > 1)
             setItem(config.getBackPageItem(), Collections.singletonList(new Placeholder("previous_page", page - 1)));
 
-        if(hasNext)
+        if (hasNext)
             setItem(config.getNextPageItem(), Collections.singletonList(new Placeholder("next_page", page + 1)));
 
-        if(item != null) {
+        if (item != null) {
             inventory.setItem(19, item);
 
-            if(enchantmentList.size() <= 0)
+            if (enchantmentList.size() <= 0)
                 setItem(config.getCannotEnchantItem());
-        }else
+        } else
             setItem(config.getEmptyItem());
 
         setItem(config.getBookShelfItem(), Collections.singletonList(new Placeholder("enchanting_table_bookshelf", bookShelf)));
@@ -157,9 +157,9 @@ public final class EnchantMainGUI extends EnchantingGUI {
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
 
-        if(BukkitItemUtil.isNull(item)) return;
+        if (BukkitItemUtil.isNull(item)) return;
 
-        if(!giveItem) return;
+        if (!giveItem) return;
 
         player.getInventory().addItem(item);
     }

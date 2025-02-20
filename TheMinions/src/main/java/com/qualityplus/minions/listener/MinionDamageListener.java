@@ -22,17 +22,17 @@ public final class MinionDamageListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if(!(e.getEntity() instanceof ArmorStand)) return;
+        if (!(e.getEntity() instanceof ArmorStand)) return;
 
         DamageCause cause = e.getCause();
 
-        if(!(cause.equals(DamageCause.FIRE) || cause.equals(DamageCause.FIRE_TICK) || cause.equals(DamageCause.PROJECTILE) || cause.equals(DamageCause.BLOCK_EXPLOSION) || cause.equals(DamageCause.ENTITY_EXPLOSION))) return;
+        if (!(cause.equals(DamageCause.FIRE) || cause.equals(DamageCause.FIRE_TICK) || cause.equals(DamageCause.PROJECTILE) || cause.equals(DamageCause.BLOCK_EXPLOSION) || cause.equals(DamageCause.ENTITY_EXPLOSION))) return;
 
         ArmorStand armorStand = (ArmorStand)e.getEntity();
 
         Optional<MinionEntity> entity = MinionArmorStandTracker.getByID(armorStand.getUniqueId());
 
-        if(!entity.isPresent()) return;
+        if (!entity.isPresent()) return;
 
         e.setCancelled(true);
 

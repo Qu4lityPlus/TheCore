@@ -31,7 +31,12 @@ public final class TransactionGatewayImpl implements TransactionGateway {
     private @Inject Messages messages;
 
     @Override
-    public Optional<TrxResponse> handle(final BankData bankData, final BankTransaction transaction, final boolean sendMessages) {
+    public Optional<TrxResponse> handle(
+            final BankData bankData,
+            final BankTransaction transaction,
+            final boolean sendMessages,
+            final boolean force) {
+
         if (bankData == null) {
             return Optional.empty();
         }
@@ -44,7 +49,7 @@ public final class TransactionGatewayImpl implements TransactionGateway {
             return Optional.empty();
         }
 
-        final TrxRequest request = createRequest(bankData, transaction, sendMessages);
+        final TrxRequest request = createRequest(bankData, transaction, sendMessages, force);
 
         switch (transaction.getType()) {
             case SET:
@@ -59,7 +64,7 @@ public final class TransactionGatewayImpl implements TransactionGateway {
     }
 
 
-    private Optional<TrxResponse> handleSet(final TrxRequest request){
+    private Optional<TrxResponse> handleSet(final TrxRequest request) {
         final BankData data = request.getBankData();
 
         final double amount = request.getTransaction().getAmount();
@@ -72,7 +77,7 @@ public final class TransactionGatewayImpl implements TransactionGateway {
                         .build());
     }
 
-    private Optional<TrxResponse> handleDeposit(final TrxRequest request){
+    private Optional<TrxResponse> handleDeposit(final TrxRequest request) {
         try {
             final TrxResponse response = this.depositHandler.handle(request);
 
@@ -97,7 +102,7 @@ public final class TransactionGatewayImpl implements TransactionGateway {
         }
     }
 
-    private Optional<TrxResponse> handleWithdraw(final TrxRequest request){
+    private Optional<TrxResponse> handleWithdraw(final TrxRequest request) {
         try {
             final TrxResponse response = this.withdrawHandler.handle(request);
 
@@ -123,11 +128,12 @@ public final class TransactionGatewayImpl implements TransactionGateway {
     }
 
 
-    private TrxRequest createRequest(final BankData data, final BankTransaction trx, final boolean sendMessages) {
+    private TrxRequest createRequest(final BankData data, final BankTransaction trx, final boolean sendMessages, final boolean force) {
         return TrxRequest.builder()
                 .sendMsg(sendMessages)
                 .transaction(trx)
                 .bankData(data)
+                .force(force)
                 .build();
     }
 }

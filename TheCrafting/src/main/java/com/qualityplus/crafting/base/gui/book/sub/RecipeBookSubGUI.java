@@ -67,8 +67,8 @@ public final class RecipeBookSubGUI extends CraftingGUI {
             setItem(getPreviousPage());
         }
 
-        for(CustomRecipe recipe : recipes) {
-            if(recipe.hasPermission(Bukkit.getPlayer(uuid)))
+        for (CustomRecipe recipe : recipes) {
+            if (recipe.hasPermission(Bukkit.getPlayer(uuid)))
                 inventory.setItem(recipe.getSlot(), ItemStackUtils.makeItem(config.getUnlockedItem(), CraftingPlaceholderUtils.getRecipePlaceholders(recipe), recipe.getResult()));
             else
                 inventory.setItem(recipe.getSlot(), ItemStackUtils.makeItem(config.getLockedItem()));
@@ -120,7 +120,7 @@ public final class RecipeBookSubGUI extends CraftingGUI {
 
         if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        } else if(recipeMap.containsKey(slot)) {
+        } else if (recipeMap.containsKey(slot)) {
             CustomRecipe recipe = recipeMap.getOrDefault(slot, null);
 
             if (recipe == null) {
@@ -134,11 +134,11 @@ public final class RecipeBookSubGUI extends CraftingGUI {
 
             player.openInventory(new RecipePreviewGUI(box, recipe, edition).getInventory());
 
-        } else if(isItem(slot, config.getGoBack())) {
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new RecipeBookMainGUI(box, uuid, edition).getInventory());
-        } else if(isItem(slot, config.getNextPage()) && hasNextPage()) {
+        } else if (isItem(slot, config.getNextPage()) && hasNextPage()) {
             player.openInventory(new RecipeBookSubGUI(box, uuid, category, page + 1, edition).getInventory());
-        } else if(isItem(slot, config.getPreviousPage()) && page > 1) {
+        } else if (isItem(slot, config.getPreviousPage()) && page > 1) {
             player.openInventory(new RecipeBookSubGUI(box, uuid, category, page - 1, edition).getInventory());
         }
     }

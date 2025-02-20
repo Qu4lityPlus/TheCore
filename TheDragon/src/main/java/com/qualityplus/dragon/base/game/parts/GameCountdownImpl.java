@@ -67,7 +67,7 @@ public final class GameCountdownImpl implements GameCountdown {
         return future;
     }
 
-    private void sendTitle(Player player, TheDragonEntity theDragonEntity, ConfigTitle configTitle){
+    private void sendTitle(Player player, TheDragonEntity theDragonEntity, ConfigTitle configTitle) {
         final String dragonName = theDragonEntity == null ? "" : theDragonEntity.getDisplayName();
 
         final List<IPlaceholder> placeholders = Arrays.asList(
@@ -82,7 +82,7 @@ public final class GameCountdownImpl implements GameCountdown {
         SoundUtils.playSound(player, XSound.ENTITY_ENDER_DRAGON_GROWL);
     }
 
-    private Collection<Player> getPlayersAround(Location location){
+    private Collection<Player> getPlayersAround(Location location) {
         return location.getWorld().getNearbyEntities(location, 100, 100, 100).stream()
                 .filter(en -> en instanceof Player)
                 .map(entity -> (Player) entity)

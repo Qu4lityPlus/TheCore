@@ -29,7 +29,7 @@ public final class SetItemToCollectionCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
             Player player = (Player) sender;
 
             String id = args[1];
@@ -44,13 +44,13 @@ public final class SetItemToCollectionCommand extends AssistantCommand {
             Item item2 = player.getWorld().spawn(player.getLocation().clone().add(-5, 0, -5), Item.class);
             item2.setItemStack(XMaterial.IRON_INGOT.parseItem());*/
 
-            if(BukkitItemUtil.isNull(itemStack)){
+            if (BukkitItemUtil.isNull(itemStack)) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.invalidItem));
 
                 return false;
             }
 
-            if(collection == null){
+            if (collection == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.invalidCollection));
                 return false;
             }
@@ -67,7 +67,7 @@ public final class SetItemToCollectionCommand extends AssistantCommand {
 
             player.sendMessage(StringUtils.processMulti(box.files().messages().collectionsMessages.successfullyChangedItem, placeholders));
 
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         return true;
     }
@@ -78,7 +78,7 @@ public final class SetItemToCollectionCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().setItemCommand));
     }
 }

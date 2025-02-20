@@ -24,7 +24,7 @@ public final class TiaCommand extends AssistantCommand {
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(args.length == 1)
+        if (args.length == 1)
             player.openInventory(new TiaGUI(box, player).getInventory());
         else
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
@@ -38,7 +38,7 @@ public final class TiaCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().tiaCommand));
     }
 }

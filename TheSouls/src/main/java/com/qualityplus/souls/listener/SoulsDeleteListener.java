@@ -33,23 +33,23 @@ public final class SoulsDeleteListener implements Listener {
     public void onPlace(EntityDamagedByPlayerEvent e) {
         Player player = e.getPlayer();
 
-        if(!player.isOp() && !player.hasPermission("souls.delete")) return;
+        if (!player.isOp() && !player.hasPermission("souls.delete")) return;
 
-        if(!(e.getEntity() instanceof ArmorStand)) return;
+        if (!(e.getEntity() instanceof ArmorStand)) return;
 
         ArmorStand armorStand = (ArmorStand) e.getEntity();
 
-        if(!armorStand.hasMetadata("soulData")) return;
+        if (!armorStand.hasMetadata("soulData")) return;
 
         Optional<Soul> soul = box.files().souls().getByLocation(armorStand.getLocation());
 
-        if(!soul.isPresent()) return;
+        if (!soul.isPresent()) return;
 
         e.setCancelled(true);
 
         String str = clickCache.getIfPresent(player.getUniqueId());
 
-        if(str == null){
+        if (str == null) {
             clickCache.put(player.getUniqueId(), "");
             return;
         }

@@ -30,12 +30,12 @@ public final class AltarEditListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
+    public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
 
         UUID uuid = player.getUniqueId();
 
-        if(!altarEditService.playerIsInEditMode(uuid)) return;
+        if (!altarEditService.playerIsInEditMode(uuid)) return;
 
         e.setCancelled(true);
 
@@ -43,24 +43,24 @@ public final class AltarEditListener implements Listener {
 
         Block block = e.getClickedBlock();
 
-        if(block == null) return;
+        if (block == null) return;
 
-        if(e.getHand() == EquipmentSlot.HAND && action.equals(Action.LEFT_CLICK_BLOCK)){
+        if (e.getHand() == EquipmentSlot.HAND && action.equals(Action.LEFT_CLICK_BLOCK)) {
             addAltar(player, block);
 
-        }else if(e.getHand() == EquipmentSlot.OFF_HAND && action.equals(Action.RIGHT_CLICK_BLOCK)){
+        } else if (e.getHand() == EquipmentSlot.OFF_HAND && action.equals(Action.RIGHT_CLICK_BLOCK)) {
             removeAltar(player, block);
         }
     }
 
-    private void addAltar(Player player, Block block){
+    private void addAltar(Player player, Block block) {
         Location location = block.getLocation();
 
         Optional<DragonAltar> altar = box.structures().getAltar(location);
 
-        if(altar.isPresent()){
+        if (altar.isPresent()) {
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.thereIsAnAltarPlaced.replace("%prefix%", box.files().config().prefix)));
-        }else{
+        } else {
             box.structures().addStructure(new DragonAltarImpl(location, false));
 
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.altarSet
@@ -70,16 +70,16 @@ public final class AltarEditListener implements Listener {
     }
 
 
-    private void removeAltar(Player player, Block block){
+    private void removeAltar(Player player, Block block) {
         Location location = block.getLocation();
 
         Optional<DragonAltar> altar = box.structures().getAltar(location);
 
-        if(altar.isPresent()){
+        if (altar.isPresent()) {
             box.structures().removeStructure(altar.get());
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.altarRemoved.replace("%prefix%", box.files().config().prefix)));
 
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.thereIsntAnAltarToRemove.replace("%prefix%", box.files().config().prefix)));
         }
     }

@@ -37,7 +37,7 @@ public final class CritDamageConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRhZmIyM2VmYzU3ZjI1MTg3OGU1MzI4ZDExY2IwZWVmODdiNzljODdiMjU0YTdlYzcyMjk2ZjkzNjNlZjdjIn19fQ==")
             .mainMenuLore(Collections.singletonList("%skill_critic_damage_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return CritDamageStat.builder()
                 .id(id)
                 .displayName(displayName)

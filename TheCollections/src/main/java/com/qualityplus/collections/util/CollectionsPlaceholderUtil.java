@@ -45,7 +45,7 @@ public class CollectionsPlaceholderUtil {
                 new Placeholder("collection_next_level_roman", NumberUtil.toRoman(level + 1)),
                 new Placeholder("collection_next_level_number", level + 1),
 
-                new Placeholder("collection_level_progress", percentage),
+                new Placeholder("collection_level_progress", percentage > 100 ? 100 : percentage),
                 new Placeholder("collection_action_bar", ActionBarUtils.getReplacedBar(percentage)),
                 new Placeholder("collection_xp", xp),
                 new Placeholder("collection_max_xp", maxXp)
@@ -70,7 +70,7 @@ public class CollectionsPlaceholderUtil {
         );
     }
 
-    public Placeholder getCategoryStatePlaceholder(UserData userData, CollectionCategory category, Box box){
+    public Placeholder getCategoryStatePlaceholder(UserData userData, CollectionCategory category, Box box) {
         List<Collection> collections = new ArrayList<>(CollectionsRegistry.getByCategory(category));
 
         double xp = collections.stream()

@@ -9,14 +9,14 @@ import org.bukkit.inventory.ItemStack;
 public final class DragonItemStackUtil {
     private static final String ENDER_KEY_TAG = "THEDRAGON_KEY";
 
-    public static boolean isEnderKey(ItemStack itemStack){
-        if(BukkitItemUtil.isNull(itemStack)) return false;
+    public static boolean isEnderKey(ItemStack itemStack) {
+        if (BukkitItemUtil.isNull(itemStack)) return false;
 
         return new NBTItem(itemStack).hasKey(ENDER_KEY_TAG);
     }
 
-    public static ItemStack createEnderKey(ItemStack itemStack){
-        if(BukkitItemUtil.isNull(itemStack)) return null;
+    public static ItemStack createEnderKey(ItemStack itemStack) {
+        if (BukkitItemUtil.isNull(itemStack)) return null;
 
         NBTItem nbtItem = new NBTItem(itemStack);
 

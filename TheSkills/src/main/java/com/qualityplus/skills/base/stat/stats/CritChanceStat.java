@@ -38,7 +38,7 @@ public final class CritChanceStat extends Stat {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if(!(e.getDamager() instanceof Player)) return;
+        if (!(e.getDamager() instanceof Player)) return;
 
         Player player = (Player) e.getDamager();
 
@@ -66,7 +66,7 @@ public final class CritChanceStat extends Stat {
         /*CritDamageEvent event = new CritDamageEvent(player, this);
         Bukkit.getPluginManager().callEvent(e);
 
-        if(event.isCancelled()) return;*/
+        if (event.isCancelled()) return;*/
 
         e.setDamage(e.getDamage() * multiplier);
     }

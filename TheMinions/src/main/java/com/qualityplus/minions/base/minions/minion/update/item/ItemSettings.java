@@ -19,16 +19,16 @@ public final class ItemSettings extends OkaeriConfig {
    // private Map<ItemStack, Integer> requiredItemsToCreate;
     private Map<Integer, ItemStack> requiredItemsToCreate;
 
-    public List<ItemStack> getItemsCloneToGive(){
+    public List<ItemStack> getItemsCloneToGive() {
         return itemsToGive.stream()
                 .filter(BukkitItemUtil::isNotNull)
                 .map(ItemStack::clone)
                 .collect(Collectors.toList());
     }
 
-    public ItemStack getRequiredItemsToCreateSingle(){
-        for(Map.Entry<Integer, ItemStack> entry : requiredItemsToCreate.entrySet()){
-            if(BukkitItemUtil.isNull(entry.getValue())) continue;
+    public ItemStack getRequiredItemsToCreateSingle() {
+        for (Map.Entry<Integer, ItemStack> entry : requiredItemsToCreate.entrySet()) {
+            if (BukkitItemUtil.isNull(entry.getValue())) continue;
 
             ItemStack itemStack = entry.getValue().clone();
 

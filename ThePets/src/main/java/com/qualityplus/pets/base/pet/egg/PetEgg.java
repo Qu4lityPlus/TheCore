@@ -22,7 +22,7 @@ public final class PetEgg extends OkaeriConfig {
     private String eggDisplayName;
     private PetModelEngine petModelEngine;
 
-    public String getEggDisplayName(){
+    public String getEggDisplayName() {
         return StringUtils.processMulti(eggDisplayName, new Placeholder("pet_egg_displayname", displayName).alone());
     }
 }

@@ -79,6 +79,7 @@ public final class Messages extends OkaeriConfig {
         public String mustBeAPlayer = "&cYou must be a player to do that!";
         public String invalidArguments = "&cInvalid Arguments!";
         public String invalidAmount = "&cInvalid Amount!";
+        public String invalidLevel = "&cInvalid level!";
         public String useHelp = "&cUse: /theminions help";
 
         public String helpMessage = "&7%command% - &e%description%";

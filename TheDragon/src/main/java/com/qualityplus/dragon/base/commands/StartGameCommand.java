@@ -25,28 +25,28 @@ public final class StartGameCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             Player player = (Player) sender;
 
-            if(!gameCanStart(player)) return false;
+            if (!gameCanStart(player)) return false;
 
             box.game().start();
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         return true;
     }
 
-    private boolean gameCanStart(Player player){
+    private boolean gameCanStart(Player player) {
         try {
             box.game().canStart();
 
             return box.game().canStart();
-        }catch (NoSpawnException e){
+        } catch (NoSpawnException e) {
             logger.warning("Game can't start Spawn is not set!");
             player.sendMessage(StringUtils.color(box.files().messages().gameMessages.gameCantStartSpawn
                     .replace("%prefix%", box.files().config().prefix)));
             return false;
-        }catch (NoStructureException e){
+        } catch (NoStructureException e) {
             logger.warning("Game can't start Schematic Structure is not set!");
             player.sendMessage(StringUtils.color(box.files().messages().gameMessages.gameCantStartStructure
                     .replace("%prefix%", box.files().config().prefix)));
@@ -60,7 +60,7 @@ public final class StartGameCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().startGameCommand));
     }
 }

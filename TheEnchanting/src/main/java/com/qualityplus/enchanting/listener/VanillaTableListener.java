@@ -18,14 +18,14 @@ public final class VanillaTableListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    public void onOpenBrewingStand(PlayerInteractEvent e){
-        if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+    public void onOpenBrewingStand(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Block bl = e.getClickedBlock();
 
-        if(bl == null || bl.getType() != XMaterial.ENCHANTING_TABLE.parseMaterial()) return;
+        if (bl == null || bl.getType() != XMaterial.ENCHANTING_TABLE.parseMaterial()) return;
 
-        if(!box.files().config().openAsVanillaEnchantmentTable) return;
+        if (!box.files().config().openAsVanillaEnchantmentTable) return;
 
         e.setCancelled(true);
 

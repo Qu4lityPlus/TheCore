@@ -30,23 +30,23 @@ public final class EcoHookSettings implements EcoWarning {
 
             File file = new File(path);
 
-            if(file.exists()){
+            if (file.exists()) {
                 FileConfiguration customConfig = new YamlConfiguration();
 
                 customConfig.load(file);
 
                 addDescriptionsFromEcoEnchants = customConfig.getBoolean("display.descriptions.enabled");
             }
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
         }
 
 
-        if(addDescriptionsFromEcoEnchants && addDescriptionsFromTheEnchanting){
+        if (addDescriptionsFromEcoEnchants && addDescriptionsFromTheEnchanting) {
             logger.warning("Enchantments descriptions in lore are enabled in EcoEnchants and TheEnchanting!");
             logger.warning("This will produce bugs with item's lore please disable it in TheEnchanting or in EcoEnchants and start server again!");
 
             //Bukkit.getServer().getPluginManager().disablePlugin(plugin);
-        }else{
+        } else {
             String using = addDescriptionsFromEcoEnchants ? "EcoEnchants" : "TheEnchanting";
 
             logger.info(String.format("Plugin is using Lore Enchantments from %s!", using));

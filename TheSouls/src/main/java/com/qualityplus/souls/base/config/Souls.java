@@ -21,7 +21,7 @@ import java.util.Optional;
 public final class Souls extends OkaeriConfig {
     public final List<Soul> soulList = new ArrayList<>();
 
-    public Optional<Soul> getByLocation(Location location){
+    public Optional<Soul> getByLocation(Location location) {
         return soulList.stream().filter(soul -> soul.getLocation().getLocation().equals(location)).findFirst();
     }
 }

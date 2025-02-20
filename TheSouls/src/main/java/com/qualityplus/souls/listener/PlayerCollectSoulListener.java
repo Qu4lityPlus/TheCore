@@ -15,7 +15,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public final class PlayerCollectSoulListener implements Listener {
@@ -25,23 +28,23 @@ public final class PlayerCollectSoulListener implements Listener {
     public void onPlace(PlayerInteractAtEntityEvent e) {
         Player player = e.getPlayer();
 
-        if(!(e.getRightClicked() instanceof ArmorStand)) return;
+        if (!(e.getRightClicked() instanceof ArmorStand)) return;
 
         ArmorStand armorStand = (ArmorStand) e.getRightClicked();
 
-        if(!armorStand.hasMetadata("soulData")) return;
+        if (!armorStand.hasMetadata("soulData")) return;
 
         Optional<Soul> soul = box.files().souls().getByLocation(armorStand.getLocation());
 
-        if(!soul.isPresent()) return;
+        if (!soul.isPresent()) return;
 
         e.setCancelled(true);
 
         Optional<SoulsData> data = box.service().getData(player.getUniqueId());
 
-        if(!data.isPresent()) return;
+        if (!data.isPresent()) return;
 
-        if(data.get().getSoulsCollected().contains(soul.get().getUuid())){
+        if (data.get().getSoulsCollected().contains(soul.get().getUuid())) {
             player.sendMessage(StringUtils.color(box.files().messages().soulsMessages.soulAlreadyFound));
             SoundUtils.playSound(player, box.files().config().soulAlreadyFoundSound);
             return;
@@ -67,8 +70,8 @@ public final class PlayerCollectSoulListener implements Listener {
 
     }
 
-    private void checkIfItsFirst(Player player, SoulsData data){
-        if(data.getSoulsCollected().size() >= 1) return;
+    private void checkIfItsFirst(Player player, SoulsData data) {
+        if (data.getSoulsCollected().size() >= 1) return;
 
         box.files().config().firstSoulFoundCommands.stream()
                 .map(command -> command.replaceAll("%player%", player.getName()))
@@ -77,8 +80,18 @@ public final class PlayerCollectSoulListener implements Listener {
         player.sendMessage(StringUtils.color(box.files().messages().soulsMessages.firstSoulsFound));
     }
 
-    private void checkIfCollectedAll(Player player, SoulsData data){
-        if(data.getSoulsCollected().size() != box.files().souls().soulList.size()) return;
+    private void checkIfCollectedAll(Player player, SoulsData data) {
+        final List<UUID> collectedSouls = new ArrayList<>();
+
+        for (UUID uuid : data.getSoulsCollected()) {
+            if (box.files().souls().soulList.stream().anyMatch(soul -> soul.getUuid() == uuid)) {
+                collectedSouls.add(uuid);
+            }
+        }
+
+        data.setSoulsCollected(collectedSouls);
+
+        if (data.getSoulsCollected().size() != box.files().souls().soulList.size()) return;
 
         box.files().config().allSoulsFoundCommands.stream()
                 .map(command -> command.replaceAll("%player%", player.getName()))

@@ -30,9 +30,9 @@ public final class IronLungsPerk extends AbstractPotionPerk {
 
         Material m = e.getPlayer().getLocation().getBlock().getType();
 
-        if(!m.equals(XMaterial.WATER.parseMaterial())) return;
+        if (!m.equals(XMaterial.WATER.parseMaterial())) return;
 
-        if(RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p)) return;
+        if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p)) return;
 
         Optional.of(XPotion.WATER_BREATHING)
                 .map(potion -> potion.buildPotionEffect(getDurationTicks(getStat(p)), getLevel()))

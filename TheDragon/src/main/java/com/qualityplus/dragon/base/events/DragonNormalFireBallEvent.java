@@ -45,7 +45,7 @@ public final class DragonNormalFireBallEvent extends DragonGameEvent {
                 this.projectileEvent.shoot(ProjectileType.FIREBALL, fireballDamage, fireballsPerSecond, dragonGame);
             }
 
-            if(this.showParticle) {
+            if (this.showParticle) {
                 /**
                  * TODO
                  */

@@ -2,7 +2,6 @@ package com.qualityplus.minions.base.minions.minion;
 
 import com.qualityplus.assistant.util.time.HumanTime;
 import com.qualityplus.minions.base.config.Skins;
-import com.qualityplus.minions.base.config.minions.MinionConfig;
 import com.qualityplus.minions.base.minions.minion.egg.MinionEgg;
 import com.qualityplus.minions.base.minions.entity.MinionEntityOptions;
 import com.qualityplus.minions.base.minions.minion.layout.LayoutGUISettings;
@@ -39,11 +38,11 @@ public final class Minion extends OkaeriConfig {
     private LayoutGUISettings layoutGUISettings;
     private OkaeriConfig minionConfig;
 
-    public boolean is(LayoutType layoutType){
+    public boolean isLayoutType(LayoutType layoutType) {
         return minionLayout.getType().equals(layoutType);
     }
 
-    public int getMaxLevel(){
+    public int getMaxLevel() {
         return minionLevels.size();
     }
 

@@ -9,7 +9,7 @@ import java.util.UUID;
 @Component
 public final class MinionTickServiceImpl implements MinionTickService {
     @Override
-    public void tick(Map.Entry<UUID, MinionEntity> entry){
+    public void tick(Map.Entry<UUID, MinionEntity> entry) {
         entry.getValue().tick();
     }
 }

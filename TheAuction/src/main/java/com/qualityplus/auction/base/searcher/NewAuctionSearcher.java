@@ -37,9 +37,9 @@ public class NewAuctionSearcher implements Searcher<AuctionItem> {
     private Predicate<AuctionItem> binFilter() {
         if (binFilter.equals(BinFilter.BIN_ONLY)) {
             return AuctionItem::isBuyItNow;
-        }else if (binFilter.equals(BinFilter.AUCTION_ONLY)) {
+        } else if (binFilter.equals(BinFilter.AUCTION_ONLY)) {
             return auctionItem -> !auctionItem.isBuyItNow();
-        }else
+        } else
             return auctionItem -> true;
     }
 

@@ -37,7 +37,7 @@ public final class PetLuckConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTllY2JkY2I1NTQxMjNmYTRkMzE4NzY1MzhiYzdmYjI0NzQ5NGFlYTMyNWJkMjY1OTU2OTQ1MDVhZWJkMTBlZCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_pet_luck_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return PetLuckStat.builder()
                 .id(id)
                 .displayName(displayName)

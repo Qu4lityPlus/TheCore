@@ -49,7 +49,7 @@ public final class Perks {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND, async = true)
-    public static void reloadPerks(@Inject Box box){
+    public static void reloadPerks(@Inject Box box) {
         values().forEach(Perk::unregisterListeners);
 
         Stream.of(box.perkFiles().abilityDamage().getPerk(),

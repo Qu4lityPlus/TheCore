@@ -43,13 +43,13 @@ public final class TradesGUI extends TradeGUI {
 
         Player player = Bukkit.getPlayer(uuid);
 
-        if(page > 1)
+        if (page > 1)
             setItem(config.getPreviousPage(), Collections.singletonList(new Placeholder("previous_page", page - 1)));
 
-        if(hasNext)
+        if (hasNext)
             setItem(config.getNextPage(), Collections.singletonList(new Placeholder("next_page", page + 1)));
 
-        for(PluginTrade trade : Trades.values(trade -> trade.getPage() == page)) {
+        for (PluginTrade trade : Trades.values(trade -> trade.getPage() == page)) {
             boolean locked = !trade.hasPermission(player);
 
             List<IPlaceholder> placeholders = TradePlaceholderUtils.getRecipePlaceholders(box, trade, 0).get();
@@ -81,17 +81,17 @@ public final class TradesGUI extends TradeGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
         if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(tradeMap.containsKey(slot)) {
+        } else if (tradeMap.containsKey(slot)) {
             PluginTrade trade = tradeMap.getOrDefault(slot, null);
 
-            if(trade == null) return;
+            if (trade == null) return;
 
-            if(e.isLeftClick()){
-                if(!trade.hasPermission(player)){
+            if (e.isLeftClick()) {
+                if (!trade.hasPermission(player)) {
                     player.sendMessage(StringUtils.color(box.files().messages().tradeMessages.noPermission));
                     return;
                 }
@@ -99,16 +99,16 @@ public final class TradesGUI extends TradeGUI {
                 TradeSession session = box.tradesService().newSession(trade, 0);
 
                 box.tradesService().checkout(player, session);
-            }else
+            } else
                 player.openInventory(new TradeOptionsGUI(box, trade, uuid).getInventory());
 
-        }else if(isItem(slot, config.getNextPage()) && hasNext) {
+        } else if (isItem(slot, config.getNextPage()) && hasNext) {
             player.openInventory(new TradesGUI(box, uuid, page + 1).getInventory());
-        }else if(isItem(slot, config.getPreviousPage()) && page > 1){
+        } else if (isItem(slot, config.getPreviousPage()) && page > 1) {
             player.openInventory(new TradesGUI(box, uuid, page - 1).getInventory());
-        }else if(isItem(slot, config.getGoBack())){
+        } else if (isItem(slot, config.getGoBack())) {
             Optional.ofNullable(config.getGoBack().getCommand()).ifPresent(player::performCommand);
-        }else if(isItem(slot, config.getCustomGoBackItem())){
+        } else if (isItem(slot, config.getCustomGoBackItem())) {
             handleItemCommandClick(player, config.getCustomGoBackItem());
         }
     }

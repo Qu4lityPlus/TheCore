@@ -7,6 +7,7 @@ import com.qualityplus.minions.base.gui.main.MainMinionGUI;
 import com.qualityplus.minions.base.minions.entity.tracker.MinionArmorStandTracker;
 
 import com.qualityplus.assistant.lib.eu.okaeri.platform.core.annotation.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -22,15 +23,19 @@ public final class MinionInteractListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    private void onClick(PlayerInteractAtEntityEvent event){
+    private void onClick(PlayerInteractAtEntityEvent event) {
 
-        if(!(event.getRightClicked() instanceof ArmorStand)) return;
+        if (!(event.getRightClicked() instanceof ArmorStand)) {
+            return;
+        }
 
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
-        Optional<MinionEntity> armorStand = MinionArmorStandTracker.getByID(event.getRightClicked().getUniqueId());
+        final Optional<MinionEntity> armorStand = MinionArmorStandTracker.getByID(event.getRightClicked().getUniqueId());
 
-        if(!armorStand.isPresent()) return;
+        if (armorStand.isEmpty()) {
+            return;
+        }
 
         event.setCancelled(true);
 
@@ -38,14 +43,14 @@ public final class MinionInteractListener implements Listener {
     }
 
     @EventHandler
-    private void onClick(EntityDamageByEntityEvent event){
+    private void onClick(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
 
-        if(!(entity instanceof ArmorStand)) return;
+        if (!(entity instanceof ArmorStand)) return;
 
         Optional<MinionEntity> minionEntity = MinionArmorStandTracker.getByID(entity.getUniqueId());
 
-        if(!minionEntity.isPresent()) return;
+        if (!minionEntity.isPresent()) return;
 
         event.setCancelled(true);
     }

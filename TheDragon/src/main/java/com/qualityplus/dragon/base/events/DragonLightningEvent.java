@@ -30,7 +30,7 @@ public final class DragonLightningEvent extends DragonGameEvent {
             if (this.time >= this.duration) {
                 //Cancelling Event
                 finish();
-            }else if (this.time % this.repeat == 0) {
+            } else if (this.time % this.repeat == 0) {
                 //Check Event
                 this.manageDragon(dragonGame);
             }
@@ -39,7 +39,7 @@ public final class DragonLightningEvent extends DragonGameEvent {
         }, 0, 20);
     }
 
-    private void manageDragon(final DragonGame dragonGame){
+    private void manageDragon(final DragonGame dragonGame) {
         dragonGame.getPlayers(EventPlayer::isActive).forEach(player -> makeLightning(player, dragonGame));
     }
 

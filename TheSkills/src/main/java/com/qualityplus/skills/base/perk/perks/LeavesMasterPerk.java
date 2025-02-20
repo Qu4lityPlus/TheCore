@@ -27,13 +27,13 @@ public final class LeavesMasterPerk extends AbstractRandomBlockDropPerk {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void handlePerk(PlayerInteractEvent e) {
-        if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getClickedBlock() == null) return;
+        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getClickedBlock() == null) return;
 
         ItemStack inHand = e.getPlayer().getItemInHand();
 
-        if(BukkitItemUtil.isNull(inHand)) return;
+        if (BukkitItemUtil.isNull(inHand)) return;
 
-        if(!inHand.getType().equals(XMaterial.SHEARS.parseMaterial())) return;
+        if (!inHand.getType().equals(XMaterial.SHEARS.parseMaterial())) return;
 
         Player p = e.getPlayer();
 
@@ -42,7 +42,7 @@ public final class LeavesMasterPerk extends AbstractRandomBlockDropPerk {
 
         ItemStack toGive = getItem();
 
-        if(BukkitItemUtil.isNull(toGive)) return;
+        if (BukkitItemUtil.isNull(toGive)) return;
 
         Block block = e.getClickedBlock();
 

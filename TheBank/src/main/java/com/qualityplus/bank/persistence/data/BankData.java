@@ -22,52 +22,52 @@ public final class BankData extends Document {
     private long lastInterestTime;
     private long lastTimeUsedPersonal;
 
-    public void addMoney(double amount){
+    public void addMoney(double amount) {
         money+=amount;
     }
 
-    public void removeMoney(double amount){
+    public void removeMoney(double amount) {
         money-=amount;
     }
 
-    public void reset(){
+    public void reset() {
         money = 0;
     }
 
-    public double getCalculatedInterest(BankUpgrades upgrades){
+    public double getCalculatedInterest(BankUpgrades upgrades) {
         BankUpgrade upgrade = upgrades.getUpgrade(this).orElse(null);
 
-        if(upgrade == null) return 0;
+        if (upgrade == null) return 0;
 
         UpgradeInterest interest = upgrade.getInterest(money).orElse(null);
 
-        if(interest == null) return 0;
+        if (interest == null) return 0;
 
         return Math.min(((interest.getInterestPercentage() * money) / 100), interest.getInterestLimitInMoney());
     }
 
-    public double getLimit(BankUpgrades upgrades){
+    public double getLimit(BankUpgrades upgrades) {
         BankUpgrade upgrade = upgrades.getUpgrade(this).orElse(null);
 
-        if(upgrade == null) return 0;
+        if (upgrade == null) return 0;
 
         return upgrade.getBankLimit();
     }
 
-    public double getInterest(BankUpgrades upgrades){
+    public double getInterest(BankUpgrades upgrades) {
         return upgrades.getUpgrade(this)
                 .map(upgrade -> upgrade.getInterest(money).map(UpgradeInterest::getInterestPercentage).orElse(0D))
                 .orElse(0D);
     }
 
     public List<BankTransaction> getTransactionList() {
-        if(transactionList == null) transactionList = new ArrayList<>();
+        if (transactionList == null) transactionList = new ArrayList<>();
 
         return transactionList;
     }
 
-    public void addTrx(BankTransaction trx){
-        if(transactionList == null) transactionList = new ArrayList<>();
+    public void addTrx(BankTransaction trx) {
+        if (transactionList == null) transactionList = new ArrayList<>();
         transactionList.add(trx);
     }
 }

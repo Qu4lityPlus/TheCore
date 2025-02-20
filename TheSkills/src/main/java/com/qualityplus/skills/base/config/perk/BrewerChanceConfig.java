@@ -40,7 +40,7 @@ public final class BrewerChanceConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQ5MmNhOTQwNzkxMzZkMjUyNTcwM2QzNzVjMjU1N2VhYzIwMWVlN2RkMzljZTExYzY0YTljMzgxNDdlY2M0ZCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_brew_chance_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return BrewChancePerk.builder()
                 .id(id)
                 .displayName(displayName)
@@ -53,6 +53,7 @@ public final class BrewerChanceConfig extends OkaeriConfig implements PerkFile {
                 .potionAndChances(ImmutableMap.<XPotion, Double>builder()
                         .put(XPotion.ABSORPTION, 2D)
                         .put(XPotion.CONFUSION, 4D)
+                        //.put(XPotion.NAUSEA, 4D)
                         .put(XPotion.CONDUIT_POWER, 5D)
                         .build())
                 .baseAmount(0)

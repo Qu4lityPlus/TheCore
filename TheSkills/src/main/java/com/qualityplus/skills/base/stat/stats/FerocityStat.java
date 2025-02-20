@@ -41,9 +41,9 @@ public final class FerocityStat extends Stat {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if(!(event.getDamager() instanceof Player)) return;
+        if (!(event.getDamager() instanceof Player)) return;
 
-        if(!(event.getEntity() instanceof LivingEntity)) return;
+        if (!(event.getEntity() instanceof LivingEntity)) return;
 
         Player player = (Player) event.getDamager();
 
@@ -62,7 +62,7 @@ public final class FerocityStat extends Stat {
 
             Bukkit.getPluginManager().callEvent(ferocityEvent);
 
-            if(ferocityEvent.isCancelled()) return;
+            if (ferocityEvent.isCancelled()) return;
 
             victim.setMetadata("ferocity", new FixedMetadataValue(TheSkills.getApi().getPlugin(), this));
             victim.setNoDamageTicks(0);

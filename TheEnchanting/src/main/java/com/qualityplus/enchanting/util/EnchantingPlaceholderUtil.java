@@ -11,7 +11,7 @@ import java.util.List;
 @UtilityClass
 public class EnchantingPlaceholderUtil {
 
-    public PlaceholderBuilder getEnchantBuilder(ICoreEnchantment enchantment, int level){
+    public PlaceholderBuilder getEnchantBuilder(ICoreEnchantment enchantment, int level) {
 
         return PlaceholderBuilder.create(
                 new Placeholder("enchanting_enchant_displayname", enchantment.getName()),
@@ -20,15 +20,15 @@ public class EnchantingPlaceholderUtil {
         );
     }
 
-    public List<IPlaceholder> getEnchantPlaceholders(ICoreEnchantment enchantment, int level){
+    public List<IPlaceholder> getEnchantPlaceholders(ICoreEnchantment enchantment, int level) {
         return getEnchantBuilder(enchantment, level).get();
     }
 
-    private String getDescription(ICoreEnchantment enchantment, int level){
+    private String getDescription(ICoreEnchantment enchantment, int level) {
         return enchantment.isVanilla() ? enchantment.getDescription() : enchantment.getDescriptionPerLevel(level);
     }
 
-    private String emptyIfNull(String input){
+    private String emptyIfNull(String input) {
         return input == null || input.equals("") ? "&cEmpty" : input;
     }
 }

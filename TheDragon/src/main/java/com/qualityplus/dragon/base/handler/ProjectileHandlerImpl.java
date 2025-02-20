@@ -19,10 +19,10 @@ import java.util.List;
 
 public final class ProjectileHandlerImpl implements ProjectileHandler {
     @Override
-    public void shoot(ProjectileType projectile, double damage, double amount, final DragonGame dragonGame){
+    public void shoot(ProjectileType projectile, double damage, double amount, final DragonGame dragonGame) {
         final List<Player> players = dragonGame.getPlayers(EventPlayer::isActive);
 
-        if(players.isEmpty() || amount < 1) {
+        if (players.isEmpty() || amount < 1) {
             return;
         }
 
@@ -47,7 +47,7 @@ public final class ProjectileHandlerImpl implements ProjectileHandler {
             if (dragonGame.isActive() && player != null && player.isOnline()) {
                 final EnderDragon enderDragon = TheDragon.getApi().getDragonService().getActiveEnderDragon();
 
-                if(enderDragon == null) {
+                if (enderDragon == null) {
                     return;
                 }
 
@@ -64,7 +64,7 @@ public final class ProjectileHandlerImpl implements ProjectileHandler {
                 Vector vector = to.subtract(from).normalize();
 
                 Fireball projectile1;
-                if(projectile.equals(ProjectileType.DRAGONBALL))
+                if (projectile.equals(ProjectileType.DRAGONBALL))
                     projectile1 = dragonLoc.getWorld().spawn(dragonLoc, DragonFireball.class);
                 else
                     projectile1 = dragonLoc.getWorld().spawn(dragonLoc, Fireball.class);

@@ -6,6 +6,9 @@ api-version: 1.13
 authors: [QualityPlus]
 load: POSTWORLD
 depend: [TheAssistant]
+softdepend:
+  - BentoBox
+  - BentoBox-BSkyBlock
 commands:
   thesouls:
     aliases: [souls]

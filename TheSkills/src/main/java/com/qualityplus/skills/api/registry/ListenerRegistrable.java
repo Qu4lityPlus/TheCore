@@ -14,12 +14,12 @@ public interface ListenerRegistrable extends Listener{
     List<Class<? extends ExtraListener>> getExtraListeners();
     List<Listener> getRegisteredListeners();
 
-    default void registerListeners(Box box){
+    default void registerListeners(Box box) {
         Bukkit.getPluginManager().registerEvents(this, box.plugin());
 
         getRegisteredListeners().add(this);
 
-        for(Class<? extends ExtraListener> listener : getExtraListeners()){
+        for (Class<? extends ExtraListener> listener : getExtraListeners()) {
             ExtraListener instance = box.inject().createInstance(listener);
 
             instance.applySkill((Skill) this);
@@ -30,7 +30,7 @@ public interface ListenerRegistrable extends Listener{
         }
     }
 
-    default void unregisterListeners(){
+    default void unregisterListeners() {
         getRegisteredListeners().stream().filter(Objects::nonNull).forEach(HandlerList::unregisterAll);
 
         getRegisteredListeners().clear();

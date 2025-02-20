@@ -53,7 +53,7 @@ public final class Collection extends OkaeriConfig {
         this.collectionsInfoMessage = collectionsInfoMessage;
     }
 
-    public void register(){
+    public void register() {
         CollectionsRegistry.registerNewCollection(this);
     }
 
@@ -102,11 +102,11 @@ public final class Collection extends OkaeriConfig {
         }
     }
 
-    public double getLevelRequirement(int level){
+    public double getLevelRequirement(int level) {
         return xpRequirements.getOrDefault(level, 1D);
     }
 
-    public CommandReward getGuiCommand(int level){
+    public CommandReward getGuiCommand(int level) {
         return Optional.ofNullable(guiCommandsPerLevel)
                 .map(map -> map.getOrDefault(level, null))
                 .orElse(null);

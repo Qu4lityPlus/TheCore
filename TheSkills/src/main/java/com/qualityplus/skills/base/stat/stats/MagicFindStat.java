@@ -42,12 +42,12 @@ public final class MagicFindStat extends Stat {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onKill(final PlayerKillEvent e){
+    public void onKill(final PlayerKillEvent e) {
         final Player player = e.getPlayer();
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return;
 
-        if(itemAndChances == null || itemAndChances.size() == 0) return;
+        if (itemAndChances == null || itemAndChances.size() == 0) return;
 
         int level = getStat(player);
 
@@ -58,11 +58,11 @@ public final class MagicFindStat extends Stat {
                 .map(XMaterial::parseItem)
                 .orElse(null);
 
-        if(BukkitItemUtil.isNull(toGive)) return;
+        if (BukkitItemUtil.isNull(toGive)) return;
 
         final MagicFindEvent event = new MagicFindEvent(e.getPlayer(), this, toGive, e.getKilled().getLocation());
 
-        if(event.isCancelled()) return;
+        if (event.isCancelled()) return;
 
         Optional.ofNullable(event.getToDropItem()).ifPresent(item -> dropItem(event));
     }
@@ -77,7 +77,7 @@ public final class MagicFindStat extends Stat {
         return StringUtils.processMulti(description, placeholders);
     }
 
-    private void dropItem(MagicFindEvent event){
+    private void dropItem(MagicFindEvent event) {
         Optional.ofNullable(event.getToDropLocation().getWorld())
                 .ifPresent(world -> world.dropItem(event.getToDropLocation(), event.getToDropItem()));
     }

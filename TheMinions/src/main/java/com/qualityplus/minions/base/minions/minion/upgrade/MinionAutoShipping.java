@@ -24,7 +24,7 @@ public final class MinionAutoShipping extends OkaeriConfig {
     private List<String> description;
     private double percentageOfPriceToSell;
 
-    public ItemStack getItemStack(long items, double coins){
+    public ItemStack getItemStack(long items, double coins) {
         List<String> lore = StringUtils.processMulti(description, new Placeholder("minion_upgrade_percentage_price", percentageOfPriceToSell).alone());
 
         ItemStack itemStack = ItemStackUtils.makeItem(item,

@@ -39,7 +39,7 @@ public final class PetConfig extends OkaeriConfig {
     @CustomKey("max-level")
     private int maxLevel;
 
-    public Pet getPet(){
+    public Pet getPet() {
         return Pet.builder()
                 .id(id)
                 .category(category)

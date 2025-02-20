@@ -21,10 +21,10 @@ public final class RShiftClickHandler implements ClickHandler {
     private final RemoveSession session;
 
     @Override
-    public void handle(InventoryClickEvent event){
+    public void handle(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(event.getSlot() != gui.getConfig().getToUpgradeSlot()) return;
+        if (event.getSlot() != gui.getConfig().getToUpgradeSlot()) return;
 
         player.openInventory(new RemoveRuneGUI(box, new RemoveSessionImpl(null, false)).getInventory());
     }
@@ -35,7 +35,7 @@ public final class RShiftClickHandler implements ClickHandler {
 
         final ItemStack current = Optional.ofNullable(event.getCurrentItem()).map(ItemStack::clone).orElse(null);
 
-        if(!BukkitItemUtil.isNull(session.getItemToRemove())) {
+        if (!BukkitItemUtil.isNull(session.getItemToRemove())) {
             player.sendMessage(StringUtils.color(box.files().messages().runeMessages.thereIsAnItemPlaced));
             event.setCancelled(true);
             return;

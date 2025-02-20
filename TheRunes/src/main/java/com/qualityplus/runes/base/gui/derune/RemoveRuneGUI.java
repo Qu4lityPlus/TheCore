@@ -50,16 +50,16 @@ public final class RemoveRuneGUI extends RuneGUI {
         RemoveSession.RemoveSessionResult answer = RuneFinderUtil.getAnswer(session);
 
 
-        if(session.isSuccess()){
+        if (session.isSuccess()) {
             inventory.setItem(config.getToUpgradeSlot(), session.getItemToRemove());
             inventory.setItem(config.getSuccessItem().getSlot(), ItemStackUtils.makeItem(config.getSuccessItem()));
-        }else{
-            if(answer.equals(RemoveSessionResult.ITEM_SET)) {
+        } else {
+            if (answer.equals(RemoveSessionResult.ITEM_SET)) {
                 config.getToUpgradeFilledSlots().forEach(slot -> inventory.setItem(slot, ItemStackUtils.makeItem(config.getToUpgradeFilledItem())));
                 inventory.setItem(config.getClickToRemoveRune().getSlot(), ItemStackUtils.makeItem(config.getClickToRemoveRune()));
             }
 
-            if(!BukkitItemUtil.isNull(session.getItemToRemove()))
+            if (!BukkitItemUtil.isNull(session.getItemToRemove()))
                 inventory.setItem(config.getToUpgradeSlot(), ItemStackUtils.makeItem(config.getToRemoveItem(), PlaceholderBuilder
                         .create(new Placeholder("to_remove_rune_item_displayname", BukkitItemUtil.getName(session.getItemToRemove())),
                                 new Placeholder("to_remove_rune_item_lore", BukkitItemUtil.getItemLore(session.getItemToRemove())))
@@ -67,7 +67,7 @@ public final class RemoveRuneGUI extends RuneGUI {
 
         }
 
-        if(answer.isError())
+        if (answer.isError())
             setItem(config.getCombinedErrorItem());
 
         setItem(config.getCloseGUI());
@@ -81,7 +81,7 @@ public final class RemoveRuneGUI extends RuneGUI {
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
 
-        if(!giveItem) return;
+        if (!giveItem) return;
         Optional.ofNullable(session.getItemToRemove()).ifPresent(itemStack -> player.getInventory().addItem(itemStack));
 
     }
@@ -92,19 +92,19 @@ public final class RemoveRuneGUI extends RuneGUI {
 
         int slot = e.getSlot();
 
-        if(getTarget(e).equals(ClickTarget.INSIDE)){
+        if (getTarget(e).equals(ClickTarget.INSIDE)) {
 
-            if(isItem(slot, config.getCloseGUI())) {
+            if (isItem(slot, config.getCloseGUI())) {
                 e.setCancelled(true);
                 player.closeInventory();
-            }else if(isItem(slot, config.getGoBack())){
+            } else if (isItem(slot, config.getGoBack())) {
                 player.openInventory(new RuneTableGUI(box, new RuneSessionImpl(player.getUniqueId(), null, null, null, null)).getInventory());
-            }else if(slot == config.getToUpgradeSlot() || slot == config.getClickToRemoveRune().getSlot()) {
+            } else if (slot == config.getToUpgradeSlot() || slot == config.getClickToRemoveRune().getSlot()) {
                 handler.handle(e);
-            }else {
+            } else {
                 e.setCancelled(true);
             }
-        }else{
+        } else {
             handler.handleOutSide(e);
         }
 

@@ -43,7 +43,7 @@ public final class BankUpgradeGUI extends BankGUI {
 
         Optional<BankUpgrade> playerUpgrade = box.files().bankUpgrades().getUpgrade(bankData);
 
-        for(BankUpgrade upgrade : box.files().bankUpgrades().bankUpgrades){
+        for (BankUpgrade upgrade : box.files().bankUpgrades().bankUpgrades) {
             List<IPlaceholder> placeholders = getPlaceholders(playerUpgrade.orElse(null), upgrade);
 
             Item item = upgrade.getId().equals(playerUpgrade.map(BankUpgrade::getId).orElse("")) ? config.getCurrentUpgradeItem() : config.getNotCurrentUpgradeItem();
@@ -60,7 +60,7 @@ public final class BankUpgradeGUI extends BankGUI {
         return inventory;
     }
 
-    private List<IPlaceholder> getPlaceholders(BankUpgrade playerUpgrade, BankUpgrade toCompare){
+    private List<IPlaceholder> getPlaceholders(BankUpgrade playerUpgrade, BankUpgrade toCompare) {
 
         String status = getPlaceholder(getUpgradeStatus(playerUpgrade, toCompare));
 
@@ -71,26 +71,26 @@ public final class BankUpgradeGUI extends BankGUI {
         );
     }
 
-    private UpgradeStatus getUpgradeStatus(BankUpgrade playerUpgrade, BankUpgrade toCompare){
+    private UpgradeStatus getUpgradeStatus(BankUpgrade playerUpgrade, BankUpgrade toCompare) {
         double playerMoney = TheAssistantPlugin.getAPI().getAddons().getEconomy().getMoney(Bukkit.getOfflinePlayer(uuid));
 
-        if(toCompare.getHierarchy() < playerUpgrade.getHierarchy()){
+        if (toCompare.getHierarchy() < playerUpgrade.getHierarchy()) {
             return UpgradeStatus.YOU_HAVE_BETTER_ACCOUNT;
-        }else if(toCompare.getHierarchy() == playerUpgrade.getHierarchy()){
+        } else if (toCompare.getHierarchy() == playerUpgrade.getHierarchy()) {
             return UpgradeStatus.THIS_IS_YOUR_ACCOUNT;
-        }else if(playerMoney < toCompare.getCoinsCost()){
+        } else if (playerMoney < toCompare.getCoinsCost()) {
             return UpgradeStatus.NOT_ENOUGH_COINS;
-        }else if(!toCompare.canPayItems(Bukkit.getPlayer(uuid))){
+        } else if (!toCompare.canPayItems(Bukkit.getPlayer(uuid))) {
             return UpgradeStatus.NOT_ENOUGH_ITEMS;
-        }else if(toCompare.getHierarchy() - 1 != playerUpgrade.getHierarchy()){
+        } else if (toCompare.getHierarchy() - 1 != playerUpgrade.getHierarchy()) {
             return UpgradeStatus.NEED_PREVIOUS_UPGRADE;
-        }else{
+        } else {
             return UpgradeStatus.AVAILABLE_TO_PURCHASE;
         }
     }
 
-    private String getPlaceholder(UpgradeStatus status){
-        switch (status){
+    private String getPlaceholder(UpgradeStatus status) {
+        switch (status) {
             case YOU_HAVE_BETTER_ACCOUNT:
                 return box.files().messages().bankMessages.youHaveBetterAccount;
 
@@ -117,26 +117,26 @@ public final class BankUpgradeGUI extends BankGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
         if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBackItem())){
+        } else if (isItem(slot, config.getGoBackItem())) {
             player.openInventory(new BankInterfaceGUI(box, player, type).getInventory());
-        }else if(bankUpgradeMap.containsKey(slot)){
+        } else if (bankUpgradeMap.containsKey(slot)) {
             BankUpgrade upgrade = bankUpgradeMap.getOrDefault(slot, null);
 
-            if(upgrade == null) return;
+            if (upgrade == null) return;
 
             BankData bankData = box.service().getData(uuid).orElse(new BankData());
 
             BankUpgrade playerUpgrade = box.files().bankUpgrades().getUpgrade(bankData).orElse(null);
 
-            if(playerUpgrade == null) return;
+            if (playerUpgrade == null) return;
 
             UpgradeStatus status = getUpgradeStatus(playerUpgrade, upgrade);
 
-            if(status == UpgradeStatus.AVAILABLE_TO_PURCHASE){
+            if (status == UpgradeStatus.AVAILABLE_TO_PURCHASE) {
                 TheAssistantPlugin.getAPI().getAddons().getEconomy().withdrawMoney(player, upgrade.getCoinsCost());
                 upgrade.payItems(player);
 
@@ -145,7 +145,7 @@ public final class BankUpgradeGUI extends BankGUI {
                 player.sendMessage(StringUtils.color(box.files().messages().bankMessages.successfullyUpdatedBank.replace("%bank_upgrade_displayname%", upgrade.getDisplayName())));
 
                 player.openInventory(new BankUpgradeGUI(box, player, type).getInventory());
-            }else{
+            } else {
                 String placeholder = getPlaceholder(status);
 
                 player.sendMessage(StringUtils.color(placeholder));

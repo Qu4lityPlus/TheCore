@@ -33,10 +33,10 @@ public final class MinionSkin extends OkaeriConfig {
     private ItemStack boots;
     private ItemStack inHand;
 
-    public ItemStack getItemStack(){
-        Item item = TheMinions.getApi().getConfigFiles().config().skinItem;
+    public ItemStack getItemStack() {
+        final Item item = TheMinions.getApi().getConfigFiles().config().skinItem;
 
-        ItemStack itemStack = ItemStackUtils.makeItem(item,
+        final ItemStack itemStack = ItemStackUtils.makeItem(item,
                 PlaceholderBuilder.create(
                         new Placeholder("minion_skin_display_name", displayName),
                         new Placeholder("minion_skin_lore", Optional.ofNullable(description).orElse(Collections.emptyList()))
@@ -45,17 +45,20 @@ public final class MinionSkin extends OkaeriConfig {
         return MinionUpgradeUtil.addSkinTags(itemStack, id);
     }
 
-    public void apply(ArmorStandHandler handler){
+    public void apply(final ArmorStandHandler handler) {
         Optional.ofNullable(handler).ifPresent(armorStandHandler -> armorStandHandler.manipulateEntity(this::apply));
     }
 
-    public void apply(ArmorStand entity){
+    public void apply(final ArmorStand entity) {
+        if (entity == null) {
+            return;
+        }
 
-        if(entity == null) return;
+        final EntityEquipment equipment = entity.getEquipment();
 
-        EntityEquipment equipment = entity.getEquipment();
-
-        if(equipment == null) return;
+        if (equipment == null) {
+            return;
+        }
 
         Optional.ofNullable(helmet).map(ItemStack::clone).ifPresent(equipment::setHelmet);
         Optional.ofNullable(chestplate).map(ItemStack::clone).ifPresent(equipment::setChestplate);

@@ -35,9 +35,9 @@ public final class TheMythicDragonEntity implements TheDragonEntity {
     @Override
     public double getMaxHealth() {
         try {
-            if(enderDragon == null) return 0;
+            if (enderDragon == null) return 0;
             return enderDragon.getMaxHealth();
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -45,9 +45,9 @@ public final class TheMythicDragonEntity implements TheDragonEntity {
     @Override
     public double getHealth() {
         try {
-            if(enderDragon == null) return 0;
+            if (enderDragon == null) return 0;
             return enderDragon.getHealth();
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }

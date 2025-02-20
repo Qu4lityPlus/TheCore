@@ -26,13 +26,13 @@ public final class AureliumSkillsPlugin implements SkillDependency {
         return plugin.getStatRegistry().getStat(key);
     }
 
-    private String getFormatted(String stat){
+    private String getFormatted(String stat) {
         return String.format(TEMPORAL_STAT_PLACEHOLDER, stat);
     }
 
     @NotNull
     @SuppressWarnings("all")
-    private AureliumSkills getPlugin(){
+    private AureliumSkills getPlugin() {
         return (AureliumSkills) Bukkit.getPluginManager().getPlugin("AureliumSkills");
     }
 }

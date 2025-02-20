@@ -34,7 +34,7 @@ public final class AllSoulsGUI extends SoulsGUI {
         this.page = page;
     }
 
-    private List<IPlaceholder> getPlaceholders(Soul soul){
+    private List<IPlaceholder> getPlaceholders(Soul soul) {
         return Arrays.asList(
                 new Placeholder("soul_location_x", NumberUtil.toInt(soul.getLocation().getX())),
                 new Placeholder("soul_location_y", NumberUtil.toInt(soul.getLocation().getY())),
@@ -50,19 +50,19 @@ public final class AllSoulsGUI extends SoulsGUI {
 
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(GUI.ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(GUI.ClickTarget.INSIDE)) return;
 
         int slot = event.getSlot();
 
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if (soulMap.containsKey(slot)) {
+        } else if (soulMap.containsKey(slot)) {
             Optional.ofNullable(soulMap.getOrDefault(slot, null))
                     .ifPresent(soul -> player.openInventory(new SoulsEditGUI(box, soul, edition).getInventory()));
-        } else if (isItem(slot, config.getNextPageItem()) && hasNext){
+        } else if (isItem(slot, config.getNextPageItem()) && hasNext) {
             player.openInventory(new AllSoulsGUI(box, page + 1, edition).getInventory());
-        }else if(isItem(slot, config.getBackPageItem()) && page > 1) {
+        } else if (isItem(slot, config.getBackPageItem()) && page > 1) {
             player.openInventory(new AllSoulsGUI(box, page - 1, edition).getInventory());
         }
 
@@ -78,7 +78,7 @@ public final class AllSoulsGUI extends SoulsGUI {
         try {
             int slot = 0;
             int i = maxPerPage * (page - 1);
-            if(soulList.size() > 0){
+            if (soulList.size() > 0) {
                 while (slot < maxPerPage) {
                     if (soulList.size() > i && i >= 0) {
                         Soul soul = soulList.get(i);
@@ -94,14 +94,14 @@ public final class AllSoulsGUI extends SoulsGUI {
                     slot++;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(page > 1)
+        if (page > 1)
             setItem(config.getBackPageItem());
 
-        if(hasNext)
+        if (hasNext)
             setItem(config.getNextPageItem());
 
         setItem(config.getCloseGUI());

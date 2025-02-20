@@ -21,23 +21,23 @@ public final class VanillaAnvilListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    public void onOpenBrewingStand(PlayerInteractEvent e){
-        if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+    public void onOpenBrewingStand(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Block block = e.getClickedBlock();
 
-        if(BlockUtils.isNull(block)) return;
+        if (BlockUtils.isNull(block)) return;
 
-        if(!blockIsAnvil(block)) return;
+        if (!blockIsAnvil(block)) return;
 
-        if(!box.files().config().openAsVanillaAnvil) return;
+        if (!box.files().config().openAsVanillaAnvil) return;
 
         e.setCancelled(true);
 
         e.getPlayer().openInventory(new AnvilMainGUI(box, new AnvilSessionImpl(null, null, null)).getInventory());
     }
 
-    private boolean blockIsAnvil(Block block){
+    private boolean blockIsAnvil(Block block) {
         return Stream.of(XMaterial.ANVIL, XMaterial.CHIPPED_ANVIL, XMaterial.DAMAGED_ANVIL)
                 .map(XMaterial::parseMaterial)
                 .collect(Collectors.toList())

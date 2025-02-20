@@ -26,7 +26,7 @@ public final class TheSkillsAPIImpl implements TheSkillsAPI {
 
     @Override
     public ItemStack setItemStats(ItemStack itemStack, Map<Stat, Integer> stats) {
-        if(BukkitItemUtil.isNull(itemStack)) return itemStack;
+        if (BukkitItemUtil.isNull(itemStack)) return itemStack;
 
         NBTItem item = new NBTItem(itemStack);
 
@@ -37,7 +37,7 @@ public final class TheSkillsAPIImpl implements TheSkillsAPI {
 
     @Override
     public Map<Stat, Integer> getItemStats(ItemStack itemStack) {
-        if(BukkitItemUtil.isNull(itemStack)) return new HashMap<>();
+        if (BukkitItemUtil.isNull(itemStack)) return new HashMap<>();
 
         NBTItem item = new NBTItem(itemStack);
 

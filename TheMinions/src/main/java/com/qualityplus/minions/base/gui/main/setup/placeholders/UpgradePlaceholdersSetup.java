@@ -34,12 +34,12 @@ public final class UpgradePlaceholdersSetup implements PlaceholdersSetup {
                 new Placeholder("minion_upgrade_status", getUpgradeStatus(data, box))).get();
     }
 
-    private List<String> getUpgradeStatus(TemporalData temporalData, Box box){
+    private List<String> getUpgradeStatus(TemporalData temporalData, Box box) {
         int level = temporalData.getLevel();
 
         Optional<Minion> minion = temporalData.getMinion();
 
-        if(level >= temporalData.getMaxLevel())
+        if (level >= temporalData.getMaxLevel())
             return box.files().messages().minionMessages.upgradeMaxLevelPlaceholder;
 
         int currentTime = minion.map(minion1 -> minion1.getTimerSeconds(level)).orElse(-1);
@@ -72,8 +72,8 @@ public final class UpgradePlaceholdersSetup implements PlaceholdersSetup {
         return StringUtils.processMulti(box.files().messages().minionMessages.upgradeStatusPlaceholder, placeholders);
     }
 
-    private String getCanUpgrade(TemporalData temporalData, Box box, MinionEntity minionEntity){
-        if(temporalData.getLevel() >= temporalData.getMaxLevel())
+    private String getCanUpgrade(TemporalData temporalData, Box box, MinionEntity minionEntity) {
+        if (temporalData.getLevel() >= temporalData.getMaxLevel())
             return box.files().messages().minionMessages.canUpgradeMaxLevel;
 
         MatRequirement matRequirement = temporalData.getMinion()
@@ -82,16 +82,16 @@ public final class UpgradePlaceholdersSetup implements PlaceholdersSetup {
 
         Player player = Bukkit.getPlayer(minionEntity.getState().getOwner());
 
-        if(player == null) return "";
+        if (player == null) return "";
 
         ItemStack item = matRequirement.getRequiredMaterial().parseItem();
 
         int amount = InventoryUtils.getItemQuantity(player.getInventory().getContents(), item);
         int required = matRequirement.getRequiredMaterialAmount();
 
-        if(amount >= required){
+        if (amount >= required) {
             return box.files().messages().minionMessages.canUpgrade;
-        }else{
+        } else {
             List<IPlaceholder> placeholders = PlaceholderBuilder.create(
                     new Placeholder("minion_upgrade_material_amount", required - amount),
                     new Placeholder("minion_upgrade_material_name", BukkitItemUtil.getName(item))
@@ -107,7 +107,7 @@ public final class UpgradePlaceholdersSetup implements PlaceholdersSetup {
         private final int maxLevel;
         private final int level;
 
-        public TemporalData(MinionEntity minionEntity){
+        public TemporalData(MinionEntity minionEntity) {
             Optional<MinionData> minionData = TheMinions.getApi().getMinionsService().getData(minionEntity.getMinionUniqueId());
 
             this.level = minionData.map(MinionData::getLevel).orElse(1);

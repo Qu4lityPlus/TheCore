@@ -36,7 +36,7 @@ public final class StrengthConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRiNWNlMGQ0NGMzZTgxMzhkYzJlN2U1MmMyODk3YmI4NzhlMWRiYzIyMGQ3MDY4OWM3YjZiMThkMzE3NWUwZiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_strength_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return StrengthStat.builder()
                 .id(id)
                 .displayName(displayName)

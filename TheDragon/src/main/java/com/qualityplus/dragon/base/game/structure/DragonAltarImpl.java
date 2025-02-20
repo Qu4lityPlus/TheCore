@@ -33,7 +33,7 @@ public final class DragonAltarImpl extends OkaeriConfig implements DragonAltar {
 
         Block block = location.getBlock();
 
-        if(BlockUtils.isNull(block)) return;
+        if (BlockUtils.isNull(block)) return;
 
         TheAssistantPlugin.getAPI().getNms().setEnderEye(block, enderKey);
     }

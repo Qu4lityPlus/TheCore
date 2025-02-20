@@ -75,7 +75,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                     .build())
             .build();
 
-    private Background getMainBackground(){
+    private Background getMainBackground() {
         return new Background(ImmutableMap.<Integer, Item>builder()
                 .put(0, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())

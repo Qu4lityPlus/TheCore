@@ -37,7 +37,7 @@ public final class OrbMasterConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWMzYTRiNTFhNDgwMDI4OTBmYjI3MWNkYzE1MTdlYWY0MWFiMDAyNTNjMWI3ZDgyNDI3MjczNmJiNDE2NjNkNSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_orb_master_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return OrbMasterPerk.builder()
                 .id(id)
                 .displayName(displayName)

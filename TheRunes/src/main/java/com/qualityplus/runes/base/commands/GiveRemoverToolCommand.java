@@ -25,17 +25,17 @@ public final class GiveRemoverToolCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
             Player player = Bukkit.getPlayer(args[1]);
 
-            if(player == null){
+            if (player == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
 
             player.getInventory().addItem(getItem());
 
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
 
         return false;
@@ -47,11 +47,11 @@ public final class GiveRemoverToolCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveRemoverToolCommand));
     }
 
-    private ItemStack getItem(){
+    private ItemStack getItem() {
         NBTItem nbtItem = new NBTItem(ItemStackUtils.makeItem(box.files().config().removerToolItem));
         nbtItem.setBoolean("runeTableRemover", true);
         return nbtItem.getItem();

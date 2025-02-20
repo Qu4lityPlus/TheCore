@@ -26,7 +26,7 @@ public abstract class AbstractRandomBlockDropPerk extends Perk {
         this.itemAndChances = itemAndChances;
     }
 
-    protected ItemStack getItem(){
+    protected ItemStack getItem() {
         List<EasyRandom<XMaterial>> items = itemAndChances.keySet().stream()
                 .map(item -> new EasyRandom<>(item, itemAndChances.get(item)))
                 .collect(Collectors.toList());

@@ -28,8 +28,8 @@ public interface SoulsRepository extends DocumentRepository<UUID, SoulsData> {
     default SoulsData get(OfflinePlayer player) {
         SoulsData data = this.findOrCreateByPath(player.getUniqueId());
 
-        if(data.getSoulsCollected() == null) data.setSoulsCollected(new ArrayList<>());
-        if(data.getTiaSoulsCollected() == null) data.setTiaSoulsCollected(new ArrayList<>());
+        if (data.getSoulsCollected() == null) data.setSoulsCollected(new ArrayList<>());
+        if (data.getTiaSoulsCollected() == null) data.setTiaSoulsCollected(new ArrayList<>());
 
         Optional.ofNullable(player).ifPresent(p -> data.setName(p.getName()));
         Optional.ofNullable(player).ifPresent(p -> data.setUuid(p.getUniqueId()));

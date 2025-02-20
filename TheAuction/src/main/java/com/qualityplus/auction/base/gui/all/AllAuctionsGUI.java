@@ -1,8 +1,9 @@
 package com.qualityplus.auction.base.gui.all;
 
 import com.qualityplus.assistant.api.util.IPlaceholder;
-import com.qualityplus.assistant.base.dependency.ProtocolLibDependency;
-import com.qualityplus.assistant.inventory.SignGUIImpl;
+import com.qualityplus.assistant.lib.com.cryptomorin.xseries.XMaterial;
+import com.qualityplus.assistant.lib.de.rapha149.signgui.SignGUI;
+import com.qualityplus.assistant.lib.de.rapha149.signgui.SignGUIFinishHandler;
 import com.qualityplus.assistant.util.inventory.InventoryUtils;
 import com.qualityplus.assistant.util.itemstack.ItemStackUtils;
 import com.qualityplus.assistant.util.placeholder.Placeholder;
@@ -15,9 +16,13 @@ import com.qualityplus.auction.base.searcher.AuctionSearcher;
 import com.qualityplus.auction.base.searcher.filters.BinFilter;
 import com.qualityplus.auction.base.searcher.filters.SortFilter;
 import com.qualityplus.auction.base.searcher.filters.StringFilter;
+import com.qualityplus.auction.base.sign.SignGUIAPI;
 import com.qualityplus.auction.persistence.data.AuctionItem;
 import com.qualityplus.auction.util.AuctionItemStackUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -239,25 +244,49 @@ public final class AllAuctionsGUI extends AuctionGUI {
             }
             player.closeInventory();
 
-            if (ProtocolLibDependency.isProtocolLib()) {
-                SignGUIImpl.builder()
-                        .plugin(box.plugin())
-                        .uuid(player.getUniqueId())
-                        .withLines(box.files().messages().getAuctionMessages().getEnterQuery())
-                        .action(e -> e.getPlayer().openInventory(
-                                new AllAuctionsGUI(box, 1, uuid, getBuilder()
-                                        .stringFilter(new StringFilter(e.getLines().get(0)))
-                                        .build()).getInventory()
-                        ))
-                        .build()
-                        .open();
-            } else {
-                box.plugin().getLogger().warning("You need to install ProtocolLib to use Sign GUIS!");
-            }
+            final Location location = player.getLocation().clone().add(0, 10, 0);
 
+            try {
+                if (XMaterial.getVersion() > 20) {
+                    final SignGUIFinishHandler signGUIFinishHandler = (player1, signGUIResult) -> {
+                        handleSignQuery(player1, signGUIResult.getLines());
+                        return Collections.emptyList();
+                    };
+                    final SignGUI signGUI = SignGUI.builder().
+                            setLocation(location).
+                            setColor(DyeColor.BLACK).
+                            setType(Material.OAK_SIGN).
+                            setHandler(signGUIFinishHandler).setGlow(false).
+                            setLines(box.files().messages().getAuctionMessages().getEnterQuery().toArray(new String[0])).
+                            build();
+                    signGUI.open(player);
+                } else {
+                    SignGUIAPI.builder()
+                            .action((result) -> {
+                                handleSignQuery(result.getPlayer(), result.getLines().toArray(new String[0]));
+                            })
+                            .withLines(box.files().messages().getAuctionMessages().getEnterQuery())
+                            .uuid(player.getUniqueId())
+                            .plugin(box.plugin())
+                            .build()
+                            .open();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (isItem(slot, this.config.getGoBack())) {
             player.openInventory(new MainAuctionGUI(box, this.searcher, uuid).getInventory());
         }
+    }
+
+    private void handleSignQuery(final Player player, final String[] lines) {
+        Bukkit.getScheduler().runTaskLater(this.box.plugin(), () -> {
+            final AuctionSearcher filter = getBuilder().
+                    stringFilter(lines.length > 0 ? new StringFilter(lines[0]) : new StringFilter("")).
+                    build();
+            final Inventory inventory1 = new AllAuctionsGUI(box, 1, uuid, filter).getInventory();
+            Bukkit.getScheduler().runTaskLater(this.box.plugin(), () -> player.openInventory(inventory1), 5);
+        }, 5);
     }
 
     private AuctionSearcher.AuctionSearcherBuilder getBuilder() {

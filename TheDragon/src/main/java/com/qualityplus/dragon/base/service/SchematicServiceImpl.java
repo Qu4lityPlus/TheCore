@@ -39,7 +39,7 @@ public final class SchematicServiceImpl implements SchematicService {
         logger.warning(String.format("Schematic %s wasn't found in plugins/TheDragon/schematics!", config.eventSettings.schematicSettings.id));
     }
 
-    private File getSchematicsFolder(){
+    private File getSchematicsFolder() {
         JavaPlugin javaPlugin = (JavaPlugin) plugin;
 
         File schematicsFolder = new File(javaPlugin.getDataFolder() + "/schematics", "");
@@ -49,10 +49,10 @@ public final class SchematicServiceImpl implements SchematicService {
         return schematicsFolder;
     }
 
-    private void loadSchematic(File file){
+    private void loadSchematic(File file) {
         String fileName = file.getName();
 
-        if(fileName.contains(".schematic") || fileName.contains(".schem")){
+        if (fileName.contains(".schematic") || fileName.contains(".schem")) {
             String name = fileName.replace(".schematic", "").replace(".schem", "");
 
             schematics.add(new SchematicImpl(name, file));
@@ -62,7 +62,7 @@ public final class SchematicServiceImpl implements SchematicService {
     }
 
     @Override
-    public Optional<Schematic> getSchematic(String name){
+    public Optional<Schematic> getSchematic(String name) {
         return schematics.stream().filter(schematic -> schematic.getName().equalsIgnoreCase(name)).findFirst();
     }
 

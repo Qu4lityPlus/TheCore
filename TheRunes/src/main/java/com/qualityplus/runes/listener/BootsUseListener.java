@@ -23,11 +23,11 @@ public final class BootsUseListener implements Listener {
 
         ItemStack boots = player.getInventory().getBoots();
 
-        if(BukkitItemUtil.isNull(boots)) return;
+        if (BukkitItemUtil.isNull(boots)) return;
 
         RuneInstance runeInstance = RunesUtils.getRuneItemInstance(boots);
 
-        if(runeInstance.getRune() == null) return;
+        if (runeInstance.getRune() == null) return;
 
         effectProvider.execute(player, e.getPlayer(), runeInstance.getRune());
     }

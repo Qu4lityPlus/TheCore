@@ -58,22 +58,22 @@ public final class RuneTableGUI extends RuneGUI {
         SessionResult answer = RuneFinderUtil.getAnswer(session);
 
         //Izquierda
-        if(session.bothItemsAreSet() || answer.equals(SessionResult.ONLY_ITEM_TO_UPGRADE))
+        if (session.bothItemsAreSet() || answer.equals(SessionResult.ONLY_ITEM_TO_UPGRADE))
             config.getToUpgradeFilledSlots().forEach(slot -> inventory.setItem(slot, ItemStackUtils.makeItem(config.getToUpgradeFilledItem())));
 
         //Derecha
-        if(session.bothItemsAreSet() || answer.equals(SessionResult.ONLY_ITEM_TO_SACRIFICE))
+        if (session.bothItemsAreSet() || answer.equals(SessionResult.ONLY_ITEM_TO_SACRIFICE))
             config.getToSacrificeFilledSlots().forEach(slot -> inventory.setItem(slot, ItemStackUtils.makeItem(config.getToSacrificeFilledItem())));
 
         //Items de abajo
-        if(session.bothItemsAreSet()) {
+        if (session.bothItemsAreSet()) {
             ItemStack newItem = RuneFinderUtil.getFinalItem(box, session);
             //New Item with rune combined
             inventory.setItem(config.getCombinedFilledItem().getSlot(), ItemStackUtils.makeItem(config.getCombinedFilledItem(), getPlaceholders(newItem), newItem));
 
             config.getReadyToCombineSlots().forEach(slot -> inventory.setItem(slot, ItemStackUtils.makeItem(config.getReadyToCombineItem())));
             //If there are two runes
-            if(session.getSessionResult().equals(SessionResult.BOTH_RUNES_SET)){
+            if (session.getSessionResult().equals(SessionResult.BOTH_RUNES_SET)) {
 
                 int newLevel = session.getRuneInstance().getLevel() * 2;
 
@@ -83,24 +83,24 @@ public final class RuneTableGUI extends RuneGUI {
                         new Placeholder("rune_succeed_chance", chance),
                         new Placeholder("rune_fail_chance", 100 - chance)
                 ));
-            }else{
+            } else {
                 setItem(config.getClickToCombineItemAndRuneItem());
             }
 
         }
 
-        if(!BukkitItemUtil.isNull(session.getResult()))
+        if (!BukkitItemUtil.isNull(session.getResult()))
             inventory.setItem(config.getCombinedFilledItem().getSlot(), ItemStackUtils.makeItem(config.getCombinedFilledItem(), getPlaceholders(session.getResult()), session.getResult()));
 
 
-        if(answer.isError())
+        if (answer.isError())
             setItem(config.getCombinedErrorItem(), Collections.singletonList(new Placeholder("rune_error", getErrorPlaceholder(answer))));
 
 
-        if(!BukkitItemUtil.isNull(session.getItemToSacrifice()))
+        if (!BukkitItemUtil.isNull(session.getItemToSacrifice()))
             inventory.setItem(config.getToSacrificeSlot(), session.getItemToSacrifice());
 
-        if(!BukkitItemUtil.isNull(session.getItemToUpgrade()))
+        if (!BukkitItemUtil.isNull(session.getItemToUpgrade()))
             inventory.setItem(config.getToUpgradeSlot(), session.getItemToUpgrade());
 
 
@@ -110,15 +110,15 @@ public final class RuneTableGUI extends RuneGUI {
         return inventory;
     }
 
-    private List<IPlaceholder> getPlaceholders(ItemStack itemStack){
+    private List<IPlaceholder> getPlaceholders(ItemStack itemStack) {
         return Arrays.asList(
                 new Placeholder("rune_result_item_displayname", BukkitItemUtil.getName(itemStack)),
                 new Placeholder("rune_result_item_lore", BukkitItemUtil.getItemLore(itemStack))
         );
     }
 
-    private List<String> getErrorPlaceholder(SessionResult answer){
-        switch (answer){
+    private List<String> getErrorPlaceholder(SessionResult answer) {
+        switch (answer) {
             case MUST_BE_SAME_TIER:
                 return box.files().messages().runePlaceholders.mustBeSameTier;
             case MUST_BE_SAME_TYPE:
@@ -138,11 +138,11 @@ public final class RuneTableGUI extends RuneGUI {
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
 
-        if(giveItem && !session.isFusing()){
+        if (giveItem && !session.isFusing()) {
             giveItems(player);
         }
 
-        if(session.isFusing()){
+        if (session.isFusing()) {
             effectHandler.setHasBeenClosed(true);
 
             Optional.ofNullable(effectHandler.getResult(player, session))
@@ -151,7 +151,7 @@ public final class RuneTableGUI extends RuneGUI {
         }
     }
 
-    private void giveItems(Player player){
+    private void giveItems(Player player) {
         Optional.ofNullable(session.getItemToSacrifice()).ifPresent(itemStack -> player.getInventory().addItem(itemStack));
         Optional.ofNullable(session.getItemToUpgrade()).ifPresent(itemStack -> player.getInventory().addItem(itemStack));
         Optional.ofNullable(session.getResult()).ifPresent(itemStack -> player.getInventory().addItem(itemStack));
@@ -164,19 +164,19 @@ public final class RuneTableGUI extends RuneGUI {
 
         int slot = e.getSlot();
 
-        if(getTarget(e).equals(ClickTarget.INSIDE)){
+        if (getTarget(e).equals(ClickTarget.INSIDE)) {
 
-            if(isItem(slot, config.getCloseGUI())) {
+            if (isItem(slot, config.getCloseGUI())) {
                 e.setCancelled(true);
                 player.closeInventory();
-            }else if(isItem(slot, config.getRemovalItem())){
+            } else if (isItem(slot, config.getRemovalItem())) {
                 player.openInventory(new RemoveRuneGUI(box, new RemoveSessionImpl(null, false)).getInventory());
-            }else if(slot == config.getToUpgradeSlot() || slot == config.getToSacrificeSlot() || slot == config.getClickToCombineRunesItem().getSlot() || slot == config.getCombinedFilledItem().getSlot()) {
+            } else if (slot == config.getToUpgradeSlot() || slot == config.getToSacrificeSlot() || slot == config.getClickToCombineRunesItem().getSlot() || slot == config.getCombinedFilledItem().getSlot()) {
                 handler.handle(e);
-            }else {
+            } else {
                 e.setCancelled(true);
             }
-        }else{
+        } else {
             handler.handleOutSide(e);
         }
 

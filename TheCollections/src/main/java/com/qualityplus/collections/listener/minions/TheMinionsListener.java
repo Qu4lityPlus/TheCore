@@ -20,10 +20,10 @@ public final class TheMinionsListener implements Listener {
     public void onPickUp(PlayerPickUpMinionItemsEvent e) {
         Player player = e.getPlayer();
 
-        for(ItemStack pickUpItem : e.getItems()) {
+        for (ItemStack pickUpItem : e.getItems()) {
             Optional<Collection> collection = CollectionsRegistry.getByItem(pickUpItem);
 
-            if(!collection.isPresent()) return;
+            if (!collection.isPresent()) return;
 
             collectionsService.addXp(player, collection.get(), pickUpItem.getAmount());
         }

@@ -31,16 +31,16 @@ public final class ConfirmDeleteGUI extends SoulsGUI {
 
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         int slot = event.getSlot();
 
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBackItem()) || isItem(slot, config.getCancelItem())){
+        } else if (isItem(slot, config.getGoBackItem()) || isItem(slot, config.getCancelItem())) {
             player.openInventory(new SoulsEditGUI(box, soul, edition).getInventory());
-        }else if(isItem(slot, config.getConfirmItem())){
+        } else if (isItem(slot, config.getConfirmItem())) {
             soul.disable();
             player.closeInventory();
             box.files().souls().soulList.remove(soul);

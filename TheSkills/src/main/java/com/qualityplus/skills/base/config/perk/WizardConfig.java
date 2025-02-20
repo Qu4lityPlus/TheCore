@@ -37,7 +37,7 @@ public final class WizardConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk0OGJhNzM5YWQyNWU3MDU5NGU2OTQ4YTQyOGE1Y2Q4MTljZDFhODBlYzBiZTllYWNiYmZhNzkxNWM0YzM4OCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_eagle_eyes_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return WizardPerk.builder()
                 .id(id)
                 .displayName(displayName)

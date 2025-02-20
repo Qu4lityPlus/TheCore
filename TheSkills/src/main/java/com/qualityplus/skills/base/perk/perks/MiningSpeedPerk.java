@@ -53,7 +53,7 @@ public final class MiningSpeedPerk extends Perk {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(new Placeholder("duration", getDuration(level))).get());
     }
 
-    private int getDuration(int level){
+    private int getDuration(int level) {
         return ((secondsDurationPerLevel * level) + baseSecondsDuration);
     }
 }

@@ -75,9 +75,9 @@ public final class DragonControllerImpl implements DragonController {
         }
         if (this.target == null)
             targetSky();
-        if (MathUtil.offset(this.location, this.target) < 4.0D){
+        if (MathUtil.offset(this.location, this.target) < 4.0D) {
             Optional<DragonSpawn> spawn = TheDragon.getApi().getStructureService().getSpawn();
-            if(!spawn.isPresent()) return;
+            if (!spawn.isPresent()) return;
             if (this.target.getY() >= spawn.get().getLocation().getY()) {
                 targetPlayer();
             } else {
@@ -99,7 +99,7 @@ public final class DragonControllerImpl implements DragonController {
     @Override
     public void targetSky() {
         Optional<DragonSpawn> spawn = TheDragon.getApi().getStructureService().getSpawn();
-        if(!spawn.isPresent()) return;
+        if (!spawn.isPresent()) return;
         this.rangeBest = 9000.0D;
         this.rangeTime = System.currentTimeMillis();
         this.target = spawn.get().getLocation().clone().add((50 - RandomUtil.randomUpTo(100)), (20 + RandomUtil.randomUpTo(30)), (50 - RandomUtil.randomUpTo(100)));

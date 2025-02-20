@@ -19,7 +19,7 @@ import java.util.Collections;
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public final class Commands extends OkaeriConfig {
     public CommandDetails reloadCommand = new CommandDetails(Collections.singletonList("reload"), "Reload files", "/TheMinions reload", "theminions.reload", true, Duration.ZERO.getSeconds(), true, "theminions");
-    public CommandDetails giveMinionCommand = new CommandDetails(Collections.singletonList("giveminion"), "Give Minion to players", "/TheMinions giveminion <player> <id>", "theminions.giveminion", true, Duration.ZERO.getSeconds(), true, "theminions");
+    public CommandDetails giveMinionCommand = new CommandDetails(Collections.singletonList("giveminion"), "Give Minion to players", "/TheMinions giveminion <player> <id> [<level>]", "theminions.giveminion", true, Duration.ZERO.getSeconds(), true, "theminions");
     public CommandDetails giveAutomatedShippingCommand = new CommandDetails(Collections.singletonList("giveautoship"), "Give Automated Shipping to players", "/TheMinions giveautoship <player> <id>", "theminions.giveautoship", true, Duration.ZERO.getSeconds(), true, "theminions");
     public CommandDetails giveFuelCommand = new CommandDetails(Collections.singletonList("givefuel"), "Give Fuel to players", "/TheMinions givefuel <player> <id>", "theminions.giveautoship", true, Duration.ZERO.getSeconds(), true, "theminions");
     public CommandDetails giveUpgradeCommand = new CommandDetails(Collections.singletonList("giveupgrade"), "Give Upgrade to players", "/TheMinions giveupgrade <player> <id>", "theminions.giveautoship", true, Duration.ZERO.getSeconds(), true, "theminions");

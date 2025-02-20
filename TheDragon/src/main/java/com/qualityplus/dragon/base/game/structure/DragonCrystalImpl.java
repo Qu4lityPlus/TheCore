@@ -34,14 +34,14 @@ public final class DragonCrystalImpl extends OkaeriConfig implements DragonCryst
 
     @Override
     public void spawn() {
-        if(location == null){
+        if (location == null) {
             Bukkit.getConsoleSender().sendMessage(StringUtils.color("&c[TheDragon] Failed to add dragon crystals location is null!"));
             return;
         }
 
         World world1 = location.getWorld();
 
-        if(world1 == null){
+        if (world1 == null) {
             Bukkit.getConsoleSender().sendMessage(StringUtils.color("&c[TheDragon] Failed to add dragon crystals world is null!"));
             return;
         }
@@ -51,7 +51,7 @@ public final class DragonCrystalImpl extends OkaeriConfig implements DragonCryst
                 enderCrystal = location.getWorld().spawn(location.clone().add(0.0D, 1.0D, 0.0D), EnderCrystal.class);
 
                 enderCrystal.setMetadata("theDragonCrystal", new FixedMetadataValue(TheDragon.getApi().getPlugin(), "theDragonCrystal"));
-            }catch (Exception e){
+            } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage(StringUtils.color("&c[TheDragon] Failed to add dragon crystals TASK EXCEPTION!"));
             }
         });

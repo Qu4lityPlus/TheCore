@@ -32,12 +32,12 @@ public final class OnePunchManPerk extends Perk {
     public void handlePerk(EntityDamagedByPlayerEvent e) {
         Player p = e.getPlayer();
 
-        if(!canBeUsedWithPlayers && e.getEntity() instanceof Player) return;
+        if (!canBeUsedWithPlayers && e.getEntity() instanceof Player) return;
 
         if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p))
             return;
 
-        if(!(e.getEntity() instanceof LivingEntity)) return;
+        if (!(e.getEntity() instanceof LivingEntity)) return;
 
         LivingEntity entity = (LivingEntity) e.getEntity();
 

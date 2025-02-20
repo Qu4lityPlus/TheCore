@@ -45,7 +45,7 @@ public final class GameRankingImpl implements GameRanking {
     }
 
     @Override
-    public void refreshRanking(){
+    public void refreshRanking() {
         final TheDragonAPI api = TheDragon.getApi();
 
         final List<EventPlayer> eventPlayers = new ArrayList<>(api.getUserService().getUsers());
@@ -62,7 +62,7 @@ public final class GameRankingImpl implements GameRanking {
         }
     }
 
-    private String getRecordMessage(final EventPlayer player){
+    private String getRecordMessage(final EventPlayer player) {
         final Optional<UserData> dragonPlayer = userDBService.getData(player.getUuid());
 
         final double oldRecord = dragonPlayer.map(UserData::getRecord).orElse(0.0);
@@ -70,7 +70,7 @@ public final class GameRankingImpl implements GameRanking {
         return player.getDamage() > oldRecord ? messages.gameMessages.newRecordPlaceholder : "";
     }
 
-    private List<IPlaceholder> getCommonPlaceholders(){
+    private List<IPlaceholder> getCommonPlaceholders() {
 
         return PlaceholderBuilder
                 .create(IntStream.of(0,1,2)
@@ -104,7 +104,7 @@ public final class GameRankingImpl implements GameRanking {
         return new Placeholder(key, value);
     }
 
-    private String getLastAttacker(){
+    private String getLastAttacker() {
         return Optional.ofNullable(TheDragon.getApi().getUserService().getLast())
                 .filter(Objects::nonNull)
                 .map(uuid -> Bukkit.getOfflinePlayer(uuid).getName())
@@ -112,7 +112,7 @@ public final class GameRankingImpl implements GameRanking {
     }
 
 
-    private double getDragonXp(){
+    private double getDragonXp() {
         return Optional.ofNullable(TheDragon.getApi().getDragonService().getActiveDragon())
                 .map(TheDragonEntity::getXp)
                 .orElse(0D);

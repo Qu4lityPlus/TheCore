@@ -45,7 +45,7 @@ public final class BrewChancePerk extends Perk {
 
     @EventHandler(ignoreCancelled = true)
     public void playerConsumePotion(PlayerItemConsumeEvent e) {
-        if(!e.getItem().getType().equals(Material.POTION)) return;
+        if (!e.getItem().getType().equals(Material.POTION)) return;
 
         Player p = e.getPlayer();
 
@@ -55,7 +55,7 @@ public final class BrewChancePerk extends Perk {
         getRandom(p).ifPresent(p::addPotionEffect);
     }
 
-    private Optional<PotionEffect> getRandom(Player player){
+    private Optional<PotionEffect> getRandom(Player player) {
         List<EasyRandom<XPotion>> items = potionAndChances.keySet().stream()
                 .map(item -> new EasyRandom<>(item, potionAndChances.get(item)))
                 .collect(Collectors.toList());
@@ -72,11 +72,11 @@ public final class BrewChancePerk extends Perk {
         return StringUtils.processMulti(super.getFormattedDescription(level), Collections.singletonList(new Placeholder("duration", getDurationSeconds(level))));
     }
 
-    private int getDurationTicks(int level){
+    private int getDurationTicks(int level) {
         return getDurationSeconds(level) * 20;
     }
 
-    private int getDurationSeconds(int level){
+    private int getDurationSeconds(int level) {
         return baseSecondsDuration + (secondsDurationPerLevel * level);
     }
 }

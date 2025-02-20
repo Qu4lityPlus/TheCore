@@ -31,7 +31,7 @@ public final class PetEggListener implements Listener {
 
         Optional<PetData> data = PetEggUtil.dataFromEgg(inHand);
 
-        if(!data.isPresent())
+        if (!data.isPresent())
             return;
 
         event.setCancelled(true);

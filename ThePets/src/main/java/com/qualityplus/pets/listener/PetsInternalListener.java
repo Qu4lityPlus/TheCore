@@ -31,20 +31,20 @@ public final class PetsInternalListener implements Listener {
     private @Inject Box box;
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onXpGain(PetLevelUPEvent event){
+    public void onXpGain(PetLevelUPEvent event) {
         PetData petData = event.getData();
 
         Pet pet = Pets.getByID(petData.getPetId());
 
         Optional<PetEntity> entity = PetEntityTracker.getByID(petData.getUuid());
 
-        if(!entity.isPresent()) return;
+        if (!entity.isPresent()) return;
 
-        if(pet == null) return;
+        if (pet == null) return;
 
         Player player = Bukkit.getPlayer(entity.get().getOwner());
 
-        if(player == null || !player.isOnline()) return;
+        if (player == null || !player.isOnline()) return;
 
 
         Bukkit.getScheduler().runTask(box.plugin(), () -> {
@@ -64,9 +64,10 @@ public final class PetsInternalListener implements Listener {
 
             SoundUtils.playSound(player, settings.sound);
 
-            if(settings.message.isEnabled())
+            if (settings.message.isEnabled())
                 StringUtils.processMulti(settings.message.getMessages(), placeholders).forEach(msg -> player.sendMessage(StringUtils.color(msg)));
 
+            entity.get().update();
         });
     }
 }

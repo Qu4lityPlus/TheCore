@@ -19,13 +19,13 @@ public final class ShiftClickHandler implements ClickHandler{
     private final Box box;
 
     @Override
-    public void handle(InventoryClickEvent event){
+    public void handle(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
         final ItemStack copy = Optional.ofNullable(event.getCursor()).map(ItemStack::clone).orElse(null);
         final ItemStack current = Optional.ofNullable(event.getCurrentItem()).map(ItemStack::clone).orElse(null);
 
-        if(BukkitItemUtil.isNull(copy) && !BukkitItemUtil.isNull(current)){
+        if (BukkitItemUtil.isNull(copy) && !BukkitItemUtil.isNull(current)) {
             //event.setCurrentItem(null);
             gui.setGiveItem(false);
             player.openInventory(new EnchantMainGUI(box, page, bookShelf, null).getInventory());
@@ -39,7 +39,7 @@ public final class ShiftClickHandler implements ClickHandler{
 
         final ItemStack current = Optional.ofNullable(event.getCurrentItem()).map(ItemStack::clone).orElse(null);
 
-        if(BukkitItemUtil.isNull(item) && !BukkitItemUtil.isNull(current)){
+        if (BukkitItemUtil.isNull(item) && !BukkitItemUtil.isNull(current)) {
             gui.setGiveItem(false);
 
             event.setCurrentItem(null);

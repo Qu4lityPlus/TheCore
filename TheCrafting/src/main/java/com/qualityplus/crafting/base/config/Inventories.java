@@ -178,7 +178,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                 .build());
     }
 
-    private  ImmutableMap.Builder<Integer, Item> commonMap(){
+    private  ImmutableMap.Builder<Integer, Item> commonMap() {
         return ImmutableMap.<Integer, Item>builder()
                 .put(0, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
@@ -230,7 +230,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                 .put(53, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build());
     }
 
-    private Background getIndividualBackground(){
+    private Background getIndividualBackground() {
         return new Background(ImmutableMap.<Integer, Item>builder()
                 .put(0, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
@@ -259,7 +259,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                 .build());
     }
 
-    private Background getBookSubBackground(){
+    private Background getBookSubBackground() {
         return new Background(ImmutableMap.<Integer, Item>builder()
                 .put(0, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())

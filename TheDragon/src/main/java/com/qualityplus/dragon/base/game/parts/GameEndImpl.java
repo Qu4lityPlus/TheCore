@@ -32,7 +32,7 @@ public final class GameEndImpl implements GameEnd {
         players.forEach(this::managePlayer);
     }
 
-    private void managePlayer(final EventPlayer player){
+    private void managePlayer(final EventPlayer player) {
         final List<String> finalMessage = StringUtils.processMulti(messages.setupMessages.newGameEndMessage, gameRanking.getPlaceholders(player));
 
         player.sendMessage(finalMessage);
@@ -48,7 +48,7 @@ public final class GameEndImpl implements GameEnd {
     }
 
 
-    private Optional<DragonReward> getRewardByDamage(EventPlayer eventPlayer){
+    private Optional<DragonReward> getRewardByDamage(EventPlayer eventPlayer) {
         List<DragonReward> dragonRewards = new ArrayList<>(rewards.dragonRewards);
         dragonRewards.sort((o1, o2) -> o2.getDamageDone() - o1.getDamageDone());
         return dragonRewards.stream()
@@ -56,7 +56,7 @@ public final class GameEndImpl implements GameEnd {
                 .findFirst();
     }
 
-    private Optional<DragonReward> getSpecificRewardByDamage(TheDragonEntity entity, EventPlayer eventPlayer){
+    private Optional<DragonReward> getSpecificRewardByDamage(TheDragonEntity entity, EventPlayer eventPlayer) {
 
         if (this.rewards.rewardsPerEachDragon == null) {
             return Optional.empty();
@@ -71,7 +71,7 @@ public final class GameEndImpl implements GameEnd {
                 .findFirst();
     }
 
-    private void executeCommands(final List<String> commands, final List<IPlaceholder> placeholders){
+    private void executeCommands(final List<String> commands, final List<IPlaceholder> placeholders) {
         commands.forEach(command -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), StringUtils.processMulti(command, placeholders)));
     }
 }

@@ -30,12 +30,12 @@ public final class FuelItemSetup implements ItemSetup {
                 .map(MinionData::getFuel)
                 .orElse(null);
 
-        if(fuelEntity == null)
+        if (fuelEntity == null)
             inventory.setItem(config.getMinionFuelItem().getSlot(), ItemStackUtils.makeItem(config.getMinionFuelItem()));
         else {
             MinionFuelUpgrade fuel = box.files().fuelUpgrades().fuelUpgrades.getOrDefault(fuelEntity.getId(), null);
 
-            if(fuel == null) return;
+            if (fuel == null) return;
 
             ItemStack itemStack = fuel.getItemStack(fuelEntity.getMarkable().getDelay(), fuelEntity.getMarkable().getLastMarked());
 
@@ -54,7 +54,7 @@ public final class FuelItemSetup implements ItemSetup {
         }
     }
 
-    private String getRemainingTime(FuelEntity fuelEntity){
+    private String getRemainingTime(FuelEntity fuelEntity) {
         Messages messages = TheMinions.getApi().getConfigFiles().messages();
 
         RemainingTime time = fuelEntity.getMarkable().getRemainingTime();

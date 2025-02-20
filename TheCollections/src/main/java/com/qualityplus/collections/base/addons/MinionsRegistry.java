@@ -23,7 +23,7 @@ public final class MinionsRegistry {
     private @Inject Logger logger;
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void configureMinions(){
+    public void configureMinions() {
         final DependencyResolver resolver = TheAssistantPlugin.getAPI().getDependencyResolver();
 
         if (resolver.isPlugin(THE_MINIONS_PLUGIN_NAME)) {
@@ -32,7 +32,7 @@ public final class MinionsRegistry {
         }
     }
 
-    private void sendMinionsMessage(){
+    private void sendMinionsMessage() {
         logger.info(String.format(MINIONS_HOOKED_MESSAGE, MinionsRegistry.THE_MINIONS_PLUGIN_NAME));
     }
 }

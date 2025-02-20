@@ -22,10 +22,10 @@ import java.util.stream.Stream;
 @Component
 public final class PlaceholdersRegistry {
     @Delayed(time = MinecraftTimeEquivalent.SECOND * 5)
-    public void registerSkillsPlaceholders(@Inject SkillsService service){
+    public void registerSkillsPlaceholders(@Inject SkillsService service) {
         PlaceholdersAddon addon = TheAssistantPlugin.getAPI().getAddons().getPlaceholders();
 
-        for(Skill skill : Skills.values()){
+        for (Skill skill : Skills.values()) {
             addon.registerPlaceholders("skill_" + skill.getId() + "_displayname",
                     e -> skill.getDisplayName());
             addon.registerPlaceholders("skill_" + skill.getId() + "_xp",
@@ -34,7 +34,7 @@ public final class PlaceholdersRegistry {
                     e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(skill.getId())).orElse(0)));
         }
 
-        for(Perk perk : Perks.values()) {
+        for (Perk perk : Perks.values()) {
             addon.registerPlaceholders("perk_" + perk.getId() + "_displayname",
                     e -> perk.getDisplayName());
 
@@ -42,7 +42,7 @@ public final class PlaceholdersRegistry {
                     e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(perk.getId())).orElse(0)));
         }
 
-        for(Stat stat : Stats.values()) {
+        for (Stat stat : Stats.values()) {
             addon.registerPlaceholders("stat_" + stat.getId() + "_displayname",
                     e -> stat.getDisplayName());
 

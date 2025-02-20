@@ -29,9 +29,9 @@ public interface BankRepository extends DocumentRepository<UUID, BankData> {
     default BankData get(OfflinePlayer player) {
         BankData user = this.findOrCreateByPath(player.getUniqueId());
 
-        if(user.getUuid() == null) user.setUuid(player.getUniqueId());
+        if (user.getUuid() == null) user.setUuid(player.getUniqueId());
 
-        if(user.getTransactionList() == null) user.setTransactionList(new ArrayList<>());
+        if (user.getTransactionList() == null) user.setTransactionList(new ArrayList<>());
 
         Optional.ofNullable(player.getName()).ifPresent(user::setName);
 

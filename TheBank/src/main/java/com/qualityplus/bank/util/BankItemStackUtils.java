@@ -16,7 +16,7 @@ import java.util.List;
 
 @UtilityClass
 public class BankItemStackUtils {
-    public static ItemStack makeUpgradeItem(Item item, List<IPlaceholder> placeholders, GUIDisplayItem guiDisplayItem, LoreWrapper wrapper){
+    public static ItemStack makeUpgradeItem(Item item, List<IPlaceholder> placeholders, GUIDisplayItem guiDisplayItem, LoreWrapper wrapper) {
         try {
             Item item1 = ItemBuilder.of(guiDisplayItem.getItem(), 1, 1, "", Collections.emptyList()).headData(guiDisplayItem.getTexture())
                     .enchanted(item.isEnchanted())

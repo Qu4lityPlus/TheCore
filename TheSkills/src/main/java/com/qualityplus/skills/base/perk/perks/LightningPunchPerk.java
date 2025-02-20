@@ -35,7 +35,7 @@ public final class LightningPunchPerk extends Perk {
     public void handlePerk(EntityDamagedByPlayerEvent e) {
         Player p = e.getPlayer();
 
-        if(!(e.getEntity() instanceof LivingEntity)) return;
+        if (!(e.getEntity() instanceof LivingEntity)) return;
 
         LivingEntity entity = (LivingEntity) e.getEntity();
 

@@ -42,7 +42,7 @@ public final class CollectionsServiceImpl implements CollectionsService {
 
         Bukkit.getPluginManager().callEvent(collectionsXPGainEvent);
 
-        if(collectionsXPGainEvent.isCancelled()) return;
+        if (collectionsXPGainEvent.isCancelled()) return;
 
         toAdd = collectionsXPGainEvent.getXp();
 
@@ -51,19 +51,19 @@ public final class CollectionsServiceImpl implements CollectionsService {
                 .orElse(new UserCollections());
 
 
-        if(collections.getXp(collection.getId()) == 0){
+        if (collections.getXp(collection.getId()) == 0) {
             CollectionsUnlockEvent unlockEvent = new CollectionsUnlockEvent(player, collection);
 
             Bukkit.getPluginManager().callEvent(unlockEvent);
 
-            if(unlockEvent.isCancelled()) return;
+            if (unlockEvent.isCancelled()) return;
         }
 
         collections.addXp(collection.getId(), toAdd);
 
         int level = collections.getLevel(collection.getId());
 
-        if(collections.getXp(collection.getId()) >= collection.getLevelRequirement(level + 1) && level + 1 <= collection.getMaxLevel()) {
+        if (collections.getXp(collection.getId()) >= collection.getLevelRequirement(level + 1) && level + 1 <= collection.getMaxLevel()) {
             //skills.setXp(collection.getId(), 0.0);
             collections.addLevel(collection.getId(),  1);
             CollectionEvent levelUpEvent = new CollectionsLevelUPEvent(player, collection, level + 1);

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Component
 public final class PetFollowServiceImpl implements PetFollowService {
     @Override
-    public void follow(Map.Entry<UUID, PetEntity> entry){
+    public void follow(Map.Entry<UUID, PetEntity> entry) {
         entry.getValue().followOwner();
     }
 }

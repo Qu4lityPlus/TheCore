@@ -7,6 +7,7 @@ import com.qualityplus.auction.base.gui.AuctionGUI;
 import com.qualityplus.auction.base.gui.all.AllAuctionsGUI;
 import com.qualityplus.auction.base.gui.create.CreateAuctionGUI;
 import com.qualityplus.auction.base.gui.manage.ManageAuctionGUI;
+import com.qualityplus.auction.base.gui.manage.sort.ManageAuctionSortType;
 import com.qualityplus.auction.base.gui.pending.PendingAuctionGUI;
 import com.qualityplus.auction.base.gui.stats.AuctionStatsGUI;
 import com.qualityplus.auction.base.searcher.AuctionSearcher;
@@ -89,7 +90,7 @@ public final class MainAuctionGUI extends AuctionGUI {
         } else if (isItem(slot, this.config.getAuctionsBrowser())) {
             player.openInventory(new AllAuctionsGUI(box, 1, uuid, this.searcher).getInventory());
         } else if (isItem(slot, this.config.getManageAuctions()) && this.ownAuctions > 0) {
-            player.openInventory(new ManageAuctionGUI(box, uuid, this.searcher, 1).getInventory());
+            player.openInventory(new ManageAuctionGUI(box, uuid, this.searcher, 1, ManageAuctionSortType.RECENTLY_UPDATED).getInventory());
         } else if (isItem(slot, this.config.getCreateAnAuction()) && this.ownAuctions <= 0) {
             player.openInventory(new CreateAuctionGUI(box, player, this.searcher).getInventory());
         } else if (isItem(slot, this.config.getViewBids())) {

@@ -66,7 +66,7 @@ public final class AlchemistStandManager {
 
             if (recipe == null) {
                 if (this.time.remainingTime() > 0) {
-                    clearAll();
+                    resetDecoration();
                 }
             } else {
                 if (this.time.remainingTime() <= 0) {
@@ -102,13 +102,17 @@ public final class AlchemistStandManager {
             return;
         }
 
-        getSimilarSlots().forEach((key, value) -> brewingStand.getInventory().setItem(key, this.inventory.getItem(value)));
+        getSimilarSlots().forEach((key, value) -> {
+            final ItemStack item = this.inventory.getItem(value);
+
+            brewingStand.getInventory().setItem(key, item);
+        });
     }
 
     private Map<Integer, Integer> getSimilarSlots() {
         final AlchemistStandGUIConfig config = this.box.getFiles().inventories().getStandGUIConfig();
 
-        return new HashMap<Integer, Integer>() {
+        return new HashMap<>() {
             {
                 int i = 0;
                 for (final Integer slot : config.getInputSlots()) {
@@ -151,7 +155,7 @@ public final class AlchemistStandManager {
         this.tasksMap.put(uuid, Bukkit.getScheduler().runTaskTimer(this.box.getPlugin(), () -> {
             if (this.time.remainingTime() < 0) {
                 finish(player, recipe);
-                clearAll();
+                resetDecoration();
                 cancelTask(uuid);
             }
         }, 0L, 0L).getTaskId());
@@ -168,7 +172,7 @@ public final class AlchemistStandManager {
         this.time = new Markable(recipe.getTimer().getEffectiveTime(), System.currentTimeMillis());
     }
 
-    private void clearAll() {
+    private void resetDecoration() {
         this.tasksMap.keySet().forEach(this::cancelTask);
 
         this.time = new Markable(0, 0);
@@ -199,6 +203,7 @@ public final class AlchemistStandManager {
 
         this.inventory.setItem(slot, getItemToPut(recipe, this.inventory, slot));
 
+        Bukkit.getScheduler().runTaskLater(this.box.getPlugin(), this::setItemsInBrewingStand, 1);
     }
 
     private ItemStack getItemToPut(final BrewingRecipe recipe, final Inventory inventory, final int slot) {

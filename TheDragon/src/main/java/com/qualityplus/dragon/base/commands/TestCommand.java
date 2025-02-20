@@ -21,14 +21,14 @@ public final class TestCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if(args.length == 1){
+        if (args.length == 1) {
 
             /*player.getWorld()
                     .getEntities()
                     .stream().filter(entity -> !(entity instanceof Player))
                     .forEach(Entity::remove);*/
 
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -40,7 +40,7 @@ public final class TestCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().testCommand));
     }
 }

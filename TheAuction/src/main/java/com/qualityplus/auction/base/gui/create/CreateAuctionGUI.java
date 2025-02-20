@@ -3,8 +3,9 @@ package com.qualityplus.auction.base.gui.create;
 import com.qualityplus.assistant.TheAssistantPlugin;
 import com.qualityplus.assistant.api.util.BukkitItemUtil;
 import com.qualityplus.assistant.api.util.IPlaceholder;
-import com.qualityplus.assistant.base.dependency.ProtocolLibDependency;
-import com.qualityplus.assistant.inventory.SignGUIImpl;
+import com.qualityplus.assistant.lib.com.cryptomorin.xseries.XMaterial;
+import com.qualityplus.assistant.lib.de.rapha149.signgui.SignGUI;
+import com.qualityplus.assistant.lib.de.rapha149.signgui.exception.SignGUIVersionException;
 import com.qualityplus.assistant.util.StringUtils;
 import com.qualityplus.assistant.util.itemstack.ItemStackUtils;
 import com.qualityplus.assistant.util.placeholder.Placeholder;
@@ -16,9 +17,14 @@ import com.qualityplus.auction.base.gui.main.MainAuctionGUI;
 import com.qualityplus.auction.base.gui.time.AuctionTimeGUI;
 import com.qualityplus.auction.base.gui.view.ViewOpener;
 import com.qualityplus.auction.base.searcher.AuctionSearcher;
+import com.qualityplus.auction.base.sign.SignGUIAPI;
 import com.qualityplus.auction.persistence.data.AuctionBid;
 import com.qualityplus.auction.persistence.data.AuctionItem;
 import com.qualityplus.auction.persistence.data.User;
+import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -150,21 +156,40 @@ public final class CreateAuctionGUI extends AuctionGUI {
             } else if (isItem(slot, this.config.getAuctionDuration())) {
                 player.openInventory(new AuctionTimeGUI(box, auctionItem, this.searcher).getInventory());
             } else if (isItem(slot, this.config.getAuctionInitialBid())) {
-
                 player.closeInventory();
 
-                if (ProtocolLibDependency.isProtocolLib()) {
-                    SignGUIImpl.builder()
-                            .action(event1 -> changeBidPrice(player, auctionItem, event1.getLines().get(0)))
-                            .withLines(box.files().messages().getAuctionMessages().getStartingBid())
-                            .uuid(player.getUniqueId())
-                            .plugin(box.plugin())
-                            .build()
-                            .open();
-                } else {
-                    box.plugin().getLogger().warning("You need to install ProtocolLib to use Sign GUIS!");
-                }
+                final Location location = player.getLocation().clone().add(0, 10, 0);
 
+                Bukkit.getScheduler().runTaskLater(this.box.plugin(), () -> {
+                    try {
+                        if (XMaterial.getVersion() > 20) {
+                            final SignGUI signGUI = SignGUI.builder()
+                                    .setLocation(location)
+                                    .setColor(DyeColor.BLACK)
+                                    .setType(Material.OAK_SIGN)
+                                    .setHandler((player1, signGUIResult) -> {
+                                        changeBidPrice(player1, auctionItem, signGUIResult.getLine(0));
+                                        return Collections.emptyList();
+                                    })
+                                    .setGlow(false)
+                                    .setLines(box.files().messages().getAuctionMessages().getStartingBid().toArray(new String[0]))
+                                    .build();
+                            signGUI.open(player);
+                        } else {
+                            SignGUIAPI.builder()
+                                    .action((result) -> {
+                                        changeBidPrice(result.getPlayer(), auctionItem, (result.getLines().isEmpty() ?  "" : result.getLines().getFirst()));
+                                    })
+                                    .withLines(box.files().messages().getAuctionMessages().getStartingBid())
+                                    .uuid(player.getUniqueId())
+                                    .plugin(box.plugin())
+                                    .build()
+                                    .open();
+                        }
+                    } catch (SignGUIVersionException ex) {
+                        ex.printStackTrace();
+                    }
+                }, 5);
             } else if (isItem(slot, this.config.getCreateAuctionFilled())) {
                 if (auctionItem.getItemStack() == null) {
                     return;
@@ -231,13 +256,18 @@ public final class CreateAuctionGUI extends AuctionGUI {
             }
 
         } catch (NumberFormatException e) {
+            Bukkit.getScheduler().runTaskLater(box.plugin(), () -> player.openInventory(
+                            new CreateAuctionGUI(box, player, this.searcher).getInventory()),
+                    3);
             player.sendMessage(StringUtils.color(box.files().messages().getAuctionMessages().getInvalidAmount()));
             return;
         }
 
         auctionItem.getBid(uuid).ifPresent(bid -> bid.setBidAmount(newPrice));
 
-        player.openInventory(new CreateAuctionGUI(box, player, this.searcher).getInventory());
+        Bukkit.getScheduler().runTaskLater(box.plugin(), () -> player.openInventory(
+                new CreateAuctionGUI(box, player, this.searcher).getInventory()),
+                3);
     }
 
 

@@ -12,12 +12,12 @@ import java.util.UUID;
 
 @UtilityClass
 public class MinionEntityFactory {
-    public MinionEntity create(UUID petUniqueId, UUID owner, Minion minion, boolean loaded){
-        if(minion.getType().equals(MinionType.BLOCK_BREAK)) {
+    public MinionEntity create(final UUID petUniqueId, final UUID owner, Minion minion, boolean loaded) {
+        if (minion.getType().equals(MinionType.BLOCK_BREAK)) {
             return BlockBreakMinion.create(petUniqueId, owner, minion, loaded);
-        }else if(minion.getType().equals(MinionType.MOB_KILLER)){
+        } else if (minion.getType().equals(MinionType.MOB_KILLER)) {
             return MobKillerMinion.create(petUniqueId, owner, minion, loaded);
-        }else{
+        } else {
             return CropBreakMinion.create(petUniqueId, owner, minion, loaded);
         }
     }

@@ -49,24 +49,24 @@ public final class SoulsEditGUI extends SoulsGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(GUI.ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(GUI.ClickTarget.INSIDE)) return;
 
         Player player = (Player) event.getWhoClicked();
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBackItem())){
+        } else if (isItem(slot, config.getGoBackItem())) {
             player.openInventory(new AllSoulsGUI(box, 1, edition).getInventory());
-        }else if(isItem(slot, config.getDeleteItem())){
+        } else if (isItem(slot, config.getDeleteItem())) {
             player.openInventory(new ConfirmDeleteGUI(box, soul, edition).getInventory());
-        }else if(isItem(slot, config.getTeleportItem())){
+        } else if (isItem(slot, config.getTeleportItem())) {
             player.closeInventory();
             Optional.ofNullable(soul).ifPresent(soul1 -> player.teleport(soul1.getLocation().getLocation()));
-        }else if(isItem(slot, config.getAddCommandItem())){
+        } else if (isItem(slot, config.getAddCommandItem())) {
             player.openInventory(new AddCommandsGUI(box, soul, 1, edition).getInventory());
-        }else if(isItem(slot, config.getAddMessageItem())){
+        } else if (isItem(slot, config.getAddMessageItem())) {
             player.openInventory(new AddMessagesGUI(box, soul, 1, edition).getInventory());
         }
     }

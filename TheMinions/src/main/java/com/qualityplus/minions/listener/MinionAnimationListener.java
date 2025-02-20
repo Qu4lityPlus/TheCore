@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 @Component
 public final class MinionAnimationListener implements Listener {
     @EventHandler
-    public void minionBlockBreak(MinionBlockBreakEvent event){
+    public void minionBlockBreak(MinionBlockBreakEvent event) {
 
 
 

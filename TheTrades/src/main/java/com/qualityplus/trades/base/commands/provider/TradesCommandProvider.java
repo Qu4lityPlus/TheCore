@@ -10,7 +10,7 @@ import com.qualityplus.trades.api.box.Box;
 @Component
 public final class TradesCommandProvider {
     @Delayed(time = MinecraftTimeEquivalent.SECOND / 20, async = true)
-    private void configureProvider(@Inject Box box){
+    private void configureProvider(@Inject Box box) {
         LabelProvider.builder()
                 .id("thetrades")
                 .label("thetrades")

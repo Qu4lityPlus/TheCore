@@ -19,10 +19,10 @@ public final class PetListenerManager {
     private @Inject Plugin plugin;
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void registerListener(){
+    public void registerListener() {
         PluginManager manager = Bukkit.getPluginManager();
 
-        if(TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheSkills"))
+        if (TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheSkills"))
             manager.registerEvents(injector.createInstance(SkillsListener.class), plugin);
         else
             manager.registerEvents(injector.createInstance(BlockBreakListener.class), plugin);

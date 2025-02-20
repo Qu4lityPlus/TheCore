@@ -17,7 +17,7 @@ public final class UserData extends Document {
     private String name;
     private UUID uuid;
 
-    public int getMinionsToPlace(){
+    public int getMinionsToPlace() {
         checkMinionsList();
 
         return Optional.ofNullable(minionsPlaced)
@@ -25,20 +25,20 @@ public final class UserData extends Document {
                 .orElse(0);
     }
 
-    public void addMinion(UUID minionUuid){
+    public void addMinion(UUID minionUuid) {
         checkMinionsList();
 
         minionsPlaced.add(minionUuid);
     }
 
-    public void removeMinion(UUID minionUuid){
+    public void removeMinion(UUID minionUuid) {
         checkMinionsList();
 
         minionsPlaced.remove(minionUuid);
     }
 
-    private void checkMinionsList(){
-        if(minionsPlaced != null) return;
+    private void checkMinionsList() {
+        if (minionsPlaced != null) return;
         minionsPlaced = new HashSet<>();
     }
 }

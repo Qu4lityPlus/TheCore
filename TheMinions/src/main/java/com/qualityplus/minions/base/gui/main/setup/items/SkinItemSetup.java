@@ -30,12 +30,12 @@ public final class SkinItemSetup implements ItemSetup {
                 .map(MinionData::getSkinEntity)
                 .orElse(null);
 
-        if(skinEntity == null)
+        if (skinEntity == null)
             inventory.setItem(config.getMinionSkinEmptyItem().getSlot(), ItemStackUtils.makeItem(config.getMinionSkinEmptyItem()));
         else {
             Optional<MinionSkin> skin = Skins.getSkin(skinEntity.getId());
 
-            if(!skin.isPresent()) return;
+            if (!skin.isPresent()) return;
 
             ItemStack itemStack = skin.get().getItemStack();
 

@@ -42,7 +42,7 @@ public final class FishingSkill extends Skill {
 
         State state = e.getState();
 
-        if(caughtName == null) return;
+        if (caughtName == null) return;
 
         if (state != State.CAUGHT_FISH && state != State.CAUGHT_ENTITY) return;
 
@@ -50,7 +50,7 @@ public final class FishingSkill extends Skill {
 
         double xp = rewardsForAllCaught + rewards.getOrDefault(caughtName, 0d);
 
-        if(xp <= 0) return;
+        if (xp <= 0) return;
 
         TheSkills.getApi().getSkillsService().addXp(player, true, true, this, xp);
 

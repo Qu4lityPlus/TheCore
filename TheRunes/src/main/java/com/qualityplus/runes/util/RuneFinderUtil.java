@@ -25,52 +25,52 @@ import java.util.Optional;
 
 @UtilityClass
 public class RuneFinderUtil {
-    public int getItemLevel(ItemStack itemStack, Enchantment enchantment){
-        if(itemStack == null || enchantment == null) return 0;
+    public int getItemLevel(ItemStack itemStack, Enchantment enchantment) {
+        if (itemStack == null || enchantment == null) return 0;
 
         ItemMeta meta = itemStack.getItemMeta();
 
         return Optional.ofNullable(meta).map(m -> m.getEnchantLevel(enchantment)).orElse(0);
     }
 
-    public RemoveSession.RemoveSessionResult getAnswer(RemoveSession session){
+    public RemoveSession.RemoveSessionResult getAnswer(RemoveSession session) {
         boolean toUpgradeIsNull = BukkitItemUtil.isNull(session.getItemToRemove());
 
-        if(toUpgradeIsNull) return RemoveSession.RemoveSessionResult.ITEM_IS_NOT_RUNED;
+        if (toUpgradeIsNull) return RemoveSession.RemoveSessionResult.ITEM_IS_NOT_RUNED;
 
         ItemStack toUpgrade = session.getItemToRemove();
 
-        if(!RunesUtils.isRunedItem(toUpgrade))
+        if (!RunesUtils.isRunedItem(toUpgrade))
             return RemoveSession.RemoveSessionResult.ITEM_IS_NOT_RUNED;
 
         return RemoveSession.RemoveSessionResult.ITEM_SET;
     }
 
-    public RuneSession.SessionResult getAnswer(RuneSession session){
+    public RuneSession.SessionResult getAnswer(RuneSession session) {
         Player player = Bukkit.getPlayer(session.getUuid());
 
         boolean toUpgradeIsNull = BukkitItemUtil.isNull(session.getItemToUpgrade());
         boolean toSacrificeIsNull = BukkitItemUtil.isNull(session.getItemToSacrifice());
 
-        if(toSacrificeIsNull && toUpgradeIsNull) return SessionResult.NOTHING_SET;
+        if (toSacrificeIsNull && toUpgradeIsNull) return SessionResult.NOTHING_SET;
 
-        if(!toUpgradeIsNull && toSacrificeIsNull) return SessionResult.ONLY_ITEM_TO_UPGRADE;
+        if (!toUpgradeIsNull && toSacrificeIsNull) return SessionResult.ONLY_ITEM_TO_UPGRADE;
 
-        if(toUpgradeIsNull) return SessionResult.ONLY_ITEM_TO_SACRIFICE;
+        if (toUpgradeIsNull) return SessionResult.ONLY_ITEM_TO_SACRIFICE;
 
         ItemStack toUpgrade = session.getItemToUpgrade();
         ItemStack toSacrifice = session.getItemToSacrifice();
 
 
-        if(!RunesUtils.isRune(toSacrifice))
+        if (!RunesUtils.isRune(toSacrifice))
             return SessionResult.ERROR_CANNOT_COMBINE_THOSE_ITEMS;
 
         Optional<RuneInstance> second = Optional.ofNullable(RunesUtils.getRuneInstance(toSacrifice));
 
-        if(RunesUtils.isRune(toUpgrade) && RunesUtils.isRune(toSacrifice)){
+        if (RunesUtils.isRune(toUpgrade) && RunesUtils.isRune(toSacrifice)) {
             Optional<RuneInstance> first = Optional.ofNullable(RunesUtils.getRuneInstance(toUpgrade));
 
-            if(!first.map(RuneInstance::getRune)
+            if (!first.map(RuneInstance::getRune)
                     .map(Rune::getId).orElse("")
                     .equals(second
                     .map(RuneInstance::getRune)
@@ -78,22 +78,22 @@ public class RuneFinderUtil {
                     .orElse("")))
                 return SessionResult.MUST_BE_SAME_TYPE;
 
-            if(!first.map(RuneInstance::getLevel).orElse(0).equals(second.map(RuneInstance::getLevel).orElse(0)))
+            if (!first.map(RuneInstance::getLevel).orElse(0).equals(second.map(RuneInstance::getLevel).orElse(0)))
                 return SessionResult.MUST_BE_SAME_TIER;
 
             return SessionResult.BOTH_RUNES_SET;
-        }else{
+        } else {
             RuneInstance first = RunesUtils.getRuneItemInstance(toUpgrade);
 
             String runeId = second.map(RuneInstance::getRune).map(Rune::getId).orElse("");
             int runeLevel = second.map(RuneInstance::getLevel).orElse(0);
 
-            if(first.getRune() != null){
-                if(first.getRune().getId().equals(runeId) && runeLevel < first.getLevel())
+            if (first.getRune() != null) {
+                if (first.getRune().getId().equals(runeId) && runeLevel < first.getLevel())
                     return SessionResult.CANNOT_ADD_THAT_RUNE;
             }
 
-            if(!second.map(RuneInstance::getRune).map(rune -> rune.getEffect().canBeAppliedIn(toUpgrade)).orElse(false))
+            if (!second.map(RuneInstance::getRune).map(rune -> rune.getEffect().canBeAppliedIn(toUpgrade)).orElse(false))
                 return SessionResult.INCOMPATIBLE_RUNE_APPLY;
 
             int requiredLevel = second
@@ -101,14 +101,14 @@ public class RuneFinderUtil {
                     .map(rune -> rune.getOptRuneLevel(runeLevel).map(RuneLevel::getRequiredRuneCraftingLevel).orElse(0))
                     .orElse(0);
 
-            if(TheRunes.getApi().getLevelProvider().getLevel(player) < requiredLevel)
+            if (TheRunes.getApi().getLevelProvider().getLevel(player) < requiredLevel)
                 return SessionResult.NO_RUNE_CRAFTING_LEVEL;
 
             return SessionResult.RUNE_AND_ITEM_SET;
         }
     }
 
-    public boolean hasRequiredLevel(RuneSession session, Player player){
+    public boolean hasRequiredLevel(RuneSession session, Player player) {
         int level = session.getRuneInstance().getLevel();
 
         int newLevel = session.getSessionResult().equals(SessionResult.BOTH_RUNES_SET) ? level * 2 : level;
@@ -126,10 +126,10 @@ public class RuneFinderUtil {
         return Arrays.asList(StringUtils.color(addLore).replaceAll("%rune_level%", NumberUtil.toRoman(level)).split("\\n"));
     }
 
-    public ItemStack getFinalItem(Box box, RuneSession session){
+    public ItemStack getFinalItem(Box box, RuneSession session) {
         RuneInstance sessionLevelled = session.getRuneInstance();
 
-        if(session.getSessionResult().equals(SessionResult.RUNE_AND_ITEM_SET)){
+        if (session.getSessionResult().equals(SessionResult.RUNE_AND_ITEM_SET)) {
             ItemStack newItem = removeRuneFromItem(session.getItemToUpgrade().clone());
 
             ItemMeta meta = newItem.getItemMeta();
@@ -143,19 +143,19 @@ public class RuneFinderUtil {
 
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
-            }catch (Exception e){e.printStackTrace();}
+            } catch (Exception e) {e.printStackTrace();}
 
             meta.setLore(lore);
 
             newItem.setItemMeta(meta);
 
             return RunesUtils.addNBTData(newItem, sessionLevelled.getRune().getId(), sessionLevelled.getLevel());
-        }else{
+        } else {
             return RunesUtils.makeRune(box, sessionLevelled.getRune(), sessionLevelled.getLevel() + 1);
         }
     }
 
-    public ItemStack removeRuneFromItem(ItemStack itemStack){
+    public ItemStack removeRuneFromItem(ItemStack itemStack) {
         return RunesUtils.removeRuneFromItem(itemStack);
     }
 }

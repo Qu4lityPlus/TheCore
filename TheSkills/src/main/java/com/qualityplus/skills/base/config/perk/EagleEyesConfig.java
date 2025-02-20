@@ -37,7 +37,7 @@ public final class EagleEyesConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmRjNTc1YzhiM2ExOTVmM2Q5YmU3YWE0ZTg4NDllNGMyNWZjZGE0YTM0N2I2YmVmZDA2ZGQ4NmY5ODhjYjY5NiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_eagle_eyes_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return EagleEyesPerk.builder()
                 .id(id)
                 .displayName(displayName)

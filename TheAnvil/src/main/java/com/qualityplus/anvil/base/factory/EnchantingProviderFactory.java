@@ -15,10 +15,10 @@ public final class EnchantingProviderFactory {
     private @Inject Logger logger;
 
     @Bean
-    public EnchantmentProvider getEnchantingProvider(){
-        if(TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheEnchanting")){
+    public EnchantmentProvider getEnchantingProvider() {
+        if (TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheEnchanting")) {
             return new TheEnchantingProvider();
-        }else{
+        } else {
             logger.warning("TheEnchanting Plugin not found, is recommended to use with TheAnvil!");
             return new VanillaEnchantingProvider();
         }

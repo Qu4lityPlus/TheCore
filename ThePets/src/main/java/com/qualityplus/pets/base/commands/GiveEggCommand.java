@@ -30,31 +30,31 @@ public final class GiveEggCommand extends AssistantCommand {
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(args.length == 3){
+        if (args.length == 3) {
             Player toGive = Bukkit.getPlayer(args[1]);
 
             Pet pet = Pets.getByID(args[2]);
 
-            if(toGive == null){
+            if (toGive == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
 
-            if(pet == null){
+            if (pet == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().petMessages.invalidPet));
                 return false;
             }
 
             Optional<ItemStack> petEgg = PetEggUtil.createNewEgg(box.files().config().petEggItem, pet);
 
-            if(!petEgg.isPresent()){
+            if (!petEgg.isPresent()) {
                 player.sendMessage(StringUtils.color(box.files().messages().petMessages.invalidPetEgg));
                 return false;
             }
 
             toGive.getInventory().addItem(petEgg.get());
 
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return false;
@@ -67,7 +67,7 @@ public final class GiveEggCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveEggCommand));
     }
 }

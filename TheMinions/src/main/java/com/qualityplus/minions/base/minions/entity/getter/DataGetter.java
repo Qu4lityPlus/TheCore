@@ -6,7 +6,7 @@ import com.qualityplus.minions.persistance.data.MinionData;
 import java.util.Optional;
 
 public interface DataGetter extends MinionUUIDGetter {
-    default Optional<MinionData> getData(){
+    public default Optional<MinionData> getData() {
         return TheMinions.getApi().getMinionsService().getData(getMinionUniqueId());
     }
 }

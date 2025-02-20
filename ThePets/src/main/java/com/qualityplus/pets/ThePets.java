@@ -26,26 +26,26 @@ public final class ThePets extends OkaeriSilentPlugin {
     @Getter ThePetsAPI api;
 
     @Planned(ExecutionPhase.POST_SETUP)
-    private void loadAllPets(@Inject Logger logger, @Inject PetRepository petRepository, @Inject PetService petService){
+    private void loadAllPets(@Inject Logger logger, @Inject PetRepository petRepository, @Inject PetService petService) {
         petRepository.findAll().forEach(petService::addData);
 
         logger.info(String.format("Plugin has loaded %s Pets from database!", petService.loadedAmount()));
     }
 
     @Planned(ExecutionPhase.PRE_SHUTDOWN)
-    private void saveAllPets(@Inject Logger logger, @Inject PetService petService){
-        try{
+    private void saveAllPets(@Inject Logger logger, @Inject PetService petService) {
+        try {
             petService.saveAllData();
             logger.info(String.format("Plugin has saved %s pets to database!", petService.loadedAmount()));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.log(Level.SEVERE, "There was an exception trying to save all pets!", e);
 
         }
     }
 
     @Planned(ExecutionPhase.PRE_SHUTDOWN)
-    private void deSpawnPetIfItsSpawned(@Inject Logger logger, @Inject UserPetService userPetService){
+    private void deSpawnPetIfItsSpawned(@Inject Logger logger, @Inject UserPetService userPetService) {
         AtomicInteger countDown = new AtomicInteger(0);
 
         userPetService.getAllKeys()
@@ -54,10 +54,10 @@ public final class ThePets extends OkaeriSilentPlugin {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(data -> {
-                    Optional<PetData> petData = data.getSpawnedPetData();
+                    final Optional<PetData> petData = data.getSpawnedPetData();
 
-                    if(petData.isPresent()){
-                        Optional<PetEntity> petEntity = PetEntityTracker.getByID(petData.get().getUuid());
+                    if (petData.isPresent()) {
+                        final Optional<PetEntity> petEntity = PetEntityTracker.getByID(petData.get().getUuid());
 
                         petEntity.ifPresent(pet -> pet.deSpawn(PetEntity.DeSpawnReason.SERVER_TURNED_OFF));
                     }

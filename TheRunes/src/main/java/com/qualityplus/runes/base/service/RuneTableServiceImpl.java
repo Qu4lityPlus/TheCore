@@ -30,14 +30,14 @@ public final class RuneTableServiceImpl implements RuneTableService {
 
             setCenter(location, new Vector(0.45D, 1.3D, 0.7D));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private void setCorner(Location location, Vector toAdd){
-        for(int i = 0; i < AMOUNT_OF_TIMES; i++){
+    private void setCorner(Location location, Vector toAdd) {
+        for (int i = 0; i < AMOUNT_OF_TIMES; i++) {
             Location toSpawn = location.clone().add(toAdd);
 
             ArmorStand stand = toSpawn.getWorld().spawn(toSpawn, ArmorStand.class);
@@ -49,7 +49,7 @@ public final class RuneTableServiceImpl implements RuneTableService {
         }
     }
 
-    private void setCenter(Location location, Vector vector){
+    private void setCenter(Location location, Vector vector) {
         Location spawnLocation = location.clone();
 
         spawnLocation.add(new Vector(vector.getX(), vector.getY(), vector.getZ()));

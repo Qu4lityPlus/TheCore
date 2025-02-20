@@ -7,10 +7,12 @@ import com.qualityplus.assistant.util.map.MapUtils;
 import com.qualityplus.crafting.api.recipes.IRecipe;
 import com.qualityplus.crafting.api.recipes.Recipes;
 import com.qualityplus.assistant.lib.eu.okaeri.configs.OkaeriConfig;
+import com.qualityplus.crafting.util.CraftingInventoryUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,16 +50,44 @@ public final class CustomRecipe extends OkaeriConfig implements IRecipe {
     }
 
     public ItemStack getResult() {
-        if(result == null) registerResult();
+        if (result == null) registerResult();
         return getCopy(result);
     }
 
+    @Override
+    public int getCraftAmountTimes(final Player player) {
+        int craftAmountTimes = -1;
+
+        final ItemStack[] ingredientsArray = this.ingredients.values().toArray(new ItemStack[0]);
+        final ItemStack[] playerInvArray = player.getInventory().getContents();
+        final Map<ItemStack, Integer> itemStackMap = CraftingInventoryUtil.itemStackListToMap(ingredientsArray);
+        final Map<ItemStack, Integer> playerItemStackMap = CraftingInventoryUtil.itemStackListToMap(playerInvArray);
+
+        for (Map.Entry<ItemStack, Integer> entry : itemStackMap.entrySet()) {
+            for (Map.Entry<ItemStack, Integer> playerItem : playerItemStackMap.entrySet()) {
+                if (playerItem.getKey().isSimilar(entry.getKey())) {
+
+                    final int amountTimes = playerItem.getValue() / entry.getValue();
+
+                    if (craftAmountTimes == -1) {
+                        craftAmountTimes = amountTimes;
+                    } else {
+                        craftAmountTimes = Math.min(craftAmountTimes,  amountTimes);
+                    }
+                }
+            }
+        }
+        return craftAmountTimes;
+    }
+
     public Map<Integer, ItemStack> getIngredients() {
-        if(ingredients == null) registerIngredients();
+        if (ingredients == null) {
+            registerIngredients();
+        }
         return ingredients;
     }
 
-    public void setIngredientsSerialized(Map<Integer, String> ingredientsSerialized) {
+    public void setIngredientsSerialized(final Map<Integer, String> ingredientsSerialized) {
         this.ingredientsSerialized = ingredientsSerialized;
         registerIngredients();
     }
@@ -67,27 +97,29 @@ public final class CustomRecipe extends OkaeriConfig implements IRecipe {
         registerResult();
     }
 
-    private void registerResult(){
+    private void registerResult() {
         this.result = Optional.ofNullable(resultSerialized).map(BukkitItemUtil::deserialize).orElse(null);
     }
 
-    private void registerIngredients(){
+    private void registerIngredients() {
         this.ingredients = new HashMap<>();
 
-        for(Map.Entry<Integer, String> entry : MapUtils.check(ingredientsSerialized).entrySet()){
-            ingredients.put(entry.getKey(), Optional.ofNullable(entry.getValue()).map(BukkitItemUtil::deserialize).orElse(null));
+        for (Map.Entry<Integer, String> entry : MapUtils.check(ingredientsSerialized).entrySet()) {
+            ingredients.put(entry.getKey(), Optional.ofNullable(entry.getValue())
+                    .map(BukkitItemUtil::deserialize)
+                    .orElse(null));
         }
     }
 
-    private ItemStack getCopy(ItemStack itemStack){
+    private ItemStack getCopy(ItemStack itemStack) {
         return Optional.ofNullable(itemStack).map(ItemStack::clone).orElse(null);
     }
 
-    public void register(){
+    public void register() {
         Recipes.registerNewRecipe(this);
     }
 
-    public boolean hasPermission(Player player){
+    public boolean hasPermission(Player player) {
         return recipePermission == null || player.hasPermission(recipePermission);
     }
 
@@ -95,8 +127,28 @@ public final class CustomRecipe extends OkaeriConfig implements IRecipe {
     public boolean resultIsEquals(XMaterial material) {
         ItemStack itemStack = getResult();
 
-        if(result == null) return false;
+        if (result == null) return false;
 
         return result.isSimilar(material.parseItem());
+    }
+
+    @Override
+    public boolean canCraft(final Player player) {
+        boolean canCraft = true;
+        final ItemStack[] ingredientsArray = this.ingredients.values().toArray(new ItemStack[0]);
+        final ItemStack[] playerInvArray = player.getInventory().getContents();
+        final Map<ItemStack, Integer> itemStackMap = CraftingInventoryUtil.itemStackListToMap(ingredientsArray);
+        final Map<ItemStack, Integer> playerItemStackMap = CraftingInventoryUtil.itemStackListToMap(playerInvArray);
+
+        for (Map.Entry<ItemStack, Integer> entry : itemStackMap.entrySet()) {
+            for (Map.Entry<ItemStack, Integer> playerItem : playerItemStackMap.entrySet()) {
+                if (playerItem.getKey().isSimilar(entry.getKey())) {
+                    if (playerItem.getValue() < entry.getValue()) {
+                        canCraft = false;
+                    }
+                }
+            }
+        }
+        return canCraft;
     }
 }

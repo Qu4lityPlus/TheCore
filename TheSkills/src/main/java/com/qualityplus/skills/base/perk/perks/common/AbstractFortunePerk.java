@@ -24,7 +24,7 @@ public abstract class AbstractFortunePerk extends Perk {
         this.allowedMaterials = allowedMaterials;
     }
 
-    protected ItemStack getModified(ItemStack itemStack, int additional){
+    protected ItemStack getModified(ItemStack itemStack, int additional) {
         itemStack.setAmount(itemStack.getAmount() * additional);
 
         return itemStack;

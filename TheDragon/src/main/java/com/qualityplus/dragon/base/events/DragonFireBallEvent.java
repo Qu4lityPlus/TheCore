@@ -37,12 +37,12 @@ public final class DragonFireBallEvent extends DragonGameEvent {
             if (this.time >= this.duration) {
                 //Cancelling Event
                 this.finish();
-            } else if(this.time % this.repeat == 0) {
+            } else if (this.time % this.repeat == 0) {
                 //Check Event
                 this.projectileEvent.shoot(ProjectileType.DRAGONBALL, this.damage, this.amount, dragonGame);
             }
 
-            if(this.particle) {
+            if (this.particle) {
                 this.particleEvent.spell(dragonGame, Particle.SPELL_WITCH);
             }
 

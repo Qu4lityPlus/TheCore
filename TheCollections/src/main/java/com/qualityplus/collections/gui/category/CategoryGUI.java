@@ -50,24 +50,24 @@ public final class CategoryGUI extends CollectionsGUI {
         return inventory;
     }
 
-    private ItemStack getCollectionItem(UserData data, Collection collection, GUIOptions option){
-        if(data.getCollections().getXp(collection.getId()) > 0){
+    private ItemStack getCollectionItem(UserData data, Collection collection, GUIOptions option) {
+        if (data.getCollections().getXp(collection.getId()) > 0) {
             return CollectionsItemStackUtil.makeItem(config.getUnlockedItem(), getPlaceholders(data, collection), option);
-        }else
+        } else
             return ItemStackUtils.makeItem(config.getLockedItem(), getPlaceholders(data, collection));
     }
 
-    private List<IPlaceholder> getPlaceholders(UserData data, Collection collection){
+    private List<IPlaceholder> getPlaceholders(UserData data, Collection collection) {
         return CollectionsPlaceholderUtil.getCollectionsPlaceholders(data, collection);
     }
 
-    private void setItems(CollectionCategory category, UserData data){
+    private void setItems(CollectionCategory category, UserData data) {
         setCollectionItems(category, data);
 
         setCategoryItem(category, data);
     }
 
-    private void setCategoryItem(CollectionCategory category, UserData data){
+    private void setCategoryItem(CollectionCategory category, UserData data) {
         List<IPlaceholder> placeholders = CollectionsPlaceholderUtil.getCategoryPlaceholders(data, category)
                 .with(CollectionsPlaceholderUtil.getCategoryStatePlaceholder(data, category, box))
                 .get();
@@ -75,8 +75,8 @@ public final class CategoryGUI extends CollectionsGUI {
         inventory.setItem(config.getCategoryItem().getSlot(), CollectionsItemStackUtil.makeItem(config.getCategoryItem(), placeholders, category.getGuiOptions()));
     }
 
-    private void setCollectionItems(CollectionCategory category, UserData data){
-        for(Collection collection : CollectionsRegistry.getByCategory(category))
+    private void setCollectionItems(CollectionCategory category, UserData data) {
+        for (Collection collection : CollectionsRegistry.getByCategory(category))
             Optional.ofNullable(collection.getGuiOptions()).ifPresent(option -> inventory.setItem(option.getSlot(), getCollectionItem(data, collection, option)));
 
     }
@@ -89,11 +89,11 @@ public final class CategoryGUI extends CollectionsGUI {
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBackItem())){
+        } else if (isItem(slot, config.getGoBackItem())) {
             player.openInventory(new MainGUI(box, player).getInventory());
-        }else{
+        } else {
             Optional<Collection> optionalCollection = CollectionsRegistry.values(Collection::isEnabled)
                     .stream()
                     .filter(collection -> collection.getGuiOptions().getSlot() == slot)
@@ -103,7 +103,7 @@ public final class CategoryGUI extends CollectionsGUI {
             UserData data = box.service().getData(uuid).orElse(new UserData());
 
             optionalCollection.ifPresent(s -> {
-                if(data.getCollections().getXp(s.getId()) > 0)
+                if (data.getCollections().getXp(s.getId()) > 0)
                     player.openInventory(new CollectionGUI(box, player, s).getInventory());
                 else
                     player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.lockedMessage));

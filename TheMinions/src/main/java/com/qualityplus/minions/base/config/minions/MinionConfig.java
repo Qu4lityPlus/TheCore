@@ -43,7 +43,7 @@ public final class MinionConfig extends OkaeriConfig {
     public MinionSettings minionSettings;
 
 
-    public Minion getMinion(){
+    public Minion getMinion() {
         return Minion.builder()
                 .id(id)
                 .displayName(displayName)

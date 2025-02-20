@@ -43,31 +43,31 @@ public final class MinionData extends Document {
         this.level += i;
     }
 
-    public void addOneLevel(){
+    public void addOneLevel() {
         addLevel(1);
     }
 
-    public void removeFuel(){
+    public void removeFuel() {
         this.fuel = null;
     }
 
-    public void removeUpgrade(UpgradeSlot slot){
-        if(slot == UpgradeSlot.FIRST_SLOT)
+    public void removeUpgrade(UpgradeSlot slot) {
+        if (slot == UpgradeSlot.FIRST_SLOT)
             firstUpgrade = null;
         else
             secondUpgrade = null;
     }
 
-    public void removeAutoShip(){
+    public void removeAutoShip() {
         this.autoSell = null;
     }
 
-    public void removeSkin(){
+    public void removeSkin() {
         this.skinEntity = null;
     }
 
-    public double getFuelReductionSeconds(double time){
-        if(fuel == null) return 0D;
+    public double getFuelReductionSeconds(double time) {
+        if (fuel == null) return 0D;
 
         MinionFuelUpgrade fuelConfig = TheMinions.getApi()
                 .getConfigFiles()
@@ -79,8 +79,8 @@ public final class MinionData extends Document {
                 .orElse(0D);
     }
 
-    public long getFuelReductionMillis(long time){
-        if(fuel == null) return 0L;
+    public long getFuelReductionMillis(long time) {
+        if (fuel == null) return 0L;
 
         MinionFuelUpgrade fuelConfig = TheMinions.getApi()
                 .getConfigFiles()
@@ -98,7 +98,7 @@ public final class MinionData extends Document {
      * @param time Current Time
      * @return Remaining seconds of both upgrades
      */
-    public double getUpgradesReductionSeconds(double time){
+    public double getUpgradesReductionSeconds(double time) {
         return getUpgradeReductionSeconds(time, UpgradeSlot.FIRST_SLOT) + getUpgradeReductionSeconds(time, UpgradeSlot.SECOND_SLOT);
     }
 
@@ -107,7 +107,7 @@ public final class MinionData extends Document {
      * @param time Current Time
      * @return Remaining millis of both upgrades
      */
-    public long getUpgradesReductionMillis(long time){
+    public long getUpgradesReductionMillis(long time) {
         return getUpgradeReductionMillis(time, UpgradeSlot.FIRST_SLOT) + getUpgradeReductionMillis(time, UpgradeSlot.SECOND_SLOT);
     }
 
@@ -117,7 +117,7 @@ public final class MinionData extends Document {
      * @param slot Upgrade Slot
      * @return Remaining seconds of specific upgrade
      */
-    public double getUpgradeReductionSeconds(double time, UpgradeSlot slot){
+    public double getUpgradeReductionSeconds(double time, UpgradeSlot slot) {
         UpgradeEntity entity = slot.equals(UpgradeSlot.FIRST_SLOT) ? firstUpgrade : secondUpgrade;
         return getUpgradeSecondsReductionTime(time, entity);
     }
@@ -128,14 +128,14 @@ public final class MinionData extends Document {
      * @param slot Upgrade Slot
      * @return Remaining millis of specific upgrade
      */
-    public long getUpgradeReductionMillis(long time, UpgradeSlot slot){
+    public long getUpgradeReductionMillis(long time, UpgradeSlot slot) {
         UpgradeEntity entity = slot.equals(UpgradeSlot.FIRST_SLOT) ? firstUpgrade : secondUpgrade;
         return getUpgradeMillisReductionTime(time, entity);
     }
 
     //---------------------------------------------------
-    private long getUpgradeMillisReductionTime(long time, UpgradeEntity entity){
-        if(entity == null) return 0L;
+    private long getUpgradeMillisReductionTime(long time, UpgradeEntity entity) {
+        if (entity == null) return 0L;
 
         MinionUpgrade minionUpgrade = TheMinions.getApi()
                 .getConfigFiles()
@@ -147,8 +147,8 @@ public final class MinionData extends Document {
                 .orElse(0L);
     }
 
-    private double getUpgradeSecondsReductionTime(double time, UpgradeEntity entity){
-        if(entity == null) return 0D;
+    private double getUpgradeSecondsReductionTime(double time, UpgradeEntity entity) {
+        if (entity == null) return 0D;
 
         MinionUpgrade fuelConfig = TheMinions.getApi()
                 .getConfigFiles()

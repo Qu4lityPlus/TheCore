@@ -38,7 +38,7 @@ public final class ProjectileMasterPerk extends Perk {
     public void handlePerk(EntityShootBowEvent e) {
         Projectile pr = (Projectile) e.getProjectile();
 
-        if(!(pr.getShooter() instanceof Player)) return;
+        if (!(pr.getShooter() instanceof Player)) return;
 
         Player p = (Player) pr.getShooter();
 
@@ -57,7 +57,7 @@ public final class ProjectileMasterPerk extends Perk {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(new Placeholder("projectile_percent", getPercentage())).get());
     }
 
-    private double getPercentage(){
+    private double getPercentage() {
         return extraDamagePercentageBasePerLevel + extraDamagePercentageBase;
     }
 }

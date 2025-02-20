@@ -36,7 +36,7 @@ public final class SteelSkinConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjljYjNkMTlkYjUyOWEyMTVjZjYyNjk3NTkxY2MxM2ZiOGM3ODZhOGYyN2I3NTI4YzMyYWMyOTg2Yjk2NzBjNCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_eagle_eyes_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return SteelSkinPerk.builder()
                 .id(id)
                 .displayName(displayName)

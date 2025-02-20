@@ -24,23 +24,23 @@ public final class SkillMenuCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
             Player player = (Player) sender;
 
             Skill skill = Skills.getByID(args[1]);
 
-            if(skill == null){
+            if (skill == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().skillsMessages.invalidObject));
                 return false;
             }
 
-            if(!skill.isEnabled()){
+            if (!skill.isEnabled()) {
                 player.sendMessage(StringUtils.color(box.files().messages().skillsMessages.skillsIsDisabled));
                 return false;
             }
 
             player.openInventory(new SkillGUI(box, player, skill, 1).getInventory());
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax));
         return true;
     }
@@ -51,7 +51,7 @@ public final class SkillMenuCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().skillMenuCommand));
     }
 }

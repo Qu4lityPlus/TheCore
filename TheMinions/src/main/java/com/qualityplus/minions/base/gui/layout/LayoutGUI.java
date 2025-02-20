@@ -41,7 +41,7 @@ public final class LayoutGUI extends MinionGUI {
 
         Minion minion = getMinion();
 
-        if(minion != null){
+        if (minion != null) {
             List<IPlaceholder> upgradePlaceholders = MinionPlaceholderUtil
                     .getMinionPlaceholders(minionEntity.getMinionUniqueId())
                     .with(MinionPlaceholderUtil.getMinionPlaceholders(minion))
@@ -54,10 +54,10 @@ public final class LayoutGUI extends MinionGUI {
         return inventory;
     }
 
-    private void setMinionItem(Minion minion, List<IPlaceholder> placeholders){
+    private void setMinionItem(Minion minion, List<IPlaceholder> placeholders) {
         LayoutGUISettings settings = minion.getLayoutGUISettings();
 
-        if(settings == null || settings.getMinionSlot() < 0) return;
+        if (settings == null || settings.getMinionSlot() < 0) return;
 
         Optional<ItemStack> itemStack = MinionEggUtil.createFromExistent(box.files().config().minionEggItem, minionEntity.getMinionUniqueId());
 
@@ -68,14 +68,14 @@ public final class LayoutGUI extends MinionGUI {
                 .forEach(this::setItem);
     }
 
-    private void setItem(LayoutItem item){
+    private void setItem(LayoutItem item) {
         item.getSlots().forEach(slot -> inventory.setItem(slot, ItemStackUtils.makeItem(item.getItem())));
     }
 
-    private Minion getMinion(){
+    private Minion getMinion() {
         String id = minionEntity.getData().map(MinionData::getMinionId).orElse(null);
 
-        if(id == null) return null;
+        if (id == null) return null;
 
         return Minions.getByID(id);
     }
@@ -85,15 +85,15 @@ public final class LayoutGUI extends MinionGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         event.setCancelled(true);
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBack())){
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new MainMinionGUI(box, minionEntity).getInventory());
         }
     }

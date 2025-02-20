@@ -42,12 +42,12 @@ public final class CactusSkinPerk extends Perk {
 
         double toDamage = damage(getStat(p));
 
-        if(!(e.getEntity() instanceof LivingEntity)) return;
+        if (!(e.getEntity() instanceof LivingEntity)) return;
 
         ((LivingEntity)e.getEntity()).damage(toDamage);
     }
 
-    private double damage(int level){
+    private double damage(int level) {
         return (damagePerLevel * level) + damageBase;
     }
 

@@ -27,12 +27,12 @@ public final class SecondUpgradeItemSetup implements ItemSetup {
                 .map(MinionData::getSecondUpgrade)
                 .orElse(null);
 
-        if(upgradeEntity == null)
+        if (upgradeEntity == null)
             inventory.setItem(config.getSecondUpgradeEmptyItem().getSlot(), ItemStackUtils.makeItem(config.getSecondUpgradeEmptyItem()));
         else {
             MinionUpgrade fuel = box.files().upgrades().normalUpgrades.getOrDefault(upgradeEntity.getId(), null);
 
-            if(fuel == null) return;
+            if (fuel == null) return;
 
             ItemStack itemStack = fuel.getItemStack();
 

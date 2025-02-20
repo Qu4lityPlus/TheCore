@@ -176,7 +176,7 @@ public abstract class AuctionGUI extends GUI {
                         Collections.singletonList(new Placeholder("auction_starting_bid", bid)));
             } else {
 
-                final Optional<AuctionBid> bid = auctionItem.getBids()
+                final Optional<AuctionBid> bid = auctionItem.getBidsWithoutOwner()
                         .stream()
                         .max(Comparator.comparingInt(p -> (int) p.getBidAmount()));
 

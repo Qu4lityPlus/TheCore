@@ -30,12 +30,12 @@ public final class DragonControlListener implements Listener {
         manageDragonController(controller);
     }
 
-    private void manageDragonController(DragonController controller){
-        if(controller == null) return;
+    private void manageDragonController(DragonController controller) {
+        if (controller == null) return;
 
-        if(controller.isAfk()){
+        if (controller.isAfk()) {
             controller.dragon().setPhase(EnderDragon.Phase.HOVER);
-        }else{
+        } else {
             controller.target();
             controller.move();
         }
@@ -51,8 +51,8 @@ public final class DragonControlListener implements Listener {
         removeDragonIfAlive(controller);
     }
 
-    private void removeDragonIfAlive(DragonController controller){
-        if(controller == null) return;
+    private void removeDragonIfAlive(DragonController controller) {
+        if (controller == null) return;
 
         if (!controller.dragon().isValid() || controller.dragon().isDead())
             controller.dragon().remove();
@@ -60,7 +60,7 @@ public final class DragonControlListener implements Listener {
 
     @EventHandler
     public void cancelDefaultTarget(EntityTargetEvent event) {
-        if(!(event.getEntity() instanceof EnderDragon)) return;
+        if (!(event.getEntity() instanceof EnderDragon)) return;
 
         DragonController controller = box.dragonService().getDragonController();
 
@@ -73,11 +73,11 @@ public final class DragonControlListener implements Listener {
     public void onDragonDamage(EntityDamageByEntityEvent event) {
         DragonController controller = box.dragonService().getDragonController();
 
-        if(controller == null) return;
+        if (controller == null) return;
 
-        if(!(event.getEntity() instanceof EnderDragon)) return;
+        if (!(event.getEntity() instanceof EnderDragon)) return;
 
-        if(!event.getEntity().equals(controller.dragon())) return;
+        if (!event.getEntity().equals(controller.dragon())) return;
 
         controller.targetSky();
 
@@ -90,11 +90,11 @@ public final class DragonControlListener implements Listener {
     public void onPlayerDamagedByDragon(EntityDamageByEntityEvent event) {
         DragonController controller = box.dragonService().getDragonController();
 
-        if(controller == null) return;
+        if (controller == null) return;
 
-        if(!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
 
-        if(!(event.getDamager() instanceof EnderDragon) || !controller.dragon().equals(event.getDamager())) return;
+        if (!(event.getDamager() instanceof EnderDragon) || !controller.dragon().equals(event.getDamager())) return;
 
         Player player = (Player) event.getEntity();
 

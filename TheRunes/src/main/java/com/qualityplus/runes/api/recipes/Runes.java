@@ -57,7 +57,7 @@ public final class Runes {
     }
 
     @Delayed(time = 1)
-    public static void reloadRunes(@Inject Box box){
+    public static void reloadRunes(@Inject Box box) {
         box.files().trades().runes.forEach(Rune::register);
     }
 }

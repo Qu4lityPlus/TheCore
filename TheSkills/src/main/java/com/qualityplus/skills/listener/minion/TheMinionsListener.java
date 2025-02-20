@@ -20,7 +20,7 @@ public final class TheMinionsListener implements ExtraListener {
     public void onPickUp(PlayerPickUpMinionItemsEvent e) {
         final Player player = e.getPlayer();
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return;
 
         for (ItemStack itemStack : e.getItems()) {
             XMaterial xmaterial = XMaterial.matchXMaterial(itemStack.getType());

@@ -37,7 +37,7 @@ public final class FerocityConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWEwNmMxY2ZiMDliM2ZkMzMzOTFmZTM4ZjliZDU4Yjg4NDQyNjQxZTM0OTIwNzJhMWZmYWExZjliYmY4MmJhNCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_ferocity_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return FerocityStat.builder()
                 .id(id)
                 .displayName(displayName)

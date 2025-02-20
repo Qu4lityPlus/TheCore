@@ -40,7 +40,7 @@ public final class DragonAltarsGUI extends TheDragonGUI {
 
         int i = maxPerPage * (this.page - 1);
 
-        if(dragonAltars.size() > 0){
+        if (dragonAltars.size() > 0) {
             while (slot < maxPerPage) {
                 if (dragonAltars.size() > i && i >= 0) {
                     DragonAltar altar = dragonAltars.get(i);
@@ -81,25 +81,25 @@ public final class DragonAltarsGUI extends TheDragonGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if (isItem(slot, config.getBackToMainMenu())){
+        } else if (isItem(slot, config.getBackToMainMenu())) {
             player.openInventory(new MainMenuGUI(box).getInventory());
-        }else if (isItem(slot, config.getNextPage()) && hasNext){
+        } else if (isItem(slot, config.getNextPage()) && hasNext) {
             player.openInventory(new DragonAltarsGUI(box, page + 1).getInventory());
-        }else if (isItem(slot, config.getPreviousPage()) && page > 1){
+        } else if (isItem(slot, config.getPreviousPage()) && page > 1) {
             player.openInventory(new DragonAltarsGUI(box, page - 1).getInventory());
-        }else {
+        } else {
             DragonAltar dragonAltar = altarsMap.getOrDefault(slot, null);
 
-            if(dragonAltar == null) return;
+            if (dragonAltar == null) return;
 
-            if(e.isLeftClick()){
+            if (e.isLeftClick()) {
                 player.closeInventory();
                 player.teleport(dragonAltar.getLocation());
-            }else{
+            } else {
                 box.structures().removeStructure(dragonAltar);
                 player.openInventory(new DragonAltarsGUI(box, page).getInventory());
             }

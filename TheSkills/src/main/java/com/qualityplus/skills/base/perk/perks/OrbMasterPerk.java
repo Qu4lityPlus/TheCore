@@ -28,9 +28,9 @@ public final class OrbMasterPerk extends Perk {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerChanceExpEvent(PlayerKillEvent e) {
-        if(!(e.getKilled() instanceof ExperienceOrb)) return;
+        if (!(e.getKilled() instanceof ExperienceOrb)) return;
 
-        if(e.getKilled().hasMetadata("fortuneXpOrb")) return;
+        if (e.getKilled().hasMetadata("fortuneXpOrb")) return;
 
         ExperienceOrb experienceOrb = (ExperienceOrb) e.getKilled();
 

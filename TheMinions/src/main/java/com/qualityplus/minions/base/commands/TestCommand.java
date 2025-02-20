@@ -30,7 +30,7 @@ public final class TestCommand extends AssistantCommand {
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(args.length == 1) {
+        if (args.length == 1) {
            // FakeInventory fakeInventory = TheAssistantPlugin.getAPI().getNms().getFakeInventory(player, 4);
             //FakeInventory fakeInventory = MinionEntityTracker.TRACKED_ENTITIES.values().stream().findFirst().get().getFakeInventory();
 
@@ -50,7 +50,7 @@ public final class TestCommand extends AssistantCommand {
             fakeInventory.removeItems(XMaterial.COAL.parseItem(), 3);*/
 
             //player.openInventory(TheAssistantPlugin.getAPI().getNms().getFakeInventory(player, fakeInventory).getInventoryView().getTopInventory());
-        }else
+        } else
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
 
         return false;
@@ -62,7 +62,7 @@ public final class TestCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().testCommand));
     }
 }

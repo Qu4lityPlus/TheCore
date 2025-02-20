@@ -19,7 +19,7 @@ public final class TheCollections extends OkaeriSilentPlugin {
     @Getter TheCollectionsAPI api;
 
     @Planned(ExecutionPhase.PRE_SHUTDOWN)
-    private void whenStop(Box box){
+    private void whenStop(Box box) {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .map(Player::getUniqueId)

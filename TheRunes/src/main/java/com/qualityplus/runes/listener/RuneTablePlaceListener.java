@@ -33,16 +33,16 @@ public final class RuneTablePlaceListener implements Listener {
 
         Block block = e.getClickedBlock();
 
-        if (RunesUtils.hasNBTData(inHand, "runeTableItem")){
+        if (RunesUtils.hasNBTData(inHand, "runeTableItem")) {
             e.setCancelled(true);
 
             box.runesService().createRuneTable(block.getLocation());
 
             try {
-                if(!box.files().config().removeRuneTableFromInventoryOnPlace) return;
+                if (!box.files().config().removeRuneTableFromInventoryOnPlace) return;
 
                 player.setItemInHand(BukkitItemUtil.getItemWithout(inHand, 1));
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
@@ -66,7 +66,7 @@ public final class RuneTablePlaceListener implements Listener {
     public void onExplode(EntityExplodeEvent e) {
 
         for (Entity entity : e.getEntity().getNearbyEntities(4, 4, 4)) {
-            if(entity instanceof ArmorStand && entity.getCustomName() != null && entity.getCustomName().equalsIgnoreCase("RunePart"))
+            if (entity instanceof ArmorStand && entity.getCustomName() != null && entity.getCustomName().equalsIgnoreCase("RunePart"))
                 entity.remove();
         }
     }

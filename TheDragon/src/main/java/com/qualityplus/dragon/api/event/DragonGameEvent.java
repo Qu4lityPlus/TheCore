@@ -45,7 +45,7 @@ public abstract class DragonGameEvent {
     /**
      * Finish Event
      */
-    public void finish(){
+    public void finish() {
         Optional.ofNullable(task).ifPresent(BukkitTask::cancel);
     }
 
@@ -53,7 +53,7 @@ public abstract class DragonGameEvent {
      *
      * @return Event's remaining time
      */
-    public int getRemainingTime(){
+    public int getRemainingTime() {
         return Math.abs(duration - time);
     }
 
@@ -70,14 +70,14 @@ public abstract class DragonGameEvent {
      *
      * @param dragonGame The Dragon Game where event is happening
      */
-    protected final void move(DragonGame dragonGame){
-        if(!dragonGame.isActive()) return;
+    protected final void move(DragonGame dragonGame) {
+        if (!dragonGame.isActive()) return;
 
         DragonController controller = TheDragon.getApi().getDragonService().getDragonController();
 
-        if(controller == null || controller.dragon() == null) return;
+        if (controller == null || controller.dragon() == null) return;
 
-        if(afk)
+        if (afk)
             controller.setAfk(false);
         else
             TheDragon.getApi()
@@ -86,7 +86,7 @@ public abstract class DragonGameEvent {
                     .ifPresent(this::setAfk);
     }
 
-    private void setAfk(DragonSpawn dragonSpawn){
+    private void setAfk(DragonSpawn dragonSpawn) {
         DragonController controller = TheDragon.getApi().getDragonService().getDragonController();
 
         Bukkit.getScheduler().runTask(TheDragon.getApi().getPlugin(), () -> {

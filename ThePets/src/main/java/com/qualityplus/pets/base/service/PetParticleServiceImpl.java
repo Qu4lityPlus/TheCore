@@ -10,7 +10,7 @@ import java.util.UUID;
 @Component
 public final class PetParticleServiceImpl implements PetParticleService {
     @Override
-    public void spellParticle(Map.Entry<UUID, PetEntity> entry){
+    public void spellParticle(Map.Entry<UUID, PetEntity> entry) {
         entry.getValue().spellParticle();
     }
 }

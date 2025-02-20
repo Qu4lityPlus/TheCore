@@ -34,17 +34,17 @@ public final class DiscovererSkill extends Skill {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerMoveEvent(PlayerMoveEvent e){
+    public void onPlayerMoveEvent(PlayerMoveEvent e) {
         Player player = e.getPlayer();
 
         UUID uuid = player.getUniqueId();
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return;
 
         Location from = e.getFrom();
         Location to = e.getTo();
 
-        if(to == null) return;
+        if (to == null) return;
 
         if (from.getWorld() != to.getWorld())
             return;
@@ -55,11 +55,11 @@ public final class DiscovererSkill extends Skill {
 
         Optional<Integer> optReward = rewardsPerBlocksWalked.keySet().stream().filter(reward -> reward <= walked).findFirst();
 
-        if(!optReward.isPresent()) return;
+        if (!optReward.isPresent()) return;
 
         double xp = rewardsPerBlocksWalked.getOrDefault(optReward.get(), 0D);
 
-        if(xp <= 0) return;
+        if (xp <= 0) return;
 
         blocksWalked.put(uuid, walked - optReward.get());
 
@@ -67,12 +67,12 @@ public final class DiscovererSkill extends Skill {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onCraft(PlayerQuitEvent e){
+    public void onCraft(PlayerQuitEvent e) {
         blocksWalked.remove(e.getPlayer().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onCraft(PlayerKickEvent e){
+    public void onCraft(PlayerKickEvent e) {
         blocksWalked.remove(e.getPlayer().getUniqueId());
     }
 }

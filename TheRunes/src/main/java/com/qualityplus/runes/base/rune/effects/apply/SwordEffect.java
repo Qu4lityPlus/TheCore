@@ -16,7 +16,7 @@ public final class SwordEffect implements ChainEffect{
 
         displayFakeItems(location, rune);
 
-        if(!rune.getEffect().isStrikeLightning()) return;
+        if (!rune.getEffect().isStrikeLightning()) return;
 
         Optional.ofNullable(location.getWorld()).ifPresent(world -> world.strikeLightningEffect(location));
     }

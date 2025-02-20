@@ -73,15 +73,15 @@ public final class GuardianGUI extends TheDragonGUI {
         return inventory;
     }
 
-    private List<IPlaceholder> getMobTypePlaceholders(){
+    private List<IPlaceholder> getMobTypePlaceholders() {
         return Collections.singletonList(new Placeholder("type", Optional.ofNullable(guardian.getEntity()).orElse(NULL_FORMAT)));
     }
 
-    private List<IPlaceholder> getDisplayNamePlaceholders(){
+    private List<IPlaceholder> getDisplayNamePlaceholders() {
         return Collections.singletonList(new Placeholder("displayname", Optional.ofNullable(guardian.getDisplayName()).orElse(NULL_FORMAT)));
     }
 
-    private List<IPlaceholder> getHealthPlaceholders(){
+    private List<IPlaceholder> getHealthPlaceholders() {
         return Collections.singletonList(new Placeholder("health", String.valueOf(guardian.getHealth())));
     }
 
@@ -92,33 +92,33 @@ public final class GuardianGUI extends TheDragonGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if (isItem(slot, config.getGoBackItem())){
+        } else if (isItem(slot, config.getGoBackItem())) {
             player.openInventory(new DragonGuardiansGUI(box, 1).getInventory());
-        }else if (isItem(slot, config.getHelmetItem())){
+        } else if (isItem(slot, config.getHelmetItem())) {
             player.openInventory(new GuardianEquipmentGUI(box, player, guardian, GuardianEquipmentGUI.GuardianEquipmentType.HELMET).getInventory());
-        }else if (isItem(slot, config.getChestPlateItem())){
+        } else if (isItem(slot, config.getChestPlateItem())) {
             player.openInventory(new GuardianEquipmentGUI(box, player, guardian, GuardianEquipmentGUI.GuardianEquipmentType.CHESTPLATE).getInventory());
-        }else if (isItem(slot, config.getLeggingsItem())){
+        } else if (isItem(slot, config.getLeggingsItem())) {
             player.openInventory(new GuardianEquipmentGUI(box, player, guardian, GuardianEquipmentGUI.GuardianEquipmentType.LEGGINGS).getInventory());
-        }else if (isItem(slot, config.getBootsItem())){
+        } else if (isItem(slot, config.getBootsItem())) {
             player.openInventory(new GuardianEquipmentGUI(box, player, guardian, GuardianEquipmentGUI.GuardianEquipmentType.BOOTS).getInventory());
-        }else if (isItem(slot, config.getWeaponItem())){
+        } else if (isItem(slot, config.getWeaponItem())) {
             player.openInventory(new GuardianEquipmentGUI(box, player, guardian, GuardianEquipmentGUI.GuardianEquipmentType.WEAPON).getInventory());
-        }else
+        } else
             setSetupMode(player, slot);
     }
 
-    private void setSetupMode(Player player, int slot){
+    private void setSetupMode(Player player, int slot) {
 
         EditType type = slot == config.getMobTypeItem().getSlot() ? EditType.MOB :
                 slot == config.getDisplayNameItem().getSlot() ? EditType.DISPLAYNAME :
                         slot == config.getHealthItem().getSlot() ? EditType.HEALTH : null;
 
-        if(type == null) return;
+        if (type == null) return;
 
         GuardianEditMode editMode = GuardianEditMode.builder()
                 .uuid(player.getUniqueId())

@@ -10,7 +10,7 @@ import com.qualityplus.assistant.lib.eu.okaeri.platform.core.annotation.Componen
 @Component
 public final class AnvilCommandProvider {
     @Delayed(time = MinecraftTimeEquivalent.SECOND / 20, async = true)
-    private void configureProvider(@Inject Box box){
+    private void configureProvider(@Inject Box box) {
         LabelProvider.builder()
                 .id("theanvil")
                 .label("theanvil")

@@ -11,11 +11,11 @@ public final class SoulCommand extends OkaeriConfig {
     private final CommandExecutor executor;
     private final String command;
 
-    public void execute(Player player){
+    public void execute(Player player) {
         String toExecute = command.replaceAll("%player%", player.getName());
-        if(executor.equals(CommandExecutor.PLAYER)){
+        if (executor.equals(CommandExecutor.PLAYER)) {
             player.performCommand(toExecute);
-        }else
+        } else
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), toExecute);
     }
 

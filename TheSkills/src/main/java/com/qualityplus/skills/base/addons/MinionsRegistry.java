@@ -23,7 +23,7 @@ public final class MinionsRegistry {
     private @Inject Logger logger;
 
     @Bean("minionListener")
-    public Optional<Class<? extends ExtraListener>> configureMinions(){
+    public Optional<Class<? extends ExtraListener>> configureMinions() {
         final DependencyResolver resolver = TheAssistantPlugin.getAPI().getDependencyResolver();
 
         if (resolver.isPlugin(THE_MINIONS_PLUGIN_NAME)) {
@@ -34,7 +34,7 @@ public final class MinionsRegistry {
         return Optional.empty();
     }
 
-    private void sendMinionsMessage(){
+    private void sendMinionsMessage() {
         logger.info(String.format(MINIONS_HOOKED_MESSAGE, MinionsRegistry.THE_MINIONS_PLUGIN_NAME));
     }
 }

@@ -49,7 +49,7 @@ public final class MinionsRecipesGUI extends MinionGUI {
 
         Minion minion = getMinion(minionEntity);
 
-        if(minion != null){
+        if (minion != null) {
             List<IPlaceholder> upgradePlaceholders = MinionPlaceholderUtil
                     .getMinionPlaceholders(minionEntity.getMinionUniqueId())
                     .with(MinionPlaceholderUtil.getMinionPlaceholders(minion))
@@ -63,11 +63,11 @@ public final class MinionsRecipesGUI extends MinionGUI {
         return inventory;
     }
 
-    private void setRecipes(Minion minion){
+    private void setRecipes(Minion minion) {
 
         PlaceholderBuilder minionPlaceholders = MinionPlaceholderUtil.getMinionPlaceholders(minion);
 
-        for(Integer slot : config.getLevelSlotsMap().keySet()){
+        for (Integer slot : config.getLevelSlotsMap().keySet()) {
             int level = config.getLevelSlotsMap().get(slot);
 
             RecipeStatus status = getRecipeStatus(minion, level);
@@ -86,23 +86,23 @@ public final class MinionsRecipesGUI extends MinionGUI {
         }
     }
 
-    private String getRecipeMessageStatus(RecipeStatus status){
+    private String getRecipeMessageStatus(RecipeStatus status) {
         Messages.MinionMessages messages = box.files().messages().minionMessages;
 
         return status.equals(RecipeStatus.CAN_BE_CRAFTED) ? messages.cantBeCraftedMinion : messages.canBeCraftedMinion;
     }
 
-    private RecipeStatus getRecipeStatus(Minion minion, int level){
+    private RecipeStatus getRecipeStatus(Minion minion, int level) {
         MinionRecipeConfig recipeConfig = minion.getRecipe(level);
 
-        if(recipeConfig == null) return RecipeStatus.CANNOT_BE_CRAFTED;
+        if (recipeConfig == null) return RecipeStatus.CANNOT_BE_CRAFTED;
 
         Recipe recipe = TheMinions.getApi().getRecipeProvider().getRecipe(recipeConfig.getRecipeId());
 
         return !recipeConfig.isEnabled() || recipe == null ? RecipeStatus.CANNOT_BE_CRAFTED : RecipeStatus.CAN_BE_CRAFTED;
     }
 
-    private void setMinionItem(int slot, List<IPlaceholder> placeholders){
+    private void setMinionItem(int slot, List<IPlaceholder> placeholders) {
         Optional<ItemStack> itemStack = MinionEggUtil.createFromExistent(box.files().config().minionEggItem, minionEntity.getMinionUniqueId());
 
         itemStack.ifPresent(item -> inventory.setItem(slot, ItemStackUtils.makeItem(config.getMinionItem(), placeholders, item)));
@@ -113,24 +113,24 @@ public final class MinionsRecipesGUI extends MinionGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         event.setCancelled(true);
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBack())){
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new MainMinionGUI(box, minionEntity).getInventory());
-        }else if(slotsAndLevels.containsKey(slot)){
+        } else if (slotsAndLevels.containsKey(slot)) {
             RecipeSlot recipeSlot = slotsAndLevels.getOrDefault(slot, null);
 
-            if(recipeSlot == null) return;
+            if (recipeSlot == null) return;
 
-            if(recipeSlot.getStatus().equals(RecipeStatus.CAN_BE_CRAFTED))
+            if (recipeSlot.getStatus().equals(RecipeStatus.CAN_BE_CRAFTED))
                 player.openInventory(new MinionRecipePreviewGUI(box, minionEntity, recipeSlot.getLevel()).getInventory());
-            else{
+            else {
                 player.closeInventory();
                 player.sendMessage(StringUtils.color(box.files().messages().minionMessages.cantBeCraftedMinionMessage));
             }

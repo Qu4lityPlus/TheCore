@@ -25,24 +25,24 @@ public final class GiveSkinCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
-        if(args.length == 3){
+        if (args.length == 3) {
             Player toGive = Bukkit.getPlayer(args[1]);
 
             MinionSkin skin = box.files().skins().minionSkins.getOrDefault(args[2], null);
 
-            if(toGive == null){
+            if (toGive == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
 
-            if(skin == null){
+            if (skin == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidSkin));
                 return false;
             }
 
             toGive.getInventory().addItem(skin.getItemStack());
 
-        }else{
+        } else {
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return false;
@@ -55,7 +55,7 @@ public final class GiveSkinCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveSkinCommand));
     }
 }

@@ -37,7 +37,7 @@ public final class PotionMasterConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDEyYWMyMzlmMzliYTkxN2U5YmQ2YzE5ZDZlN2RjNDgzMTc5NjUxMDQ3ODdjOGJmY2YwOTBjMGMwMzI3N2FjOSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_iron_lungs_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return PotionMasterPerk.builder()
                 .id(id)
                 .displayName(displayName)

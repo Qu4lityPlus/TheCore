@@ -50,7 +50,7 @@ public final class CollectionsFile extends OkaeriConfig {
             .with(getFishingCollections())
             .get();
 
-    public void modifyCollectionItemStack(String id, ItemStack itemStack){
+    public void modifyCollectionItemStack(String id, ItemStack itemStack) {
         collections.stream()
                 .filter(collection -> collection.getId().equals(id))
                 .findFirst()
@@ -58,7 +58,7 @@ public final class CollectionsFile extends OkaeriConfig {
     }
 
 
-    private List<Collection> getFarmingCategory(){
+    private List<Collection> getFarmingCategory() {
         return Arrays.asList(
                 fastCollection("cactus", "Cactus", XMaterial.CACTUS, FARMING).guiOptions(fastOptions(XMaterial.CACTUS, 10)).build(),
                 fastCollection("carrot", "Carrot", XMaterial.CARROT, FARMING).guiOptions(fastOptions(XMaterial.CARROT, 11)).build(),
@@ -79,7 +79,7 @@ public final class CollectionsFile extends OkaeriConfig {
         );
     }
 
-    private List<Collection> getMiningCollection(){
+    private List<Collection> getMiningCollection() {
         return Arrays.asList(
                 fastCollection("coal", "Coal", XMaterial.COAL, MINING).guiOptions(fastOptions(XMaterial.COAL, 10)).build(),
                 fastCollection("cobblestone", "Cobblestone", XMaterial.COBBLESTONE, MINING).guiOptions(fastOptions(XMaterial.COBBLESTONE, 11)).build(),
@@ -102,7 +102,7 @@ public final class CollectionsFile extends OkaeriConfig {
                );
     }
 
-    private List<Collection> getCombatCollections(){
+    private List<Collection> getCombatCollections() {
         return Arrays.asList(
                 fastCollection("blazeRod", "blazeRod", XMaterial.BLAZE_ROD, COMBAT).guiOptions(fastOptions(XMaterial.BLAZE_ROD, 10)).build(),
                 fastCollection("bone", "Bone", XMaterial.BONE, COMBAT).guiOptions(fastOptions(XMaterial.BONE, 11)).build(),
@@ -117,7 +117,7 @@ public final class CollectionsFile extends OkaeriConfig {
         );
     }
 
-    private List<Collection> getForagingCollections(){
+    private List<Collection> getForagingCollections() {
         return Arrays.asList(
                 fastCollection("acaciaWood", "Acacia Wood", XMaterial.ACACIA_LOG, FORAGING).guiOptions(fastOptions(XMaterial.ACACIA_LOG, 10)).build(),
                 fastCollection("birchWood", "Birch Wood", XMaterial.BIRCH_LOG, FORAGING).guiOptions(fastOptions(XMaterial.BIRCH_LOG, 11)).build(),
@@ -128,7 +128,7 @@ public final class CollectionsFile extends OkaeriConfig {
         );
     }
 
-    private List<Collection> getFishingCollections(){
+    private List<Collection> getFishingCollections() {
         return Arrays.asList(
                 fastCollection("clay", "Clay", XMaterial.CLAY, FISHING).guiOptions(fastOptions(XMaterial.CLAY, 10)).build(),
                 fastCollection("clownfish", "Clown Fish", XMaterial.TROPICAL_FISH, FISHING).guiOptions(fastOptions(XMaterial.TROPICAL_FISH, 11)).build(),
@@ -144,7 +144,7 @@ public final class CollectionsFile extends OkaeriConfig {
         );
     }
 
-    private GUIOptions fastOptions(XMaterial material, int slot, String... texture){
+    private GUIOptions fastOptions(XMaterial material, int slot, String... texture) {
         GUIOptions.GUIOptionsBuilder builder = GUIOptions.builder()
                 .item(material)
                 .slot(slot);
@@ -154,14 +154,14 @@ public final class CollectionsFile extends OkaeriConfig {
             return builder
                     .texture(textureStr)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return builder
                     .build();
         }
 
     }
 
-    private Collection.CollectionBuilder fastCollection(String id, String displayName, XMaterial executor, String category){
+    private Collection.CollectionBuilder fastCollection(String id, String displayName, XMaterial executor, String category) {
         return Collection.builder()
                 .id(id)
                 .enabled(true)
@@ -181,7 +181,7 @@ public final class CollectionsFile extends OkaeriConfig {
                 .collectionExecutor(CollectionExecutor.ofMaterial(executor));
     }
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return ImmutableMap.<Integer, List<String>>builder()
                 .put(1, Collections.singletonList("&a%collection_displayname% %collection_level_roman% Recipes"))
                 .put(2, Collections.singletonList("&b%collection_displayname% %collection_level_roman% Recipes"))
@@ -196,7 +196,7 @@ public final class CollectionsFile extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, Double> getRequirements(){
+    private Map<Integer, Double> getRequirements() {
         return ImmutableMap.<Integer, Double>builder()
                 .put(0, 10D)
                 .put(1, 15D)

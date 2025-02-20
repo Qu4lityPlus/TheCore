@@ -19,7 +19,7 @@ public final class AdvancedExtensionController implements EnchantmentController<
         final Enchantment vanillaEnchantment = enchantment.getEnchantment();
 
 
-        if(meta instanceof EnchantmentStorageMeta)
+        if (meta instanceof EnchantmentStorageMeta)
             ((EnchantmentStorageMeta) meta).addStoredEnchant(vanillaEnchantment, level, false);
         else
             Optional.ofNullable(meta).ifPresent(m -> m.addEnchant(vanillaEnchantment, level, false));
@@ -35,7 +35,7 @@ public final class AdvancedExtensionController implements EnchantmentController<
 
         final Enchantment vanillaEnchantment = enchantment.getEnchantment();
 
-        if(meta instanceof EnchantmentStorageMeta)
+        if (meta instanceof EnchantmentStorageMeta)
             ((EnchantmentStorageMeta) meta).removeStoredEnchant(vanillaEnchantment);
         else
             Optional.ofNullable(meta).ifPresent(m -> m.removeEnchant(vanillaEnchantment));

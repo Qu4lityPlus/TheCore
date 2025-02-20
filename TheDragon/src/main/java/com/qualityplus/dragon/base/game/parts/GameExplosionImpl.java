@@ -35,7 +35,7 @@ public final class GameExplosionImpl implements GameExplosion {
         return future;
     }
 
-    private CompletableFuture<Void> spawnFallingBlocks(PasterSession session){
+    private CompletableFuture<Void> spawnFallingBlocks(PasterSession session) {
         CompletableFuture<Void> future1 = new CompletableFuture<>();
 
         tasker.newChain()
@@ -46,7 +46,7 @@ public final class GameExplosionImpl implements GameExplosion {
         return future1;
     }
 
-    private Void spawnBlocks(final PasterSession session){
+    private Void spawnBlocks(final PasterSession session) {
         Optional.ofNullable(session)
                 .map(PasterSession::getAllBlocks)
                 .orElse(Collections.emptyList())
@@ -55,7 +55,7 @@ public final class GameExplosionImpl implements GameExplosion {
         return null;
     }
 
-    private void spawnIndividualBlock(final Block block){
+    private void spawnIndividualBlock(final Block block) {
         Material material = block.getType();
 
         byte data = block.getData();
@@ -74,20 +74,20 @@ public final class GameExplosionImpl implements GameExplosion {
 
     }
 
-    private void clearBlocks(){
+    private void clearBlocks() {
         scheduler.runLater(this::clearBlocksTask, 60, false);
     }
 
-    private void clearBlocksTask(){
+    private void clearBlocksTask() {
         fallingBlocks.forEach(this::clearIndividualFallingBlock);
         fallingBlocks.clear();
         future.complete(null);
     }
 
     private void clearIndividualFallingBlock(FallingBlock fallingBlock) {
-        if(fallingBlock.isOnGround()) fallingBlock.getLocation().getBlock().setType(Material.AIR);
+        if (fallingBlock.isOnGround()) fallingBlock.getLocation().getBlock().setType(Material.AIR);
 
-        if(!fallingBlock.isDead()) fallingBlock.remove();
+        if (!fallingBlock.isDead()) fallingBlock.remove();
     }
 
 

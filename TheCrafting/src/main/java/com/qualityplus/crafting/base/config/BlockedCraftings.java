@@ -21,10 +21,10 @@ import java.util.List;
 public final class BlockedCraftings extends OkaeriConfig {
     public List<XMaterial> blockedCraftings = Arrays.asList(XMaterial.DIAMOND_BLOCK, XMaterial.GOLD_BLOCK);
 
-    public boolean isBlocked(IRecipe recipe){
+    public boolean isBlocked(IRecipe recipe) {
         ItemStack result = recipe.getResult();
 
-        if(result == null) return false;
+        if (result == null) return false;
 
         return blockedCraftings.contains(XMaterial.matchXMaterial(result.getType()));
     }

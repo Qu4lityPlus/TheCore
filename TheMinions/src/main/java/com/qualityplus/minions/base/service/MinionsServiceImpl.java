@@ -11,7 +11,7 @@ public final class MinionsServiceImpl implements MinionsService {
     private final Map<UUID, MinionData> dataMap = new HashMap<>();
 
     @Override
-    public Optional<MinionData> getData(UUID uuid) {
+    public Optional<MinionData> getData(final UUID uuid) {
         return Optional.ofNullable(dataMap.getOrDefault(uuid, null));
     }
 

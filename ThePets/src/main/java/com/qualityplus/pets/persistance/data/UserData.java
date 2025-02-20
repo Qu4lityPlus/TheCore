@@ -22,25 +22,25 @@ public final class UserData extends Document {
     private String name;
     private UUID uuid;
 
-    public void switchConvertToItemMode(){
+    public void switchConvertToItemMode() {
         boolean convertToItemMode = userSettings.isConvertPetToItemMode();
 
         userSettings.setConvertPetToItemMode(!convertToItemMode);
     }
 
-    public void switchPetsHiddenMode(){
+    public void switchPetsHiddenMode() {
         boolean petsAreHidden = userSettings.isPetsAreHidden();
 
         userSettings.setPetsAreHidden(!petsAreHidden);
     }
 
 
-    public Optional<PetData> getSpawnedPetData(){
+    public Optional<PetData> getSpawnedPetData() {
         return Optional.ofNullable(spawnedData.getSpawnedPetUUID())
                 .flatMap(ThePets.getApi().getPetsService()::getData);
     }
 
-    public Optional<Pet> getSpawnedPet(){
+    public Optional<Pet> getSpawnedPet() {
         return Optional.ofNullable(spawnedData.getSpawnedPetId())
                 .map(Pets::getByID);
     }

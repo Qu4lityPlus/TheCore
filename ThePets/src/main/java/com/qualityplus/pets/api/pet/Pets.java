@@ -56,7 +56,7 @@ public final class Pets {
     }
 
     @Delayed(time = 1)
-    public static void reloadPets(@Inject Tiger tiger, @Inject Plugin plugin){
+    public static void reloadPets(@Inject Tiger tiger, @Inject Plugin plugin) {
         registerNewPet(tiger.getPet());
 
         loadPetsConfig(plugin).forEach(Pets::registerNewPet);
@@ -64,11 +64,11 @@ public final class Pets {
         LOGGER.info("Plugin has registered in total " + values().size() + " Pets!");
     }
 
-    private static List<Pet> loadPetsConfig(Plugin plugin){
+    private static List<Pet> loadPetsConfig(Plugin plugin) {
 
         File folder = new File(plugin.getDataFolder() + "/custom_pets");
 
-        if(!folder.exists())
+        if (!folder.exists())
             Optional.of(folder).ifPresent(File::mkdirs);
 
         return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
@@ -82,7 +82,7 @@ public final class Pets {
                 .collect(Collectors.toList());
     }
 
-    private static Optional<Pet> loadPet(File file){
+    private static Optional<Pet> loadPet(File file) {
         try {
             PetConfig petConfig = ConfigManager.create(PetConfig.class, (it) -> {
                 it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer()));
@@ -93,7 +93,7 @@ public final class Pets {
             LOGGER.info(String.format("Successfully loaded custom pet with id %s!", petConfig.getId()));
 
             return Optional.ofNullable(petConfig.getPet());
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.log(Level.WARNING, String.format("Error occurred loading config file %s", file.getName()), e);
             return Optional.empty();
         }

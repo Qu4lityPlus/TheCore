@@ -55,7 +55,7 @@ public final class DragonGuardianEvent extends DragonGameEvent {
     }
 
 
-    private void spawn(){
+    private void spawn() {
         if (!isActive()) {
             return;
         }
@@ -65,7 +65,7 @@ public final class DragonGuardianEvent extends DragonGameEvent {
         locations.forEach(loc -> Bukkit.getScheduler().runTask(TheDragon.getApi().getPlugin(), () -> addGuardian(loc)));
     }
 
-    private Set<Location> getRandomLocations(final int amount){
+    private Set<Location> getRandomLocations(final int amount) {
         final Set<Location> locations = new HashSet<>();
 
         for (int i = 0; locations.size()<amount; i++) {

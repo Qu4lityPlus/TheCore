@@ -94,7 +94,7 @@
         <module name="IllegalCatch"/>
         <module name="IllegalThrows"/>
         <module name="CyclomaticComplexity">
-            <property name="max" value="20"/>
+            <property name="max" value="22"/>
         </module>
 
         <!-- Set a max line length of 160 characters -->

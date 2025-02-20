@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public final class TheEnchantingEnchantEvent extends EnchantingEvent {
     private final EnchantmentSession session;
 
-    public TheEnchantingEnchantEvent(@NotNull Player who, EnchantmentSession session) {
+    public TheEnchantingEnchantEvent(final @NotNull Player who, final EnchantmentSession session) {
         super(who);
 
         this.session = session;

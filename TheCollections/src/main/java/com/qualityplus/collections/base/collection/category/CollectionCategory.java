@@ -12,7 +12,7 @@ public final class CollectionCategory extends OkaeriConfig {
     private final GUIOptions guiOptions;
 
     @Builder
-    public CollectionCategory(String id, String displayName, GUIOptions options){
+    public CollectionCategory(String id, String displayName, GUIOptions options) {
         this.id = id;
         this.guiOptions = options;
         this.displayName = displayName;

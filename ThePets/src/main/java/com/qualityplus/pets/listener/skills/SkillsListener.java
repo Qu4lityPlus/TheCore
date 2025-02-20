@@ -16,16 +16,16 @@ public final class SkillsListener implements Listener {
     private @Inject Box box;
 
     @EventHandler(ignoreCancelled = true)
-    public void onGainXp(SkillsXPGainEvent event){
+    public void onGainXp(SkillsXPGainEvent event) {
         Player player = event.getPlayer();
 
         Optional<UserData> data = box.service().getData(player.getUniqueId());
 
-        if(!data.isPresent()) return;
+        if (!data.isPresent()) return;
 
         Optional<PetData> spawnedPet = data.get().getSpawnedPetData();
 
-        if(!spawnedPet.isPresent()) return;
+        if (!spawnedPet.isPresent()) return;
 
         box.petService().addXp(spawnedPet.get(), Math.max(box.files().config().petXpToGiveSkillAmount, 1));
     }

@@ -28,7 +28,7 @@ public final class TiaGUI extends SoulsGUI {
         this.uuid = player.getUniqueId();
     }
 
-    private List<IPlaceholder> getPlaceholders(SoulsData soulsData){
+    private List<IPlaceholder> getPlaceholders(SoulsData soulsData) {
         int collected = soulsData.getTiaSoulsCollected().size();
         int max = box.files().tiaTheFairy().requiredSoulsToExchange;
 
@@ -56,15 +56,15 @@ public final class TiaGUI extends SoulsGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         Player player = (Player) event.getWhoClicked();
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getTiaItem())){
+        } else if (isItem(slot, config.getTiaItem())) {
             player.closeInventory();
 
             SoulsData data = box.service().getData(uuid).orElse(new SoulsData());
@@ -72,7 +72,7 @@ public final class TiaGUI extends SoulsGUI {
             int collected = data.getTiaSoulsCollected().size();
             int max = box.files().tiaTheFairy().requiredSoulsToExchange;
 
-            if(collected < max){
+            if (collected < max) {
                 player.sendMessage(StringUtils.color(box.files().messages().soulsMessages.notEnoughSoulsMessage));
                 return;
             }

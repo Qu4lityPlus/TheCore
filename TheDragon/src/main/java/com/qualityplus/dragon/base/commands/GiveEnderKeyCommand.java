@@ -26,22 +26,22 @@ public final class GiveEnderKeyCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 3){
+        if (args.length == 3) {
             Player player = Bukkit.getPlayer(args[1]);
 
-            if(player != null) {
+            if (player != null) {
                 Integer amount = NumberUtil.intOrNull(args[2]);
-                if(amount != null){
+                if (amount != null) {
                     ItemStack itemStack = DragonItemStackUtil.createEnderKey(ItemStackUtils.makeItem(box.files().config().enderKeyItem));
 
-                    for(int i = 0; i<amount; i++) player.getInventory().addItem(itemStack);
-                }else{
+                    for (int i = 0; i<amount; i++) player.getInventory().addItem(itemStack);
+                } else {
                     sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidAmount.replace("%prefix%", box.files().config().prefix)));
                 }
-            }else{
+            } else {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer.replace("%prefix%", box.files().config().prefix)));
             }
-        }else{
+        } else {
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -53,7 +53,7 @@ public final class GiveEnderKeyCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveEnderKeyCommand));
     }
 }

@@ -63,7 +63,7 @@ public final class SkillsServiceImpl implements SkillsService {
             SkillEvent levelUpEvent = new SkillsLevelUPEvent(player, skill, level + 1);
             Bukkit.getPluginManager().callEvent(levelUpEvent);
 
-            if(remaining > 0) addXp(player, false, false, skill, remaining);
+            if (remaining > 0) addXp(player, false, false, skill, remaining);
         }
     }
 }
