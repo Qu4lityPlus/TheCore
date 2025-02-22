@@ -39,8 +39,8 @@ public final class UserListener implements Listener {
                 .execute();
     }
 
-    private void setupUpgrade(BankData bankData){
-        if(bankData.getBankUpgrade() != null) return;
+    private void setupUpgrade(BankData bankData) {
+        if (bankData.getBankUpgrade() != null) return;
 
         bankData.setBankUpgrade(box.files().bankUpgrades().getLowest().map(BankUpgrade::getId).orElse(null));
     }

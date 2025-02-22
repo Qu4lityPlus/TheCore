@@ -36,7 +36,7 @@ public final class GuardianEditListener implements Listener {
 
         final GuardianEditMode editMode = setupService.getByPlayer(uuid);
 
-        if(editMode == null ) return;
+        if (editMode == null ) return;
 
         DragonGuardian guardian = editMode.getDragonGuardian();
 
@@ -46,16 +46,16 @@ public final class GuardianEditListener implements Listener {
 
         event.setCancelled(true);
 
-        if(message.contains("stop") || message.contains("exit")){
+        if (message.contains("stop") || message.contains("exit")) {
             openGUIAsync(player, guardian);
-        }else{
+        } else {
             manageEditMode(player, type, guardian, message);
         }
     }
 
-    private void manageEditMode(Player player, EditType type, DragonGuardian guardian, String message){
-        try{
-            switch (type){
+    private void manageEditMode(Player player, EditType type, DragonGuardian guardian, String message) {
+        try {
+            switch (type) {
                 case MOB:
                     EntityType.valueOf(message);
 
@@ -75,16 +75,16 @@ public final class GuardianEditListener implements Listener {
             setupService.removeByPlayer(player.getUniqueId());
 
             openGUIAsync(player, guardian);
-        }catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidAmount
                     .replace("%prefix%", box.files().config().prefix)));
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.guardianMobTypeDoesntMatch
                     .replace("%prefix%", box.files().config().prefix)));
         }
     }
 
-    public void openGUIAsync(Player player, DragonGuardian guardian){
+    public void openGUIAsync(Player player, DragonGuardian guardian) {
         scheduler.runLaterSync(() -> player.openInventory(new GuardianGUI(box, guardian).getInventory()),3L);
     }
 }

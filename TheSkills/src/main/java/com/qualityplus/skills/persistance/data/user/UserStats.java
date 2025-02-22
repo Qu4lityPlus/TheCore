@@ -17,12 +17,12 @@ public final class UserStats extends Document implements Levellable<String, Inte
     private Map<String, Integer> level = new HashMap<>();
     private Map<String, Integer> fromArmor = new HashMap<>();
 
-    public void fillIfEmpty(){
+    public void fillIfEmpty() {
         Stats.values().stream().map(Stat::getId).forEach(perk -> level.putIfAbsent(perk, 0));
         Stats.values().stream().map(Stat::getId).forEach(perk -> fromArmor.putIfAbsent(perk, 0));
     }
 
-    public int getTotalLevel(String value){
+    public int getTotalLevel(String value) {
         return getLevel(value) + getArmor(value);
     }
 

@@ -23,7 +23,7 @@ public final class AutoShipClickHandler implements ClickHandler {
 
         event.setCancelled(true);
 
-        if(event.isShiftClick()) return;
+        if (event.isShiftClick()) return;
 
         Optional<MinionData> data = TheMinions.getApi().getMinionsService().getData(minionEntity.getMinionUniqueId());
         AutomatedShippingEntity entity = data.map(MinionData::getAutoSell).orElse(null);
@@ -32,19 +32,19 @@ public final class AutoShipClickHandler implements ClickHandler {
         ItemStack oldToGive = getTaken(box, entity, minionEntity);
         boolean cursorIsEntity = MinionUpgradeUtil.isAutoShip(cursor);
 
-        if(cursorIsEntity){
+        if (cursorIsEntity) {
             AutomatedShippingEntity newAuto = getEntityFromItem(box, entity, data, cursor);
 
             data.ifPresent(d -> d.setAutoSell(newAuto));
 
             player.setItemOnCursor(oldToGive);
 
-        }else{
-            if(entity == null) return;
+        } else {
+            if (entity == null) return;
 
-            if(BukkitItemUtil.isNull(cursor)) {
+            if (BukkitItemUtil.isNull(cursor)) {
                 Optional.ofNullable(oldToGive).ifPresent(player::setItemOnCursor);
-            }else
+            } else
                 Optional.ofNullable(oldToGive).ifPresent(item -> BukkitItemUtil.dropItem(player, item));
 
             data.ifPresent(MinionData::removeAutoShip);
@@ -61,12 +61,12 @@ public final class AutoShipClickHandler implements ClickHandler {
     }
 
     @SuppressWarnings("all")
-    private ItemStack getTaken(Box box, AutomatedShippingEntity shippingEntity, MinionEntity entity){
-        if(shippingEntity == null) return null;
+    private ItemStack getTaken(Box box, AutomatedShippingEntity shippingEntity, MinionEntity entity) {
+        if (shippingEntity == null) return null;
 
         MinionAutoShipping automatedShipping = box.files().getAutoSell().automatedShippingUpgrades.getOrDefault(shippingEntity.getId(), null);
 
-        if(automatedShipping == null) return null;
+        if (automatedShipping == null) return null;
 
         return automatedShipping.getItemStack(shippingEntity.getSoldItems(), shippingEntity.getHeldCoins());
     }

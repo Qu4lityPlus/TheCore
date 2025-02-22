@@ -36,7 +36,7 @@ public final class SetUpgradeRequiredItemCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
-        if(args.length == 3){
+        if (args.length == 3) {
 
             Player player = (Player) sender;
 
@@ -44,19 +44,19 @@ public final class SetUpgradeRequiredItemCommand extends AssistantCommand {
 
             MinionUpgrade upgrade = upgrades.getById(args[2]);
 
-            if(upgrade == null){
+            if (upgrade == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidUpgrade));
                 return false;
             }
 
-            if(minion == null){
+            if (minion == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidMinion));
                 return false;
             }
 
             ItemStack inHand = player.getItemInHand();
 
-            if(BukkitItemUtil.isNull(inHand)) {
+            if (BukkitItemUtil.isNull(inHand)) {
                 sender.sendMessage(StringUtils.color(Optional.ofNullable(box.files().messages().minionMessages.invalidMinion)
                         .orElse("&cInvalid Item!")));
                 return false;
@@ -68,7 +68,7 @@ public final class SetUpgradeRequiredItemCommand extends AssistantCommand {
                     .changeItem(ChangeItem.UPGRADE_ITEM_REQUIRED_ITEM)
                     .build(), inHand.clone()).getInventory());
 
-        }else{
+        } else {
             String message = box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax);
 
             sender.sendMessage(StringUtils.color(message));
@@ -81,11 +81,11 @@ public final class SetUpgradeRequiredItemCommand extends AssistantCommand {
         return args.length == 2 ? getMinions() : args.length == 3 ? getUpgrades() : Collections.emptyList();
     }
 
-    private List<String> getUpgrades(){
+    private List<String> getUpgrades() {
         return new ArrayList<>(box.files().upgrades().normalUpgrades.keySet());
     }
 
-    private List<String> getMinions(){
+    private List<String> getMinions() {
         return Minions.values()
                 .stream()
                 .map(Minion::getId)
@@ -93,7 +93,7 @@ public final class SetUpgradeRequiredItemCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI()
                 .getCommandProvider()
                 .registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().setUpgradeRequiredItemCommand));

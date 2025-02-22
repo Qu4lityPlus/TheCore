@@ -36,7 +36,7 @@ public final class SpeedConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjA2NzA2ZWVjYjJkNTU4YWNlMjdhYmRhMGIwYjdiODAxZDM2ZDE3ZGQ3YTg5MGE5NTIwZGJlNTIyMzc0ZjhhNiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_speed_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return SpeedStat.builder()
                 .id(id)
                 .displayName(displayName)

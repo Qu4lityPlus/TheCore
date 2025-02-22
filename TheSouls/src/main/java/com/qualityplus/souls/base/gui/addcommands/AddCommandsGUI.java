@@ -46,7 +46,7 @@ public final class AddCommandsGUI extends SoulsGUI {
         try {
             int slot = 0;
             int i = maxPerPage * (page - 1);
-            if(messageList.size() > 0){
+            if (messageList.size() > 0) {
                 while (slot < maxPerPage) {
                     if (messageList.size() > i && i >= 0) {
                         String message = messageList.get(i);
@@ -64,14 +64,14 @@ public final class AddCommandsGUI extends SoulsGUI {
                     slot++;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(page > 1)
+        if (page > 1)
             setItem(config.getPreviousPageItem());
 
-        if(hasNext)
+        if (hasNext)
             setItem(config.getNextPageItem());
 
 
@@ -88,29 +88,29 @@ public final class AddCommandsGUI extends SoulsGUI {
 
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBackItem())){
+        } else if (isItem(slot, config.getGoBackItem())) {
             player.openInventory(new SoulsEditGUI(box, soul, edition).getInventory());
-        }else if (isItem(slot, config.getNextPageItem()) && hasNext){
+        } else if (isItem(slot, config.getNextPageItem()) && hasNext) {
             player.openInventory(new AddCommandsGUI(box, soul, page + 1, edition).getInventory());
-        }else if(isItem(slot, config.getPreviousPageItem()) && page > 1) {
+        } else if (isItem(slot, config.getPreviousPageItem()) && page > 1) {
             player.openInventory(new AddCommandsGUI(box, soul, page - 1, edition).getInventory());
-        }else if(commandSlots.containsKey(slot)){
-            if(!event.isRightClick()) return;
+        } else if (commandSlots.containsKey(slot)) {
+            if (!event.isRightClick()) return;
 
             String command = commandSlots.get(slot);
 
-            if(command == null || !soul.getCommands().contains(command)) return;
+            if (command == null || !soul.getCommands().contains(command)) return;
 
             soul.getCommands().remove(command);
 
             player.openInventory(new AddCommandsGUI(box, soul, page, edition).getInventory());
-        }else if(isItem(slot, config.getAddCommandItem())){
+        } else if (isItem(slot, config.getAddCommandItem())) {
             player.closeInventory();
             player.sendMessage(StringUtils.color(box.files().messages().soulsMessages.typeACommand));
             edition.setEditMode(player.getUniqueId(), new EditionObject(SoulEdition.EditionType.ADD_COMMAND, soul));

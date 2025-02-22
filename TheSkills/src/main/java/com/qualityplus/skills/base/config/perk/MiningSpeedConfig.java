@@ -37,7 +37,7 @@ public final class MiningSpeedConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWE4YzY4NTE0ZDhjODE5ZTY4ZWI3NWI1OTY0NDVkODhiMzY3YWUzNTFiYWE5OTgzYmM2OWNmNmI1MjBmMzk4NSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_mining_speed_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return MiningSpeedPerk.builder()
                 .id(id)
                 .displayName(displayName)

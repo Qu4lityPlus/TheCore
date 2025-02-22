@@ -18,7 +18,7 @@ public interface RuneSession {
 
     void setFusing(boolean fusing);
 
-    default boolean bothItemsAreSet(){
+    default boolean bothItemsAreSet() {
         return getSessionResult().equals(SessionResult.BOTH_RUNES_SET) || getSessionResult().equals(SessionResult.RUNE_AND_ITEM_SET);
     }
 

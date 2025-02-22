@@ -70,7 +70,7 @@ public final class ForagingConfig extends OkaeriConfig {
                     "   &7%skill_medicine_man_description%"))
             .build();
 
-    public Skill getSkill(){
+    public Skill getSkill() {
         return ForagingSkill.builder()
                 .id(id)
                 .enabled(enabled)
@@ -89,7 +89,7 @@ public final class ForagingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return FastMap.listBuilder(Integer.class, String.class)
                 .put(1, Arrays.asList("&7Abilities To Upgrade:",
                         "&8» &f+1 %skill_strength_displayname%",
@@ -112,14 +112,14 @@ public final class ForagingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<StatReward>> getInternalRewards(){
+    private Map<Integer, List<StatReward>> getInternalRewards() {
         return FastMap.listBuilder(Integer.class, StatReward.class)
                 .put(1, Arrays.asList(new StatReward("strength", 1), new StatReward("defense", 1), new StatReward("foraging_fortune", 1), new StatReward("medicine_man", 1)))
                 .put(10, Arrays.asList(new StatReward("strength", 2), new StatReward("defense", 2), new StatReward("foraging_fortune", 1), new StatReward("medicine_man", 1)))
                 .build();
     }
 
-    private Map<Integer, Double> getLevelsMap(){
+    private Map<Integer, Double> getLevelsMap() {
         Map<Integer, Double> levels = new HashMap<>();
 
         NumberUtil.intStream(0, maxLevel).forEach(n -> levels.put(n, n*15d));

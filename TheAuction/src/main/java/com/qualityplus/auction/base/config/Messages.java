@@ -36,6 +36,7 @@ public final class Messages extends OkaeriConfig {
     @Getter
     @Setter
     public class AuctionMessages extends OkaeriConfig {
+        private String cantCancelAuctionDueToMoreThanOneBid = "&cYou can't cancel this auction due that this has more than one bid!";
         private List<String> startingBid = Arrays.asList("", "^^^^^^^^^^^^^^", "Your auction", "starting bid");
         private List<String> submitBid = Arrays.asList("", "^^^^^^^^^^^^^^", "Enter an amount", "to bid");
         private List<String> enterQuery = Arrays.asList("", "", "^^^^^^^^^^^^^^", "Enter Query");

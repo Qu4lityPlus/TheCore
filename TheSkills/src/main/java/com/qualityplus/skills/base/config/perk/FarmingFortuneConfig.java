@@ -37,7 +37,7 @@ public final class FarmingFortuneConfig extends OkaeriConfig implements PerkFile
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2FhNTk2NmExNDcyNDQ1MDRjYzU2ZWY2ZWZkMmQyZjQ0NzM4YjhmMDNkOTNhNjE3NjZhZjNmYzQ0ODdmOTgwYiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_farming_fortune_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return FarmingFortunePerk.builder()
                 .id(id)
                 .displayName(displayName)

@@ -17,24 +17,24 @@ public final class VectorSection {
     private final Vector second;
     private final Vector third;
 
-    public VectorSection(Vector vector){
+    public VectorSection(Vector vector) {
         this.first = vector;
         this.second = null;
         this.third = null;
     }
 
     @NotNull
-    public List<Vector> getFirsts(){
+    public List<Vector> getFirsts() {
         return Collections.singletonList(first);
     }
 
     @NotNull
-    public List<Vector> getSeconds(){
+    public List<Vector> getSeconds() {
         return Arrays.asList(first, second);
     }
 
     @NotNull
-    public List<Vector> getThirds(){
+    public List<Vector> getThirds() {
         return Arrays.asList(first, second, third);
     }
 }

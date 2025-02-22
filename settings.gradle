@@ -14,7 +14,8 @@ include 'TheSouls'
 include ('TheRunes',
         'TheRunes:TheRunes-NMS',
         'TheRunes:TheRunes-NMS:TheRunes-Legacy',
-        'TheRunes:TheRunes-NMS:TheRunes-Newest')
+        'TheRunes:TheRunes-NMS:TheRunes-Newest',
+        'TheRunes:TheRunes-NMS:TheRunes-Newest-1_20')
 include ('TheEnchanting',
          'TheEnchanting:TheEnchanting-NMS',
          'TheEnchanting:TheEnchanting-NMS:TheEnchanting-Legacy',

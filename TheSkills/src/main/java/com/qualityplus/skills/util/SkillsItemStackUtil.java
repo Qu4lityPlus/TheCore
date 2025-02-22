@@ -16,7 +16,7 @@ import java.util.List;
 
 @UtilityClass
 public final class SkillsItemStackUtil {
-    public static ItemStack makeItem(Item item, List<IPlaceholder> placeholders, GUIOptions skillGUIOptions){
+    public static ItemStack makeItem(Item item, List<IPlaceholder> placeholders, GUIOptions skillGUIOptions) {
         try {
             Item item1 = ItemBuilder.of(skillGUIOptions.getItem(), 1, 1, "", Collections.emptyList()).headData(skillGUIOptions.getTexture()).build();
 

@@ -163,7 +163,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
             .previousPage(ItemBuilder.of(XMaterial.BOOK, 46, 1, "&7Back Page", Collections.emptyList()).enabled(true).build())
             .build();
 
-    private Background getMainBackground(){
+    private Background getMainBackground() {
         return new Background(ImmutableMap.<Integer, Item>builder()
                 .put(0, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
@@ -226,7 +226,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                 .build());
     }
 
-    private Background getRemovalBackground(){
+    private Background getRemovalBackground() {
         return new Background(ImmutableMap.<Integer, Item>builder()
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(2, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())

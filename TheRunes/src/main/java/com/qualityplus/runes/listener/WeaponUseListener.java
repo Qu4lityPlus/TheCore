@@ -24,15 +24,15 @@ public final class WeaponUseListener implements Listener {
 
         ItemStack inHand = player.getItemInHand();
 
-        if(BukkitItemUtil.isNull(inHand)) return;
+        if (BukkitItemUtil.isNull(inHand)) return;
 
         String mat = inHand.getType().toString();
 
-        if(!mat.contains("SWORD"))  return;
+        if (!mat.contains("SWORD"))  return;
 
         RuneInstance runeInstance = RunesUtils.getRuneItemInstance(inHand);
 
-        if(runeInstance.getRune() == null) return;
+        if (runeInstance.getRune() == null) return;
 
         effectProvider.execute(player, e.getKilled(), runeInstance.getRune());
     }
@@ -45,11 +45,11 @@ public final class WeaponUseListener implements Listener {
 
         ItemStack inHand = player.getItemInHand();
 
-        if(BukkitItemUtil.isNull(inHand)) return;
+        if (BukkitItemUtil.isNull(inHand)) return;
 
         RuneInstance runeInstance = RunesUtils.getRuneItemInstance(inHand);
 
-        if(runeInstance.getRune() == null) return;
+        if (runeInstance.getRune() == null) return;
 
         effectProvider.execute(player, e.getProjectile(), runeInstance.getRune());
     }

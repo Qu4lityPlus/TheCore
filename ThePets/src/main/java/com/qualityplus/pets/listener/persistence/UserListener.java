@@ -52,7 +52,7 @@ public final class UserListener implements Listener {
         savePlayerData(event.getPlayer());
     }
 
-    private void savePlayerData(Player player){
+    private void savePlayerData(Player player) {
 
         Optional<UserData> data = box.service().getData(player.getUniqueId());
 
@@ -62,28 +62,28 @@ public final class UserListener implements Listener {
 
     }
 
-    private void loadPetIfWasSpawned(UserData data){
+    private void loadPetIfWasSpawned(UserData data) {
         Optional<PetData> petData = data.getSpawnedPetData();
 
-        if(!petData.isPresent()) return;
+        if (!petData.isPresent()) return;
 
         Pet pet = Pets.getByID(petData.get().getPetId());
 
-        if(pet == null) return;
+        if (pet == null) return;
 
         PetEntity petEntity = PetEntityFactory.create(petData.get().getUuid(), data.getUuid(), pet);
 
         petEntity.spawn();
     }
 
-    private void deSpawnPetItWasSpawned(UserData data){
+    private void deSpawnPetItWasSpawned(UserData data) {
         Optional<PetData> petData = data.getSpawnedPetData();
 
-        if(!petData.isPresent()) return;
+        if (!petData.isPresent()) return;
 
         Optional<PetEntity> petEntity = PetEntityTracker.getByID(petData.get().getUuid());
 
-        if(!petEntity.isPresent()) return;
+        if (!petEntity.isPresent()) return;
 
         petEntity.get().deSpawn(PetEntity.DeSpawnReason.SERVER_TURNED_OFF);
 

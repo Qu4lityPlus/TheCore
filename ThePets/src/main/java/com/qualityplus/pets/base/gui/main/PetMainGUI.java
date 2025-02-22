@@ -143,20 +143,20 @@ public final class PetMainGUI extends PetsGUI {
 
             if (pet == null) return;
 
-            if(event.isLeftClick()){
+            if (event.isLeftClick()) {
                 Optional<UserData> data = box.service().getData(uuid);
 
                 boolean isConvertItemMode = data.map(userData -> userData.getUserSettings().isConvertPetToItemMode()).orElse(false);
 
                 UUID spawnedPet = data.map(userData -> userData.getSpawnedData().getSpawnedPetUUID()).orElse(null);
 
-                if(isConvertItemMode)
+                if (isConvertItemMode)
                     convertItem(player, pet, spawnedPet);
                 else
                     spawnAndDeSpawn(player, pet, spawnedPet);
-            }else if(isItem(slot, config.getCustomGoBackItem())){
+            } else if (isItem(slot, config.getCustomGoBackItem())) {
                 handleItemCommandClick(player, config.getCustomGoBackItem());
-            }else{
+            } else {
                 player.openInventory(new PetLevelsGUI(box, player, pet, 1).getInventory());
             }
 
@@ -165,7 +165,7 @@ public final class PetMainGUI extends PetsGUI {
 
     }
 
-    private void spawnAndDeSpawn(Player player, InventoryPet pet, UUID spawnedPet){
+    private void spawnAndDeSpawn(Player player, InventoryPet pet, UUID spawnedPet) {
         player.closeInventory();
 
         Pet pet1 = Pets.getByID(pet.getPetId());
@@ -174,7 +174,7 @@ public final class PetMainGUI extends PetsGUI {
 
         if (spawnedPet == null) {
 
-            if(pet1 == null) return;
+            if (pet1 == null) return;
 
             PetEntity petEntity = PetEntityFactory.create(pet.getUuid(), player.getUniqueId(), pet1);
 
@@ -185,7 +185,7 @@ public final class PetMainGUI extends PetsGUI {
                     .ifPresent(e -> e.deSpawn(DeSpawnReason.PLAYER_DE_SPAWN_PET));
         }
 
-        if(pet1 == null) return;
+        if (pet1 == null) return;
 
         String preMessage = spawnMessage ? box.files().messages().petMessages.summonedPet : box.files().messages().petMessages.deSpawnedPet;
 
@@ -194,7 +194,7 @@ public final class PetMainGUI extends PetsGUI {
         player.sendMessage(message);
     }
 
-    private void convertItem(Player player, InventoryPet pet, UUID spawnedPet){
+    private void convertItem(Player player, InventoryPet pet, UUID spawnedPet) {
         player.closeInventory();
 
         //DeSpawn pet if it's spawned

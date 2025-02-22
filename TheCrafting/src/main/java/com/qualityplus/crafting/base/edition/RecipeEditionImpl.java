@@ -40,29 +40,29 @@ public final class RecipeEditionImpl implements RecipeEdition, Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 
         EditionObject editionObject = editMap.getOrDefault(player.getUniqueId(), null);
 
-        if(editionObject == null) return;
+        if (editionObject == null) return;
 
         String message = event.getMessage();
 
-        if(message == null) return;
+        if (message == null) return;
 
         event.setCancelled(true);
 
-        if(!message.equalsIgnoreCase("cancel") && !message.equalsIgnoreCase("exit")){
+        if (!message.equalsIgnoreCase("cancel") && !message.equalsIgnoreCase("exit")) {
             List<IPlaceholder> placeholder = CraftingPlaceholderUtils.getRecipePlaceholders(editionObject.getRecipe());
 
-            if(editionObject.getType() == EditionType.PERMISSION)
+            if (editionObject.getType() == EditionType.PERMISSION)
                 editionObject.getRecipe().setRecipePermission(message);
-            else if(editionObject.getType() == EditionType.CATEGORY)
+            else if (editionObject.getType() == EditionType.CATEGORY)
                 editionObject.getRecipe().setCategory(message);
-            else if(editionObject.getType() == EditionType.SLOT)
+            else if (editionObject.getType() == EditionType.SLOT)
                 editionObject.getRecipe().setSlot(NumberUtil.intOrZero(message));
-            else if(editionObject.getType() == EditionType.PAGE)
+            else if (editionObject.getType() == EditionType.PAGE)
                 editionObject.getRecipe().setPage(NumberUtil.intOrZero(message));
             else
                 editionObject.getRecipe().setDisplayName(message);
@@ -82,12 +82,12 @@ public final class RecipeEditionImpl implements RecipeEdition, Listener {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event){
+    public void onQuit(PlayerQuitEvent event) {
         editMap.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
-    public void onKick(PlayerKickEvent event){
+    public void onKick(PlayerKickEvent event) {
         editMap.remove(event.getPlayer().getUniqueId());
     }
 }

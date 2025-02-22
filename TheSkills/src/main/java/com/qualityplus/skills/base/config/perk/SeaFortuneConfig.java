@@ -37,7 +37,7 @@ public final class SeaFortuneConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2IxNTU3YjcwMGRmNTI0ZTA3ODYwYzc0NjNlYWNhOTQ1MTViYWI3ZTRiMWQzM2UzOWJkMjg5NmFkY2IwZWQ5MCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_sea_fortune_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return SeaFortunePerk.builder()
                 .id(id)
                 .displayName(displayName)

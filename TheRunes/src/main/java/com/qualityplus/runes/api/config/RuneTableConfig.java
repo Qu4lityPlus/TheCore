@@ -32,8 +32,8 @@ public final class RuneTableConfig extends OkaeriConfig {
         private final XMaterial material;
         private final String texture;
 
-        public ItemStack get(){
-            if(material.equals(XMaterial.PLAYER_HEAD))
+        public ItemStack get() {
+            if (material.equals(XMaterial.PLAYER_HEAD))
                 return ItemStackUtils.makeItem(Item.builder()
                         .amount(1)
                         .headData(texture)

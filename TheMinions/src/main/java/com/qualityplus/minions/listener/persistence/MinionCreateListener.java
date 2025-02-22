@@ -17,11 +17,11 @@ public final class MinionCreateListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    public void onJoin(MinionCreateEvent event) {
+    public void onCreate(final MinionCreateEvent event) {
         this.tasker.newChain()
-                .async(() -> repository.get(event.getMinionData()))
-                .acceptAsync(repository::save)
-                .acceptSync(box.getMinionsService()::addData)
+                .async(() -> this.repository.get(event.getMinionData()))
+                .acceptAsync(this.repository::save)
+                .acceptSync(this.box.getMinionsService()::addData)
                 .execute();
     }
 }

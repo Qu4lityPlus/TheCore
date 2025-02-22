@@ -37,7 +37,7 @@ public final class IntelligenceConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjYyNjUxODc5ZDg3MDQ5OWRhNTBlMzQwMzY4MDBkZGZmZDUyZjNlNGUxOTkzYzVmYzBmYzgyNWQwMzQ0NmQ4YiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_intelligence_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return IntelligenceStat.builder()
                 .id(id)
                 .displayName(displayName)

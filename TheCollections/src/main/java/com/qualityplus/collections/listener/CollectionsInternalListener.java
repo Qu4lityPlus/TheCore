@@ -31,14 +31,14 @@ public final class CollectionsInternalListener implements Listener {
     private @Inject Box box;
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onXpGain(CollectionsXPGainEvent event){
+    public void onXpGain(CollectionsXPGainEvent event) {
         Player player = event.getPlayer();
 
         Bukkit.getScheduler().runTask(box.plugin(), () -> SoundUtils.playSound(player, box.files().config().gainXPSettings.sound));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onUnlock(CollectionsUnlockEvent event){
+    public void onUnlock(CollectionsUnlockEvent event) {
         Player player = event.getPlayer();
 
         List<IPlaceholder> placeholders = PlaceholderBuilder.create(
@@ -52,7 +52,7 @@ public final class CollectionsInternalListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onXpGain(CollectionsLevelUPEvent event){
+    public void onXpGain(CollectionsLevelUPEvent event) {
         Player player = event.getPlayer();
 
         UUID uuid = player.getUniqueId();
@@ -78,7 +78,7 @@ public final class CollectionsInternalListener implements Listener {
 
             SoundUtils.playSound(player, settings.sound);
 
-            if(settings.message.isEnabled())
+            if (settings.message.isEnabled())
                 StringUtils.processMulti(settings.message.getMessages(), placeholders).forEach(msg -> player.sendMessage(StringUtils.color(msg)));
 
 

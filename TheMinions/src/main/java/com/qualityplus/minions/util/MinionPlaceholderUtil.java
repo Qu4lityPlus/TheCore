@@ -16,9 +16,9 @@ import java.util.UUID;
 
 @UtilityClass
 public class MinionPlaceholderUtil {
-    public PlaceholderBuilder getMinionPlaceholders(Minion minion){
+    public PlaceholderBuilder getMinionPlaceholders(Minion minion) {
 
-        if(minion == null) return PlaceholderBuilder.empty();
+        if (minion == null) return PlaceholderBuilder.empty();
 
 
         return PlaceholderBuilder.create(
@@ -28,19 +28,19 @@ public class MinionPlaceholderUtil {
         );
     }
 
-    public PlaceholderBuilder getMinionPlaceholders(String id){
+    public PlaceholderBuilder getMinionPlaceholders(final String id) {
         return getMinionPlaceholders(Minions.getByID(id));
     }
 
-    public PlaceholderBuilder getMinionPlaceholders(UUID petUuid){
-        Optional<MinionData> petData = TheMinions.getApi().getMinionsService().getData(petUuid);
+    public PlaceholderBuilder getMinionPlaceholders(final UUID petUuid) {
+        final Optional<MinionData> minionData = TheMinions.getApi().getMinionsService().getData(petUuid);
 
-        int level = petData.map(MinionData::getLevel).orElse(1);
+        final int level = minionData.map(MinionData::getLevel).orElse(1);
 
         return getMinionPlaceholders(petUuid, level);
     }
 
-    public PlaceholderBuilder getMinionPlaceholders(MinionData data){
+    public PlaceholderBuilder getMinionPlaceholders(final MinionData data) {
         Optional<MinionData> petData = Optional.ofNullable(data);
 
         int level = petData.map(MinionData::getLevel).orElse(1);
@@ -50,7 +50,7 @@ public class MinionPlaceholderUtil {
                 .orElse(null), level);
     }
 
-    public PlaceholderBuilder getMinionPlaceholders(UUID petUuid, int level){
+    public PlaceholderBuilder getMinionPlaceholders(UUID petUuid, int level) {
         Optional<MinionData> petData = TheMinions.getApi().getMinionsService().getData(petUuid);
 
         Optional<Minion> pet = petData.map(MinionData::getMinionId)
@@ -69,7 +69,7 @@ public class MinionPlaceholderUtil {
     }
 
     @SuppressWarnings("all")
-    private double getSeconds(Optional<MinionData> petData, Optional<Minion> pet, int level){
+    private double getSeconds(Optional<MinionData> petData, Optional<Minion> pet, int level) {
         double mainTime = pet.map(p -> p.getTimer(level))
                 .map(HumanTime::getSeconds)
                 .map(Double::valueOf)

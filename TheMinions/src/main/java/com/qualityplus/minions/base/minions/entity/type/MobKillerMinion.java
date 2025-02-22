@@ -1,90 +1,82 @@
 package com.qualityplus.minions.base.minions.entity.type;
 
-import com.qualityplus.assistant.TheAssistantPlugin;
+import com.qualityplus.minions.TheMinions;
+import com.qualityplus.minions.api.minion.animation.MinionAnimationContext;
 import com.qualityplus.minions.base.minions.animations.PlaceAnimation;
 import com.qualityplus.minions.base.minions.entity.ArmorStandMinion;
+import com.qualityplus.minions.base.minions.entity.animation.MinionAnimationContextImpl;
 import com.qualityplus.minions.base.minions.entity.mob.MinionMobEntity;
 import com.qualityplus.minions.base.minions.minion.Minion;
-import com.qualityplus.minions.base.minions.minion.mob.MinionMob;
-import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.UUID;
 
 public final class MobKillerMinion extends ArmorStandMinion<MinionMobEntity> {
-
     private MobKillerMinion(UUID minionUniqueId, UUID owner, Minion minion, boolean loaded) {
         super(minionUniqueId, owner, minion, loaded);
     }
 
-    public static MobKillerMinion create(UUID minionUniqueId, UUID owner, Minion minion, boolean loaded){
+    public static MobKillerMinion create(UUID minionUniqueId, UUID owner, Minion minion, boolean loaded) {
         return new MobKillerMinion(minionUniqueId, owner, minion, loaded);
     }
 
+
     @Override
-    protected void checkEntityAfterRotate(MinionMobEntity entity) {
-        if (!state.isLoaded()) {
+    protected synchronized void rotateToTarget() {
+        if (!state.isCanExecuteAnimation()) {
+            return;
+        }
+
+        this.state.setCanExecuteAnimation(false);
+
+        if (state.isArmorStandLoaded()) {
+            TheMinions.getApi()
+                    .getMinionTargetSearchService()
+                    .getTargetEntity(this)
+                    .thenAccept(this::checkTargetAfterRotate);
+        } else {
+            checkTargetAfterRotate(null);
+        }
+    }
+
+    @Override
+    public void executeWhenTargetIsNull(final MinionMobEntity target) {
+        TheMinions.getApi().getMinionMobSpawnService().spawnMinionMob(this.minion, target);
+
+        resetPositionAndBreakingState();
+    }
+
+    @Override
+    public void executeWhenTargetIsNotNull(final MinionMobEntity entity) {
+        final LivingEntity living = (LivingEntity) entity.getEntity();
+        living.setHealth(0);
+
+        addItemsToMinionInventory();
+
+        resetPositionAndBreakingState();
+    }
+
+    @Override
+    protected void checkTargetAfterRotate(final MinionMobEntity target) {
+        if (!this.state.isArmorStandLoaded()) {
+            resetPositionAndBreakingState();
             addItemsToMinionInventory();
             return;
         }
 
-        armorStand.manipulateEntity(armorStand -> handleAnimationCallBack(armorStand, entity));
-    }
+        final Entity targetEntity = target.getEntity();
+        final MinionAnimationContext context = MinionAnimationContextImpl.builder()
+                .targetEntity(targetEntity)
+                .minionEntity(this)
+                .build();
 
-    @Override
-    public void doIfItsNull(MinionMobEntity entity){
-        try {
-            MinionMob minionMob = minion.getMinionLayout().getMinionMob();
-
-            Location location = entity.getLocation();
-
-            if(location != null){
-                if(minionMob.isFromMythicMobs()){
-                    TheAssistantPlugin.getAPI().getAddons().getMythicMobs().spawn(minionMob.getId(), location, minionMob.getMythicMobsLevel());
-                }else{
-                    if(minionMob.getEntityType() == null) return;
-
-                    location.getWorld().spawnEntity(location, minionMob.getEntityType());
-                }
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
+        if (targetEntity == null || targetEntity.isDead()) {
+            this.currentAnimation = new PlaceAnimation();
+            this.currentAnimation.executeAnimation(context).thenRun(() -> executeWhenTargetIsNull(target));
+        } else {
+            this.currentAnimation = new PlaceAnimation();
+            this.currentAnimation.executeAnimation(context).thenRun(() -> executeWhenTargetIsNotNull(target));
         }
-
-        teleportBack();
     }
-
-    @Override
-    public void doIfItsNotNull(MinionMobEntity entity){
-        try {
-            LivingEntity living = (LivingEntity) entity.getEntity();
-
-            living.setHealth(0);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //BlockUtils.setBlock(block, XMaterial.AIR);
-
-        addItemsToMinionInventory();
-
-        teleportBack();
-    }
-
-    private void handleAnimationCallBack(ArmorStand armorStand, MinionMobEntity mobEntity){
-        Entity entity = mobEntity.getEntity();
-
-        if(entity == null || entity.isDead()){
-
-            /*this.breakingAnimation = */PlaceAnimation.start(() -> doIfItsNull(mobEntity), armorStand);
-        }else {
-
-            /*this.breakingAnimation = */PlaceAnimation.start(() -> doIfItsNotNull(mobEntity), armorStand);
-        }
-
-    }
-
-
 }

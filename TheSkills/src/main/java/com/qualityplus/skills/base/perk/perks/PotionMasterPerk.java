@@ -28,23 +28,27 @@ public final class PotionMasterPerk extends AbstractPotionPerk {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void handlePerk(PlayerItemConsumeEvent e) {
-        if(!e.getItem().getType().equals(Material.POTION)) return;
+        if (!e.getItem().getType().equals(Material.POTION)) return;
 
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
 
-        if(RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(player)) return;
+        if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(player)) return;
 
         PotionEffect effect = getPotion(getStat(player), e.getItem());
 
-        if(effect == null) return;
+        if (effect == null) {
+            return;
+        }
 
         player.addPotionEffect(effect);
     }
 
-    protected PotionEffect getPotion(int level, ItemStack item){
-        if(!(item.getItemMeta() instanceof PotionMeta)) return null;
+    private PotionEffect getPotion(final double level, final ItemStack item) {
+        if (!(item.getItemMeta() instanceof PotionMeta)) {
+            return null;
+        }
 
-        PotionEffectType type = Optional.ofNullable((PotionMeta) item.getItemMeta())
+        final PotionEffectType type = Optional.ofNullable((PotionMeta) item.getItemMeta())
                 .map(meta -> meta.getBasePotionData().getType().getEffectType()).
                 orElse(null);
 

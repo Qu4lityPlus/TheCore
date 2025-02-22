@@ -28,7 +28,7 @@ public final class UserServiceImpl implements UserService {
 
     @Override
     public void sendMessage(EventPlayer eventUser, List<String> message) {
-        if(eventUser.getPlayer() == null) return;
+        if (eventUser.getPlayer() == null) return;
         message.forEach(msg -> eventUser.getPlayer().sendMessage(msg));
     }
 

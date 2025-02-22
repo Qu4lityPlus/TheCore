@@ -20,13 +20,13 @@ public final class AEProviderRegistry {
     private @Inject Logger logger;
 
     @Delayed(time = 1)
-    public void reload(){
-        if(!config.loadAllAdvancedEnchantments)
+    public void reload() {
+        if (!config.loadAllAdvancedEnchantments)
             return;
 
         List<ICoreEnchantment> enchants = provider.getEnchantments();
 
-        if(enchants.size() <= 0) {
+        if (enchants.size() <= 0) {
             logger.info("AdvancedEnchantments Wasn't found!");
             return;
         }

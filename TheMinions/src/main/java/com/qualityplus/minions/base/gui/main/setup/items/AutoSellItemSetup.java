@@ -20,19 +20,19 @@ import java.util.Optional;
 
 public final class AutoSellItemSetup implements ItemSetup {
     @Override
-    public void setItem(Inventory inventory, Box box, MainMinionGUIConfig config, MinionEntity minionEntity){
+    public void setItem(Inventory inventory, Box box, MainMinionGUIConfig config, MinionEntity minionEntity) {
         Optional<MinionData> minionData = TheMinions.getApi().getMinionsService().getData(minionEntity.getMinionUniqueId());
 
         AutomatedShippingEntity autoSellEntity = minionData
                 .map(MinionData::getAutoSell)
                 .orElse(null);
 
-        if(autoSellEntity == null)
+        if (autoSellEntity == null)
             inventory.setItem(config.getMinionAutomatedShipping().getSlot(), ItemStackUtils.makeItem(config.getMinionAutomatedShipping()));
         else {
             MinionAutoShipping autoSell = box.files().getAutoSell().automatedShippingUpgrades.getOrDefault(autoSellEntity.getId(), null);
 
-            if(autoSell == null) return;
+            if (autoSell == null) return;
 
             ItemStack itemStack = autoSell.getItemStack(autoSellEntity.getSoldItems(), autoSellEntity.getHeldCoins());
 

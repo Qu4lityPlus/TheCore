@@ -35,7 +35,7 @@ public final class LightningPunchPerk extends Perk {
     public void handlePerk(EntityDamagedByPlayerEvent e) {
         Player p = e.getPlayer();
 
-        if(!(e.getEntity() instanceof LivingEntity)) return;
+        if (!(e.getEntity() instanceof LivingEntity)) return;
 
         LivingEntity entity = (LivingEntity) e.getEntity();
 
@@ -48,7 +48,7 @@ public final class LightningPunchPerk extends Perk {
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(new Placeholder("damage", damage)).get());
     }
 }

@@ -49,7 +49,7 @@ public final class Stats {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND, async = true)
-    public static void reloadStats(@Inject Box box){
+    public static void reloadStats(@Inject Box box) {
         values().forEach(Stat::unregisterListeners);
 
         Stream.of(box.statFiles().defense().getStat(),

@@ -11,7 +11,7 @@ import java.util.List;
 
 @UtilityClass
 public class CraftingPlaceholderUtils {
-    public List<IPlaceholder> getRecipePlaceholders(CustomRecipe recipe){
+    public List<IPlaceholder> getRecipePlaceholders(CustomRecipe recipe) {
         return Arrays.asList(
                 new Placeholder("crafting_recipe_displayname", recipe.getDisplayName()),
                 new Placeholder("crafting_recipe_id", recipe.getId()),
@@ -25,7 +25,7 @@ public class CraftingPlaceholderUtils {
         );
     }
 
-    private String emptyIfNull(String input){
+    private String emptyIfNull(String input) {
         return input == null || input.equals("") ? "&cEmpty" : input;
     }
 }

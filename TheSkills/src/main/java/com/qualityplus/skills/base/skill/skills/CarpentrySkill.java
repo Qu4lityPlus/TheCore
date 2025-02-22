@@ -36,16 +36,16 @@ public final class CarpentrySkill extends Skill {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onCraft(CraftItemEvent event){
+    public void onCraft(CraftItemEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return;
 
         Optional<XMaterial> material = Optional.of(event.getRecipe().getResult()).map(ItemStack::getType).map(XMaterial::matchXMaterial);
 
         double xp = rewards.getOrDefault(material.get(), 0D) + xpForAllItems;
 
-        if(xp <= 0) return;
+        if (xp <= 0) return;
 
         TheSkills.getApi().getSkillsService().addXp(player, true, true, this, xp);
 

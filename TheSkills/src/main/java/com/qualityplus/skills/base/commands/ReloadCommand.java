@@ -25,7 +25,7 @@ public final class ReloadCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.successfullyReloaded));
 
             box.files().reloadFiles();
@@ -35,7 +35,7 @@ public final class ReloadCommand extends AssistantCommand {
             Skills.reloadSkills(box, minionsProvider);
 
             TheAssistantPlugin.getAPI().getCommandProvider().reloadCommands();
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax));
         return true;
     }
@@ -46,7 +46,7 @@ public final class ReloadCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().reloadCommand));
     }
 }

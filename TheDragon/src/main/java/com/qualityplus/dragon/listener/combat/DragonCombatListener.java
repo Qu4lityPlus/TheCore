@@ -45,9 +45,9 @@ public final class DragonCombatListener implements Listener {
             return;
         }
 
-        if(event.getDamager() instanceof Fireball){
+        if (event.getDamager() instanceof Fireball) {
             event.setCancelled(true);
-        }else{
+        } else {
 
             final Player attacker = getDragonAttacker(event);
 
@@ -65,12 +65,12 @@ public final class DragonCombatListener implements Listener {
         }
     }
 
-    private void mangeDragonHealth(final EntityDamageByEntityEvent event, double damage){
+    private void mangeDragonHealth(final EntityDamageByEntityEvent event, double damage) {
         final TheDragonEntity theDragonEntity = box.dragonService().getActiveDragon();
 
         final EnderDragon enderDragon = box.dragonService().getActiveEnderDragon();
 
-        if(enderDragon.getHealth() <= 0) {
+        if (enderDragon.getHealth() <= 0) {
             return;
         }
 
@@ -78,9 +78,9 @@ public final class DragonCombatListener implements Listener {
 
         double dragonHealth = DragonHealthUtil.getHealthAfterDamage(theDragonEntity.getHealth(), enderDragon.getHealth(), damage);
 
-        if(dragonHealth < 0){
+        if (dragonHealth < 0) {
             box.game().finish();
-        }else{
+        } else {
 
             enderDragon.setHealth(dragonHealth);
 
@@ -89,7 +89,7 @@ public final class DragonCombatListener implements Listener {
         }
     }
 
-    private boolean dragonIsDeath(){
+    private boolean dragonIsDeath() {
         TheDragonEntity theDragonEntity = box.dragonService().getActiveDragon();
 
         EnderDragon enderDragon = box.dragonService().getActiveEnderDragon();
@@ -97,16 +97,16 @@ public final class DragonCombatListener implements Listener {
         return !(theDragonEntity instanceof TheDragonEntityImpl) || enderDragon.getHealth() <= 0;
     }
 
-    private Player getDragonAttacker(EntityDamageByEntityEvent event){
+    private Player getDragonAttacker(EntityDamageByEntityEvent event) {
         return event.getDamager() instanceof Player ? (Player) event.getDamager() : getPlayerIfIsShooter(event);
     }
 
-    private Player getPlayerIfIsShooter(EntityDamageByEntityEvent event){
+    private Player getPlayerIfIsShooter(EntityDamageByEntityEvent event) {
         return event.getDamager() instanceof Arrow && ((Arrow)event.getDamager()).getShooter() instanceof Player ?
                 (Player) ((Arrow)event.getDamager()).getShooter() : null;
     }
 
-    private void addDamageToAttacker(Player player, double damage){
+    private void addDamageToAttacker(Player player, double damage) {
         box.users().addPlayerDamage(player, damage);
         box.users().setLast(player.getUniqueId());
     }

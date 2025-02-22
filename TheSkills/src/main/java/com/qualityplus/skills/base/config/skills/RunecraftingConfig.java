@@ -46,7 +46,7 @@ public final class RunecraftingConfig extends OkaeriConfig {
                     "&8» &7Access to Level &5%skill_level_number% &7Runes"))
             .build();
 
-    public Skill getSkill(){
+    public Skill getSkill() {
         return RunecraftingSkill.builder()
                 .id(id)
                 .enabled(enabled)
@@ -64,7 +64,7 @@ public final class RunecraftingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return FastMap.listBuilder(Integer.class, String.class)
                 .put(1, Arrays.asList("&7Your Stats:",
                         "&8» &7Access to Level &5%skill_level_number% &7Runes"))
@@ -73,11 +73,11 @@ public final class RunecraftingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<StatReward>> getInternalRewards(){
+    private Map<Integer, List<StatReward>> getInternalRewards() {
         return new HashMap<>();
     }
 
-    private Map<Integer, Double> getLevelsMap(){
+    private Map<Integer, Double> getLevelsMap() {
         Map<Integer, Double> levels = new HashMap<>();
 
         NumberUtil.intStream(0, maxLevel).forEach(n -> levels.put(n, n*15d));

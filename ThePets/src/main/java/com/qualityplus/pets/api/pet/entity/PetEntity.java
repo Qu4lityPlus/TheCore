@@ -10,7 +10,7 @@ public interface PetEntity {
     void spellParticle();
     UUID getPetUniqueId();
     void spawn();
-    void deSpawn(DeSpawnReason reason);
+    void deSpawn(final DeSpawnReason reason);
     void update();
     void prepareToLevelUp();
 

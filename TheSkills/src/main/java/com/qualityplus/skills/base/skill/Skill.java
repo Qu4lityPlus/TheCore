@@ -46,16 +46,16 @@ public abstract class Skill extends CommonObject implements ListenerRegistrable 
     }
 
     @Override
-    public void register(){
+    public void register() {
         Skills.registerNewSkill(this);
     }
 
     @Override
-    public void addExtraListener(Class<? extends ExtraListener> listener){
+    public void addExtraListener(Class<? extends ExtraListener> listener) {
         extraListeners.add(listener);
     }
 
-    private <T> T getMap(Map<Integer, T> map, int level){
+    private <T> T getMap(Map<Integer, T> map, int level) {
         if (map.containsKey(level)) {
             return map.get(level);
         } else {
@@ -90,14 +90,14 @@ public abstract class Skill extends CommonObject implements ListenerRegistrable 
         return Optional.ofNullable(getMap(statRewards, level)).orElse(Collections.emptyList());
     }
 
-    public double getLevelRequirement(int level){
+    public double getLevelRequirement(int level) {
         return getMap(xpRequirements, level);
     }
 
-    public Optional<BlockBreakResponse> getBlockBreakEventXp(final XMaterial material, final Map<XMaterial, Double> rewards){
+    public Optional<BlockBreakResponse> getBlockBreakEventXp(final XMaterial material, final Map<XMaterial, Double> rewards) {
         double xp = rewards.getOrDefault(material, 0D);
 
-        if(xp <= 0) return Optional.empty();
+        if (xp <= 0) return Optional.empty();
 
         return Optional.of(BlockBreakResponse.builder()
                         .xp(xp)

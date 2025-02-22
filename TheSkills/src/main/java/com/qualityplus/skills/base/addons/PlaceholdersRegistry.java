@@ -22,32 +22,32 @@ import java.util.stream.Stream;
 @Component
 public final class PlaceholdersRegistry {
     @Delayed(time = MinecraftTimeEquivalent.SECOND * 5)
-    public void registerSkillsPlaceholders(@Inject SkillsService service){
+    public void registerSkillsPlaceholders(@Inject SkillsService service) {
         PlaceholdersAddon addon = TheAssistantPlugin.getAPI().getAddons().getPlaceholders();
 
-        for(Skill skill : Skills.values()){
+        for (Skill skill : Skills.values()) {
             addon.registerPlaceholders("skill_" + skill.getId() + "_displayname",
                     e -> skill.getDisplayName());
             addon.registerPlaceholders("skill_" + skill.getId() + "_xp",
                     e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getXp(skill.getId())).orElse(0D)));
             addon.registerPlaceholders("skill_" + skill.getId() + "_level",
-                    e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(skill.getId())).orElse(0)));
+                    e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(skill.getId())).orElse(0D)));
         }
 
-        for(Perk perk : Perks.values()) {
+        for (Perk perk : Perks.values()) {
             addon.registerPlaceholders("perk_" + perk.getId() + "_displayname",
                     e -> perk.getDisplayName());
 
             addon.registerPlaceholders("perk_" + perk.getId() + "_level",
-                    e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(perk.getId())).orElse(0)));
+                    e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(perk.getId())).orElse(0D)));
         }
 
-        for(Stat stat : Stats.values()) {
+        for (Stat stat : Stats.values()) {
             addon.registerPlaceholders("stat_" + stat.getId() + "_displayname",
                     e -> stat.getDisplayName());
 
             addon.registerPlaceholders("stat_" + stat.getId() + "_level",
-                    e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(stat.getId())).orElse(0)));
+                    e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getSkills().getLevel(stat.getId())).orElse(0D)));
         }
 
         Stream.of(addon)

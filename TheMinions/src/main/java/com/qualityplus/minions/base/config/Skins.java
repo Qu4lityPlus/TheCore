@@ -77,12 +77,12 @@ public final class Skins extends OkaeriConfig {
             .build();
 
 
-    public static Optional<MinionSkin> getSkin(String skin){
+    public static Optional<MinionSkin> getSkin(String skin) {
         Skins skins = TheMinions.getApi().getConfigFiles().skins();
         return Optional.ofNullable(skins.minionSkins.getOrDefault(skin, null));
     }
 
-    private static MinionSkin getGrinchSkin(){
+    private static MinionSkin getGrinchSkin() {
         return MinionSkin.builder()
                 .id("grinch_skin")
                 .displayName("Grinch Skin")
@@ -98,7 +98,7 @@ public final class Skins extends OkaeriConfig {
                 .build();
     }
 
-    private static MinionSkin getWheatMinion(String displayName, int level){
+    private static MinionSkin getWheatMinion(String displayName, int level) {
         Map<Integer, String> dataWithLevel = FastMap.builder(Integer.class, String.class)
                 .put(1, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNkZWYyNTI0ZTA2MjU0NzBlYmRmYTUyZDJlMGUzM2ZiOWJjYjI1NjgyZGUwOWZiNjljZWY5NmM5OWZjYTEyZiJ9fX0=")
                 .put(2, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWI5OWUwODFiMTg4NzdhNzQ2MmIwYjRlMDk2ODZhOTQ0ZDk2NTliNzRmNmM5NTFlM2ZiMDYxMWMxZjJhOGFkYiJ9fX0=")
@@ -126,7 +126,7 @@ public final class Skins extends OkaeriConfig {
                 .build();
     }
 
-    private static MinionSkin getDiamondSkin(String displayName, int level){
+    private static MinionSkin getDiamondSkin(String displayName, int level) {
         Map<Integer, String> dataWithLevel = FastMap.builder(Integer.class, String.class)
                 .put(1, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmRiMDA4MDY4ODIzODQ0ZDEyOWVmZDgzOWM4MzA2NTBkOThlZWE4MTA0Y2YyYjMyNmE5YmU3ZGZiMTdhYjk5ZCJ9fX0=")
                 .put(2, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjJkMjA0ZjNiNGJiNGRjMzdhMDk0OWY1ODc3ODg0ODlhMWNkMTQ4ODIxYTEwN2FiMDU3NTgyY2VjMWJjZDEwMyJ9fX0=")
@@ -155,7 +155,7 @@ public final class Skins extends OkaeriConfig {
                 .build();
     }
 
-    private static MinionSkin getSnowMinion(int level){
+    private static MinionSkin getSnowMinion(int level) {
         Map<Integer, String> dataWithLevel = FastMap.builder(Integer.class, String.class)
                 .put(1, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZkMTgwNjg0YzM1MjFjOWZjODk0NzhiYTQ0MDVhZTljZTQ5N2RhODEyNGZhMGRhNWEwMTI2NDMxYzRiNzhjMyJ9fX0=")
                 .put(2, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjk5MjFiYWI1NGFmMTQwNDgxYzAxNmE1OWE4MTliMzY5NjY3YTRlNGZiMmYyNDQ5Y2VlYmY3Yzg5N2VkNTg4ZSJ9fX0=")
@@ -181,7 +181,7 @@ public final class Skins extends OkaeriConfig {
                 .build();
     }
 
-    private static MinionSkin getCowMinion(int level){
+    private static MinionSkin getCowMinion(int level) {
         Map<Integer, String> dataWithLevel = FastMap.builder(Integer.class, String.class)
                 .put(1, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjRmZjBmNThjMmYyY2RjNzQyMzQwYTdhNzFlYjEzYmU5MjhiZmY2M2FmZjgzMzAwMmE0N2I3NDZiOTZiNDQ4OCJ9fX0=")
                 .put(2, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFjMDEwODIzNjgyZWRkZmQyNzdiODQ4MjVkODk3MjNjNjc1NDFkZjcyMTZhYTI3M2I5N2Y1YjZjMjRhNjg1MCJ9fX0=")

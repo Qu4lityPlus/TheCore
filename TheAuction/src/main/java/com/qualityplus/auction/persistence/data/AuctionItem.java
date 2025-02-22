@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 
@@ -110,6 +111,10 @@ public final class AuctionItem extends OkaeriConfig {
      * @param bid {@link AuctionBid}
      */
     public void addBid(final AuctionBid bid) {
+        if (this.isBuyItNow) {
+            Bukkit.getConsoleSender().sendMessage("Couldn't add bid to auction item");
+            return;
+        }
         this.bids.add(bid);
     }
 
@@ -156,5 +161,4 @@ public final class AuctionItem extends OkaeriConfig {
     public boolean isOwner(final UUID uuid) {
         return this.owner.equals(uuid);
     }
-
 }

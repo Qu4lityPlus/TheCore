@@ -9,12 +9,12 @@ import org.bukkit.inventory.ItemStack;
 @Component
 public final class ControllerFactory {
     @Bean("normalController")
-    public EnchantmentController<ItemStack> createNormalController(){
+    public EnchantmentController<ItemStack> createNormalController() {
         return new VanillaExtensionController();
     }
 
     @Bean("advancedController")
-    public EnchantmentController<ItemStack> createAdvancedController(){
+    public EnchantmentController<ItemStack> createAdvancedController() {
         return new VanillaExtensionController();
     }
 

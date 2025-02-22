@@ -20,23 +20,23 @@ public abstract class Stat extends CommonObject implements ListenerRegistrable {
     }
 
     @Override
-    public void register(){
+    public void register() {
         Stats.registerNewStat(this);
     }
 
     @Override
-    public void addExtraListener(Class<? extends ExtraListener> listener){
+    public void addExtraListener(Class<? extends ExtraListener> listener) {
         extraListeners.add(listener);
     }
 
-    public int getStat(Player player, String id){
+    public double getStat(Player player, String id) {
         return TheSkills.getApi().getSkillsService().getData(player.getUniqueId())
                 .map(UserData::getSkills)
                 .map(userPerks -> userPerks.getLevel(id))
-                .orElse(1);
+                .orElse(1D);
     }
 
-    public int getStat(Player player){
+    public double getStat(Player player) {
         return getStat(player, id);
     }
 }

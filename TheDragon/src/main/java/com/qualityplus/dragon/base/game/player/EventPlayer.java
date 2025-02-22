@@ -18,7 +18,7 @@ public final class EventPlayer implements GamePlayer {
     private final UUID uuid;
     private double damage;
 
-    public EventPlayer(final UUID uuid, final double damage, final PlayerStatus status){
+    public EventPlayer(final UUID uuid, final double damage, final PlayerStatus status) {
         this.uuid = uuid;
         this.status = status;
         this.damage = damage;
@@ -26,12 +26,12 @@ public final class EventPlayer implements GamePlayer {
     }
 
     @Override
-    public Player getPlayer(){
+    public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return name;
     }
 

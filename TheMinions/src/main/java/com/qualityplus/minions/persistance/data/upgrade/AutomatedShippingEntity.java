@@ -13,11 +13,11 @@ public final class AutomatedShippingEntity extends Document {
     private long soldItems;
     private double heldCoins;
 
-    public void addSoldItems(long soldItems){
+    public void addSoldItems(long soldItems) {
         this.soldItems+=soldItems;
     }
 
-    public void addHeldCoins(double heldCoins){
+    public void addHeldCoins(double heldCoins) {
         this.heldCoins+=heldCoins;
     }
 }

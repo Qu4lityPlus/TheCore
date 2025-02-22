@@ -24,23 +24,23 @@ public final class OpenCollectionItemCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
             Player player = (Player) sender;
 
             Collection collection = CollectionsRegistry.getByID(args[1]);
 
-            if(collection == null){
+            if (collection == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.invalidCollection));
                 return false;
             }
 
-            if(!collection.isEnabled()){
+            if (!collection.isEnabled()) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.collectionIsDisabled));
                 return false;
             }
 
             player.openInventory(new CollectionGUI(box, player, collection).getInventory());
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         return true;
     }
@@ -51,7 +51,7 @@ public final class OpenCollectionItemCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().collectionMenuCommand));
     }
 }

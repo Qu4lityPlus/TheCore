@@ -67,8 +67,8 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                     Arrays.asList("&7View various statistics about", "&7you and the Auction House.", "", "&eClick to view!")).build())
             .build();
 
-    @CustomKey("manageAuctionGUIConfig")
-    private ManageAuctionGUIConfig manageAuctionGUIConfig = ManageAuctionGUIConfig.builder()
+    @CustomKey("manageAuctionGUINewConfig")
+    private ManageAuctionGUIConfig manageAuctionGUINewConfig = ManageAuctionGUIConfig.builder()
             .commonGUI(new CommonGUI(
                     "Manage Auctions",
                     36,
@@ -88,7 +88,9 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                             "&6» &eClick to inspect")).build())
             .goBackItem(ItemBuilder.of(XMaterial.ARROW,  31, 1, "&aGo Back", Arrays.asList("&7To Auction House")).build())
             .sortItem(ItemBuilder.of(XMaterial.HOPPER, 32, 1, "&eSort",
-                    Arrays.asList("", "")).build())
+                    Arrays.asList("&7%auction_browser_is_by_recently_updated%Recently Updated",
+                            "&7%auction_browser_is_by_highest_bid%Highest Bid",
+                            "&7%auction_browser_is_by_most_bid%Most Bid")).build())
             .createAnAuction(ItemBuilder.of(XMaterial.GOLDEN_HORSE_ARMOR, 33, 1, "&aCreate Auction",
                     Arrays.asList("&7Set your own items on auction", "&7for other players to purchase.", "", "&eClick to become rich!")).build())
 

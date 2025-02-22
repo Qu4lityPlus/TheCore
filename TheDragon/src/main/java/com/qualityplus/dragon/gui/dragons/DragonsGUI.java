@@ -31,7 +31,7 @@ public final class DragonsGUI extends TheDragonGUI {
 
         int slot = 0;
 
-        for(TheDragonEntity entity : box.files().dragons().dragonMap.values()){
+        for (TheDragonEntity entity : box.files().dragons().dragonMap.values()) {
 
             inventory.setItem(slot, ItemStackUtils.makeItem(config.getDragonItem(), getPlaceholders(entity)));
 
@@ -45,7 +45,7 @@ public final class DragonsGUI extends TheDragonGUI {
         return inventory;
     }
 
-    private List<IPlaceholder> getPlaceholders(TheDragonEntity entity){
+    private List<IPlaceholder> getPlaceholders(TheDragonEntity entity) {
         return Arrays.asList(
                 new Placeholder("thedragon_dragon_id", entity.getId()),
                 new Placeholder("thedragon_dragon_displayname", entity.getDisplayName()),
@@ -63,9 +63,9 @@ public final class DragonsGUI extends TheDragonGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
-        if(isItem(slot, config.getCloseGUI()))
+        if (isItem(slot, config.getCloseGUI()))
             player.closeInventory();
         else if (isItem(slot, config.getBackToMainMenu()))
             player.openInventory(new MainMenuGUI(box).getInventory());

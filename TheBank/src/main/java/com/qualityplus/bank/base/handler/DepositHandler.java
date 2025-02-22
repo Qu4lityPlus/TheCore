@@ -11,6 +11,7 @@ import com.qualityplus.bank.base.exception.NotEnoughMoneyException;
 import com.qualityplus.bank.base.gui.main.BankInterfaceGUI;
 import com.qualityplus.bank.persistence.data.BankData;
 import com.qualityplus.bank.persistence.data.BankTransaction;
+import com.qualityplus.bank.persistence.data.TransactionCaller;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -23,24 +24,29 @@ public final class DepositHandler implements TrxHandler {
     public TrxResponse handle(final TrxRequest request) throws NotEnoughMoneyException, BankLimitException {
         final BankData bankData = request.getBankData();
         final BankTransaction transaction = request.getTransaction();
-
-        final double newBalance = transaction.getAmount() + bankData.getMoney();
-
-        if (newBalance > bankData.getLimit(upgrades)){
-            throw new BankLimitException(bankData);
-        }
-
         final OfflinePlayer player = Bukkit.getOfflinePlayer(bankData.getUuid());
-
         final EconomyAddon economy = TheAssistantPlugin.getAPI().getAddons().getEconomy();
 
-        final double balance = economy.getMoney(player);
+        if (request.isForce()) {
+            final double newBalance = transaction.getAmount() + bankData.getMoney();
 
-        if(balance <= 0){
-            throw new NotEnoughMoneyException(bankData);
+            if (newBalance > bankData.getLimit(upgrades)) {
+                throw new BankLimitException(bankData);
+            }
+
+            if (request.getTransaction().getCaller().equals(TransactionCaller.PLAYER)) {
+                final double balance = economy.getMoney(player);
+
+                if (balance <= 0) {
+                    throw new NotEnoughMoneyException(bankData);
+                }
+                economy.withdrawMoney(player, transaction.getAmount());
+            }
         }
 
-        economy.withdrawMoney(player, transaction.getAmount());
+        if (!request.isInterest()) {
+            economy.withdrawMoney(player, transaction.getAmount());
+        }
 
         bankData.addMoney(transaction.getAmount());
 

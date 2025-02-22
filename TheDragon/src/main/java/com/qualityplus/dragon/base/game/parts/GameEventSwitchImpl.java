@@ -55,16 +55,16 @@ public final class GameEventSwitchImpl implements GameEventSwitch {
         }, 0, 20);
     }
 
-    public String parseMessage(DragonGameEvent dragonEvent){
-        if(!messages.gameConfigMessages.enabled) return "";
+    public String parseMessage(DragonGameEvent dragonEvent) {
+        if (!messages.gameConfigMessages.enabled) return "";
 
-        if(dragonEvent instanceof DragonFireBallEvent)
+        if (dragonEvent instanceof DragonFireBallEvent)
             return messages.gameConfigMessages.dragonBall;
-        else if(dragonEvent instanceof DragonNormalFireBallEvent)
+        else if (dragonEvent instanceof DragonNormalFireBallEvent)
             return messages.gameConfigMessages.fireball;
-        else if(dragonEvent instanceof DragonGuardianEvent)
+        else if (dragonEvent instanceof DragonGuardianEvent)
             return messages.gameConfigMessages.guardians;
-        else if(dragonEvent instanceof DragonLightningEvent)
+        else if (dragonEvent instanceof DragonLightningEvent)
             return messages.gameConfigMessages.lightning;
         else
             return "";

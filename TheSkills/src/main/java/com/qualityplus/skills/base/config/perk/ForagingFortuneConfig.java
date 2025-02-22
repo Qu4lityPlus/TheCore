@@ -37,7 +37,7 @@ public final class ForagingFortuneConfig extends OkaeriConfig implements PerkFil
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmIzNTE2OWI3NjU5ZGM3MGYzZDc5MzQzYjM5YTA5Yjk1ZjQ0MzBhZTAxMWRlY2E2Y2FmMzU4YzIwZTkyZGM0YSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_foraging_fortune_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return ForagingFortunePerk.builder()
                 .id(id)
                 .displayName(displayName)

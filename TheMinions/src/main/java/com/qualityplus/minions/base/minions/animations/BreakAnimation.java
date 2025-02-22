@@ -5,89 +5,82 @@ import com.qualityplus.assistant.util.armorstand.ArmorStandUtil;
 import com.qualityplus.assistant.util.player.PlayerUtils;
 import com.qualityplus.assistant.util.time.HumanTime;
 import com.qualityplus.minions.TheMinions;
+import com.qualityplus.minions.api.minion.animation.MinionAnimation;
+import com.qualityplus.minions.api.minion.animation.MinionAnimationContext;
+import com.qualityplus.minions.base.minions.entity.type.BlockBreakMinion;
 import com.qualityplus.minions.util.MinionAnimationUtil;
-import com.qualityplus.minions.base.minions.entity.animation.FinishAnimation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.EulerAngle;
 
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
-public final class BreakAnimation extends BukkitRunnable {
-    private final FinishAnimation callback;
-    private final ArmorStand armorStand;
-    private final Block block;
-
+public final class BreakAnimation implements MinionAnimation {
+    private BukkitTask runnable;
     private int counter = 0;
     private int passedTimes = 0;
     private double damageCounter = 0;
-
-    //Si es true es el que va hacia arriba y si es false es el que vuelve
     private boolean iterateId = true;
     private EulerAngle[] toIterate = MinionAnimationUtil.rightHandFastPickaxeMovementNew;
-
     private final double maxTimes;
     private final double blockToPerform;
 
-    protected BreakAnimation(FinishAnimation callback, ArmorStand armorStand, Block block) {
-        this.callback = callback;
-        this.armorStand = armorStand;
-        this.block = block;
+    public BreakAnimation() {
+        final HumanTime timer = new HumanTime(2, HumanTime.TimeType.SECONDS);
+        final long millis = Duration.ofSeconds(timer.getSeconds()).toMillis();
+        final int toDivide = (int) ((int) millis / (20 * timer.getSeconds()));
 
-        HumanTime timer = new HumanTime(2, HumanTime.TimeType.SECONDS);
-        long millis = Duration.ofSeconds(timer.getSeconds()).toMillis();
-        int toDivide = (int) ((int) millis / (20 * timer.getSeconds()));
-
-        maxTimes = (int) (millis / toDivide);
-        blockToPerform = 9D / maxTimes;
+        this.maxTimes = (int) (millis / toDivide);
+        this.blockToPerform = 9D / maxTimes;
     }
-
-    public static BukkitRunnable start(FinishAnimation callBack, ArmorStand armorStand, Block block){
-        BukkitRunnable runnable = new BreakAnimation(callBack, armorStand, block);
-
-        runnable.runTaskTimer(TheMinions.getInstance(), 0L, 1L);
-
-        return runnable;
-    }
-
 
     @Override
-    public void run(){
+    public CompletableFuture<Void> executeAnimation(final MinionAnimationContext context) {
+        final CompletableFuture<Void> future = new CompletableFuture<>();
+        final Block block = context.getTargetBlock();
 
-        armorStand.setHeadPose(new EulerAngle(-24.5, 0, 0));
+        this.runnable = Bukkit.getScheduler().runTaskTimer(TheMinions.getInstance(), () -> {
+            final ArmorStand armorStand = context.getMinionEntity().getEntity();
 
-        if(passedTimes >= maxTimes){
-            cancel();
+            if (this.passedTimes >= this.maxTimes) {
+                if (ArmorStandUtil.entityIsValid(armorStand)) {
+                    armorStand.setRightArmPose(new EulerAngle(0, 0, 0));
+                }
 
-            if(ArmorStandUtil.entityIsValid(armorStand))
-                armorStand.setRightArmPose(new EulerAngle(0, 0, 0));
+                TheAssistantPlugin.getAPI().getNms().damageBlock(PlayerUtils.all(), block, -1);
+                future.complete(null);
 
-            TheAssistantPlugin.getAPI().getNms().damageBlock(PlayerUtils.all(), block, -1);
+                this.runnable.cancel();
+                return;
+            }
 
-            callback.finished();
+            if (this.counter == this.toIterate.length - 1) {
+                this.counter = 0;
+                this.iterateId = !this.iterateId;
+                this.toIterate = this.iterateId ? MinionAnimationUtil.rightHandFastPickaxeMovementNew : MinionAnimationUtil.rightHandFastPickaxeMovementNew2;
+            }
 
-            return;
-        }
+            TheAssistantPlugin.getAPI().getNms().damageBlock(PlayerUtils.all(), block, (int) Math.ceil(this.damageCounter));
 
-        if(counter == toIterate.length - 1){
-            counter = 0;
-            iterateId = !iterateId;
-            toIterate = iterateId ? MinionAnimationUtil.rightHandFastPickaxeMovementNew : MinionAnimationUtil.rightHandFastPickaxeMovementNew2;
-        }
+            if (ArmorStandUtil.entityIsValid(armorStand)) {
+                armorStand.setRightArmPose(this.toIterate[this.counter]);
+            }
 
-        TheAssistantPlugin.getAPI().getNms().damageBlock(PlayerUtils.all(), block, (int) Math.ceil(damageCounter));
+            this.damageCounter+=this.blockToPerform;
+            this.passedTimes++;
+            this.counter++;
+        }, 0L, 1L);
 
-        if(ArmorStandUtil.entityIsValid(armorStand))
-            armorStand.setRightArmPose(toIterate[this.counter]);
+        return future;
+    }
 
-
-        this.damageCounter+=blockToPerform;
-        this.passedTimes++;
-        this.counter++;
+    @Override
+    public void cancel() {
+        runnable.cancel();
     }
 }

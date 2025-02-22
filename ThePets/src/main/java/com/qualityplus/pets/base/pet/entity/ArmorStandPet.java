@@ -2,14 +2,14 @@ package com.qualityplus.pets.base.pet.entity;
 
 import com.qualityplus.assistant.util.armorstand.ArmorStandUtil;
 import com.qualityplus.assistant.util.itemstack.ItemBuilder;
+import com.qualityplus.pets.ThePets;
 import com.qualityplus.pets.base.pet.Pet;
-import com.qualityplus.pets.base.pet.entity.tracket.PetArmorStandTracker;
+import com.qualityplus.pets.base.pet.entity.tracker.PetArmorStandTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -25,12 +25,12 @@ public final class ArmorStandPet extends MinecraftPet {
         this.loaded = loaded;
     }
 
-    public static ArmorStandPet create(UUID petUniqueId, UUID owner, Pet pet, boolean loaded){
+    public static ArmorStandPet create(UUID petUniqueId, UUID owner, Pet pet, boolean loaded) {
         return new ArmorStandPet(petUniqueId, owner, pet, loaded);
     }
 
     @Override
-    public void load(){
+    public void load() {
         Optional.ofNullable(getNextLocation())
                 .ifPresent(this::createArmorStand);
 
@@ -38,13 +38,21 @@ public final class ArmorStandPet extends MinecraftPet {
     }
 
     @Override
-    public void unload(){
+    public void unload() {
         Optional.ofNullable(armorStand)
                 .filter(ArmorStandUtil::entityIsValid)
                 .ifPresent(e -> {
                     final UUID uuid = e.getUniqueId();
-                    PetArmorStandTracker.unregisterEntity(uuid);
+                    final Location location = e.getLocation();
+                    try {
+                        location.getChunk().load();
+                        location.getChunk().setForceLoaded(true);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                     e.remove();
+                    PetArmorStandTracker.unregisterEntity(uuid);
                 });
 
         loaded = false;
@@ -54,7 +62,7 @@ public final class ArmorStandPet extends MinecraftPet {
     public void spawn() {
         super.spawn();
 
-        if(loaded){
+        if (loaded) {
             Optional.ofNullable(getNextLocation())
                     .ifPresent(this::createArmorStand);
         }
@@ -93,25 +101,25 @@ public final class ArmorStandPet extends MinecraftPet {
     }
 
 
-    private static boolean entityIsValid(ArmorStand armorStand){
+    private static boolean entityIsValid(ArmorStand armorStand) {
         return armorStand != null && !armorStand.isDead();
     }
 
-    private void teleportNotNull(Location location){
-        if(!entityIsValid(armorStand)) return;
+    private void teleportNotNull(Location location) {
+        if (!entityIsValid(armorStand)) return;
 
-        if(location == null) return;
+        if (location == null) return;
 
         Optional.ofNullable(armorStand).ifPresent(a -> {
-            if(a == null){
+            if (a == null) {
                 return;
             }
 
-            if(a.isDead()){
+            if (a.isDead()) {
                 return;
             }
 
-            if(!a.getLocation().getChunk().isLoaded()){
+            if (!a.getLocation().getChunk().isLoaded()) {
                 return;
             }
 
@@ -120,7 +128,7 @@ public final class ArmorStandPet extends MinecraftPet {
         });
     }
 
-    private void createArmorStand(Location location){
+    private void createArmorStand(Location location) {
 
         armorStand = location.getWorld().spawn(location, ArmorStand.class);
 
@@ -137,7 +145,7 @@ public final class ArmorStandPet extends MinecraftPet {
         update();
     }
 
-    private ItemStack getItemStack(){
+    private ItemStack getItemStack() {
         return ItemBuilder.of()
                 .amount(1)
                 .displayName("")

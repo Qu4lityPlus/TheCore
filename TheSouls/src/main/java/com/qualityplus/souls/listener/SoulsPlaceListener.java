@@ -46,12 +46,12 @@ public final class SoulsPlaceListener implements Listener {
 
     }
 
-    private void spawnSoul(Player player, @Nullable Block block){
-        if(block == null) return;
+    private void spawnSoul(Player player, @Nullable Block block) {
+        if (block == null) return;
 
         Location location = block.getLocation().clone().subtract(0,0.43,0).add(0.5,0,0.5);
 
-        if(box.files().souls().getByLocation(location).isPresent()){
+        if (box.files().souls().getByLocation(location).isPresent()) {
             player.sendMessage(StringUtils.color(box.files().messages().soulsMessages.soulAlreadyPlaced));
             return;
         }
@@ -63,14 +63,14 @@ public final class SoulsPlaceListener implements Listener {
                 .location(new ALocation(location))
                 .build();
 
-        soul.enable(box);
+        soul.enable(box, false);
 
         box.files().souls().soulList.add(soul);
 
         player.sendMessage(StringUtils.color(box.files().messages().soulsMessages.soulPlaced.replace("%souls_total%", String.valueOf(box.files().souls().soulList.size()))));
     }
 
-    private boolean isSoul(ItemStack itemStack){
+    private boolean isSoul(ItemStack itemStack) {
         NBTItem nbtItem = new NBTItem(itemStack);
 
         return nbtItem.hasKey("soulItem");

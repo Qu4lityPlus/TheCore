@@ -60,7 +60,7 @@ public abstract class MinecraftPet implements PetEntity {
     public void spellParticle() {
         String particle = pet.getPetEntityOptions().getParticle();
 
-        if(particle == null) return;
+        if (particle == null) return;
 
         try {
             Particle particleEffect = Particle.valueOf(particle);
@@ -70,7 +70,7 @@ public abstract class MinecraftPet implements PetEntity {
                             .location(location)
                             .allPlayers()
                             .spawn());
-        }catch (Exception e){
+        } catch (Exception e) {
             Bukkit.getConsoleSender().sendMessage(StringUtils.color("&c[ThePets] Invalid Particle " + particle));
         }
 
@@ -78,7 +78,7 @@ public abstract class MinecraftPet implements PetEntity {
     }
 
     @Override
-    public void update(){
+    public void update() {
         addPotions();
         addStats();
     }
@@ -96,30 +96,30 @@ public abstract class MinecraftPet implements PetEntity {
     }
 
 
-    protected void handleDeSpawnReason(DeSpawnReason deSpawnReason){
+    protected void handleDeSpawnReason(DeSpawnReason deSpawnReason) {
         OfflinePlayer offPlayer = getOffPlayer();
 
         Optional<UserData> userData = ThePets.getApi().getUsersService().getData(offPlayer.getUniqueId());
 
-        if(!deSpawnReason.equals(DeSpawnReason.PLAYER_DE_SPAWN_PET)) return;
+        if (!deSpawnReason.equals(DeSpawnReason.PLAYER_DE_SPAWN_PET)) return;
 
         userData.ifPresent(data -> data.getSpawnedData().setSpawnedPetUUID(null));
         userData.ifPresent(data -> data.getSpawnedData().setSpawnedPetId(null));
     }
 
-    private OfflinePlayer getOffPlayer(){
+    private OfflinePlayer getOffPlayer() {
         return Bukkit.getOfflinePlayer(owner);
     }
 
 
-    private Player getPlayer(){
+    private Player getPlayer() {
         return Bukkit.getPlayer(owner);
     }
 
-    protected Location getNextLocation(){
+    protected Location getNextLocation() {
         Player player = getPlayer();
 
-        if(player == null || !player.isOnline()) return null;
+        if (player == null || !player.isOnline()) return null;
 
 
         Vector vector = player.getEyeLocation().getDirection().clone().normalize().multiply(-1);
@@ -150,7 +150,7 @@ public abstract class MinecraftPet implements PetEntity {
     }
 
 
-    protected String getDisplayName(){
+    protected String getDisplayName() {
         String displayName = pet.getPetEntityOptions().getDisplayName();
 
         List<IPlaceholder> placeholderList = PetPlaceholderUtil.getPetPlaceholders(petUniqueId)
@@ -160,45 +160,45 @@ public abstract class MinecraftPet implements PetEntity {
         return StringUtils.processMulti(displayName, placeholderList);
     }
 
-    protected void addPotions(){
+    protected void addPotions() {
         Player player = getPlayer();
 
-        if(player == null || !player.isOnline()) return;
+        if (player == null || !player.isOnline()) return;
 
         pet.getPetPotions(getLevel())
                 .forEach(petPotion -> petPotion.addPotion(player));
 
     }
 
-    protected void removePotions(){
+    protected void removePotions() {
         Player player = getPlayer();
 
-        if(player == null || !player.isOnline()) return;
+        if (player == null || !player.isOnline()) return;
 
         pet.getPetPotions(getLevel())
                 .forEach(petPotion -> petPotion.removePotion(player));
 
     }
 
-    protected void addStats(){
+    protected void addStats() {
         Player player = getPlayer();
 
-        if(player == null || !player.isOnline()) return;
+        if (player == null || !player.isOnline()) return;
 
         pet.getStatRewards(getLevel())
                 .forEach(petPotion -> petPotion.addStat(player));
     }
 
-    protected void removeStats(){
+    protected void removeStats() {
         Player player = getPlayer();
 
-        if(player == null || !player.isOnline()) return;
+        if (player == null || !player.isOnline()) return;
 
         pet.getStatRewards(getLevel())
                 .forEach(petPotion -> petPotion.removeStat(player));
     }
 
-    private int getLevel(){
+    private int getLevel() {
         Optional<PetData> petData = ThePets.getApi().getPetsService().getData(petUniqueId);
         return petData.map(PetData::getLevel).orElse(1);
     }

@@ -16,9 +16,9 @@ public final class TheEnchantingProvider extends CommonEnchantmentProvider {
     public SessionResult getAnswer(AnvilSession session) {
         SessionResult commonResult = getCommonAnswer(session);
 
-        if(commonResult != null) return commonResult;
+        if (commonResult != null) return commonResult;
 
-        if(TheEnchanting.getApi().getEnchantments(session.getItemToSacrifice())
+        if (TheEnchanting.getApi().getEnchantments(session.getItemToSacrifice())
                 .keySet()
                 .stream()
                 .anyMatch(enchantment -> TheEnchanting.getApi().getIncompatibility(session.getItemToUpgrade(), enchantment).isPresent()))
@@ -28,10 +28,10 @@ public final class TheEnchantingProvider extends CommonEnchantmentProvider {
     }
 
     @Override
-    public ItemStack getFinalItem(AnvilSession session) {
+    public ItemStack getFinalItem(final AnvilSession session) {
         ItemStack newItem = session.getItemToUpgrade().clone();
 
-        for(Map.Entry<ICoreEnchantment, Integer> entry : getNewEnchantments(session).entrySet())
+        for (Map.Entry<ICoreEnchantment, Integer> entry : getNewEnchantments(session).entrySet())
             newItem = TheEnchanting.getApi().addEnchantment(newItem, new EnchantmentSessionImpl(entry.getKey(), entry.getValue()));
 
         return newItem;
@@ -63,24 +63,24 @@ public final class TheEnchantingProvider extends CommonEnchantmentProvider {
                 .anyMatch(entry -> !entry.getKey().canEnchant(player, entry.getValue()));
     }
 
-    public Map<ICoreEnchantment, Integer> getNewEnchantments(AnvilSession session){
+    public Map<ICoreEnchantment, Integer> getNewEnchantments(AnvilSession session) {
         Map<ICoreEnchantment, Integer> toUpgradeEnchants = TheEnchanting.getApi().getEnchantments(session.getItemToUpgrade());
         Map<ICoreEnchantment, Integer> toSacrificeEnchants = TheEnchanting.getApi().getEnchantments(session.getItemToSacrifice());
 
         Map<ICoreEnchantment, Integer> newEnchants = new HashMap<>();
 
-        for(ICoreEnchantment enchantment : toSacrificeEnchants.keySet()){
-            if(!toUpgradeEnchants.containsKey(enchantment)){
+        for (ICoreEnchantment enchantment : toSacrificeEnchants.keySet()) {
+            if (!toUpgradeEnchants.containsKey(enchantment)) {
                 newEnchants.put(enchantment, toSacrificeEnchants.get(enchantment));
-            }else{
+            } else {
                 int sacrificeLevel = toSacrificeEnchants.get(enchantment);
                 int upgradeLevel = toUpgradeEnchants.get(enchantment);
 
-                if(sacrificeLevel != upgradeLevel) continue;
+                if (sacrificeLevel != upgradeLevel) continue;
 
                 int newLevel = upgradeLevel + 1;
 
-                if(newLevel > enchantment.getMaxLevel()) continue;
+                if (newLevel > enchantment.getMaxLevel()) continue;
 
                 newEnchants.put(enchantment, newLevel);
             }

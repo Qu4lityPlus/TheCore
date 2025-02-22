@@ -38,7 +38,7 @@ public final class MiningSpeedPerk extends Perk {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
 
-        int level = getStat(player);
+        double level = getStat(player);
 
         if (RandomUtil.randomBetween(0.0, 100.0) >= chancePerLevel * level)
             return;
@@ -49,11 +49,11 @@ public final class MiningSpeedPerk extends Perk {
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(new Placeholder("duration", getDuration(level))).get());
     }
 
-    private int getDuration(int level){
-        return ((secondsDurationPerLevel * level) + baseSecondsDuration);
+    private int getDuration(double level) {
+        return (int) ((secondsDurationPerLevel * level) + baseSecondsDuration);
     }
 }

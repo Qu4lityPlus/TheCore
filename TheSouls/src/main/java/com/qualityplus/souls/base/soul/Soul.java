@@ -3,6 +3,7 @@ package com.qualityplus.souls.base.soul;
 import com.qualityplus.assistant.util.StringUtils;
 import com.qualityplus.assistant.util.itemstack.ItemStackUtils;
 import com.qualityplus.assistant.util.location.ALocation;
+import com.qualityplus.souls.TheSouls;
 import com.qualityplus.souls.api.box.Box;
 import com.qualityplus.assistant.lib.eu.okaeri.configs.OkaeriConfig;
 import com.qualityplus.assistant.lib.eu.okaeri.configs.annotation.Exclude;
@@ -15,6 +16,8 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,42 +38,56 @@ public final class Soul extends OkaeriConfig {
         this.uuid = uuid;
     }
 
-    public void executeCommands(Player player){
+    public void executeCommands(Player player) {
         commands.stream()
                 .map(command -> command.replaceAll("%player%", player.getName()))
                 .forEach(command -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
     }
 
-    public void sendMessages(Player player){
+    public void sendMessages(Player player) {
         messages.stream()
                 .map(message -> message.replaceAll("%player%", player.getName()))
                 .forEach(message -> player.sendMessage(StringUtils.color(message)));
     }
 
-    public void enable(Box box){
-        if(soulEntity != null) soulEntity.remove();
+    public void enable(Box box, boolean serverStart) {
+        if (soulEntity != null) {
+            soulEntity.remove();
+        }
 
-        Location loc = location.getLocation();
+        final boolean loadAsync = Bukkit.getPluginManager().isPluginEnabled("BentoBox") || Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2");
 
-        soulEntity = loc.getWorld().spawn(loc, ArmorStand.class);
+        if (loadAsync && serverStart) {
+            spawnSoul(box, 20 * 15);
+            return;
+        }
 
-        soulEntity.setVisible(false);
-
-        soulEntity.setGravity(false);
-
-        soulEntity.setHelmet(ItemStackUtils.makeItem(box.files().config().soulItem));
-
-        soulEntity.setInvulnerable(true);
-
-        soulEntity.setCustomName("theSouls");
-
-        soulEntity.setCustomNameVisible(false);
-
-        soulEntity.setMetadata("soulData", new FixedMetadataValue(box.plugin(), "soulData"));
-
+        spawnSoul(box, 1);
     }
 
-    public void disable(){
+    private void spawnSoul(final Box box, final int time) {
+        Bukkit.getScheduler().runTaskLater(box.plugin(), () -> {
+            Location loc = location.getLocation();
+
+            soulEntity = loc.getWorld().spawn(loc, ArmorStand.class);
+
+            soulEntity.setVisible(false);
+
+            soulEntity.setGravity(false);
+
+            soulEntity.setHelmet(ItemStackUtils.makeItem(box.files().config().soulItem));
+
+            soulEntity.setInvulnerable(true);
+
+            soulEntity.setCustomName("theSouls");
+
+            soulEntity.setCustomNameVisible(false);
+
+            soulEntity.setMetadata("soulData", new FixedMetadataValue(box.plugin(), "soulData"));
+        }, time);
+    }
+
+    public void disable() {
         Optional.ofNullable(soulEntity).ifPresent(Entity::remove);
     }
 }

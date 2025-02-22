@@ -21,7 +21,7 @@ public final class SteelSkinPerk extends Perk {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void handle(EntityDamageEvent event) {
-        if(!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
 

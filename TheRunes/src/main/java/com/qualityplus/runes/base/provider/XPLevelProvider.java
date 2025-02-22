@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public final class XPLevelProvider implements LevelProvider {
     @Override
-    public int getLevel(Player player) {
+    public double getLevel(Player player) {
         return player.getLevel();
     }
 

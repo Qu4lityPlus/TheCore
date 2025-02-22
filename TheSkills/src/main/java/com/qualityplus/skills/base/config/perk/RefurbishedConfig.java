@@ -37,7 +37,7 @@ public final class RefurbishedConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWNiZDlmNWVjMWVkMDA3MjU5OTk2NDkxZTY5ZmY2NDlhMzEwNmNmOTIwMjI3YjFiYjNhNzFlZTdhODk4NjNmIn19fQ==")
             .mainMenuLore(Collections.singletonList("%skill_refurbished_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return RefurbishedPerk.builder()
                 .id(id)
                 .displayName(displayName)

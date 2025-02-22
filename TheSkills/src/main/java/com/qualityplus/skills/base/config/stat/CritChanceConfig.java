@@ -38,7 +38,7 @@ public final class CritChanceConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U0ZjQ5NTM1YTI3NmFhY2M0ZGM4NDEzM2JmZTgxYmU1ZjJhNDc5OWE0YzA0ZDlhNGRkYjcyZDgxOWVjMmIyYiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_critic_chance_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return CritChanceStat.builder()
                 .id(id)
                 .displayName(displayName)

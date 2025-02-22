@@ -26,10 +26,10 @@ public final class GiveRuneCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 3) {
+        if (args.length == 3) {
             Player player = Bukkit.getPlayer(args[1]);
 
-            if(player == null){
+            if (player == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
@@ -38,14 +38,14 @@ public final class GiveRuneCommand extends AssistantCommand {
 
             Rune rune = Runes.getByID(id);
 
-            if(rune == null){
+            if (rune == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().runeMessages.thatRuneDoesntExists));
                 return false;
             }
 
             player.getInventory().addItem(RunesUtils.makeRune(box, rune, 1));
 
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
 
         return false;
@@ -57,7 +57,7 @@ public final class GiveRuneCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveRuneCommand));
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 @UtilityClass
 public class AnvilPlaceholderUtils {
 
-    public PlaceholderBuilder getEnchantBuilder(ICoreEnchantment enchantment){
+    public PlaceholderBuilder getEnchantBuilder(ICoreEnchantment enchantment) {
         return PlaceholderBuilder.create(
                 new Placeholder("enchanting_enchant_displayname", enchantment.getName()),
                 new Placeholder("enchanting_enchant_description", enchantment.getDescription()),
@@ -19,11 +19,11 @@ public class AnvilPlaceholderUtils {
         );
     }
 
-    public List<IPlaceholder> getEnchantPlaceholders(ICoreEnchantment enchantment){
+    public List<IPlaceholder> getEnchantPlaceholders(ICoreEnchantment enchantment) {
         return getEnchantBuilder(enchantment).get();
     }
 
-    private String emptyIfNull(String input){
+    private String emptyIfNull(String input) {
         return input == null || input.equals("") ? "&cEmpty" : input;
     }
 }

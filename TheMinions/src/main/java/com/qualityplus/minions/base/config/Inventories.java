@@ -202,7 +202,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
                 .build());
     }
 
-    private  ImmutableMap.Builder<Integer, Item> commonMap(){
+    private  ImmutableMap.Builder<Integer, Item> commonMap() {
         return ImmutableMap.<Integer, Item>builder()
                 .put(0, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .put(1, ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())

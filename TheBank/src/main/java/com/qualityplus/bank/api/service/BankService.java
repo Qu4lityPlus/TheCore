@@ -9,5 +9,10 @@ import org.bukkit.entity.Player;
 import java.util.Optional;
 
 public interface BankService extends DataManagementService<BankData> {
-    Optional<TrxResponse> handleTransaction(final Player player, final BankTransaction transaction, final boolean sendMessages);
+    Optional<TrxResponse> handleTransaction(
+            final Player player,
+            final BankTransaction transaction,
+            final boolean sendMessages,
+            final boolean force,
+            final boolean interest);
 }

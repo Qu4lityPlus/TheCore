@@ -17,10 +17,10 @@ import java.util.stream.Stream;
 @Component
 public final class PlaceholdersRegistry {
     @Delayed(time = MinecraftTimeEquivalent.SECOND * 5)
-    public void registerSkillsPlaceholders(@Inject CollectionsService service){
+    public void registerSkillsPlaceholders(@Inject CollectionsService service) {
         PlaceholdersAddon addon = TheAssistantPlugin.getAPI().getAddons().getPlaceholders();
 
-        for(Collection collection : CollectionsRegistry.values()){
+        for (Collection collection : CollectionsRegistry.values()) {
             addon.registerPlaceholders("collection_" + collection.getId() + "_xp",
                     e -> String.valueOf(service.getData(e.getPlayer().getUniqueId()).map(data -> data.getCollections().getXp(collection.getId())).orElse(0D)));
             addon.registerPlaceholders("collection_" + collection.getId() + "_level",

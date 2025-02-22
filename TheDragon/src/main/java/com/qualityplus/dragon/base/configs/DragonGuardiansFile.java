@@ -25,29 +25,29 @@ public final class DragonGuardiansFile extends OkaeriConfig {
     public Map<String, DragonGuardian> guardianMap = new HashMap<>();
     public List<Location> guardianSpawns = new ArrayList<>();
 
-    public void addSpawn(Location location){
+    public void addSpawn(Location location) {
         initSpawns();
         guardianSpawns.add(location);
     }
 
-    public void removeSpawn(Location location){
+    public void removeSpawn(Location location) {
         initSpawns();
         guardianSpawns.remove(location);
     }
 
-    private void initSpawns(){
-        if(guardianSpawns == null) guardianSpawns = new ArrayList<>();
+    private void initSpawns() {
+        if (guardianSpawns == null) guardianSpawns = new ArrayList<>();
     }
 
-    public Guardian getGuardianById(String name){
+    public Guardian getGuardianById(String name) {
         return guardianMap.getOrDefault(name, null);
     }
 
-    public void addGuardian(String name){
+    public void addGuardian(String name) {
         guardianMap.put(name, new DragonGuardian(name, new GuardianArmor()));
     }
 
-    public void remove(String name){
+    public void remove(String name) {
         guardianMap.remove(name);
     }
 }

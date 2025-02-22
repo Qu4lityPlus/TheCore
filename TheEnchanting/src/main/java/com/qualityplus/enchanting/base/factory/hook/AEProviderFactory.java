@@ -15,8 +15,8 @@ public final class AEProviderFactory {
     private @Inject("injector") OkaeriInjector injector;
 
     @Bean("advancedProvider")
-    private EnchantmentProvider setupEco(){
-        if(EnchantingAddonsUtil.ADVANCED_ENCHANTMENTS)
+    private EnchantmentProvider setupEco() {
+        if (EnchantingAddonsUtil.ADVANCED_ENCHANTMENTS)
             return injector.createInstance(AEProvider.class);
         else
             return injector.createInstance(VanillaEnchantmentProvider.class);

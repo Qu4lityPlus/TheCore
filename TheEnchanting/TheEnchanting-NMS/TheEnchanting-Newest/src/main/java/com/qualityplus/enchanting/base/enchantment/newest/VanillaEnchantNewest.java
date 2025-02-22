@@ -37,11 +37,6 @@ public final class VanillaEnchantNewest extends CoreEnchantNewest implements Van
     }
 
     @Override
-    public boolean canEnchant(Player player, int level) {
-        return false;
-    }
-
-    @Override
     public @NotNull String getName() {
         return this.displayName;
     }

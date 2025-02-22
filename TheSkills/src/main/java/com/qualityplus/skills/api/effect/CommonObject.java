@@ -35,11 +35,11 @@ public abstract class CommonObject {
         this.guiOptions = skillGUIOptions;
     }
 
-    public List<IPlaceholder> getPlaceholders(Integer level){
+    public List<IPlaceholder> getPlaceholders(Integer level) {
         return Collections.emptyList();
     }
 
-    public List<String> getFormattedDescription(int level){
+    public List<String> getFormattedDescription(double level) {
         return description;
     }
 

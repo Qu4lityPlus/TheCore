@@ -14,7 +14,7 @@ import java.util.List;
 
 @UtilityClass
 public class CraftingItemStackUtil {
-    public static ItemStack makeCategoryItem(Item item, List<IPlaceholder> placeholders, Category category){
+    public static ItemStack makeCategoryItem(Item item, List<IPlaceholder> placeholders, Category category) {
         try {
             Item item1 = ItemBuilder.of(category.getIcon(), 1, 1, item.getDisplayName(), item.getLore()).headData(category.getIconTexture()).build();
 

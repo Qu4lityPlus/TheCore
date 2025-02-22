@@ -41,7 +41,7 @@ public final class MinionRecipePreviewGUI extends MinionGUI {
 
         Minion minion = getMinion();
 
-        if(minion != null){
+        if (minion != null) {
             List<IPlaceholder> upgradePlaceholders = MinionPlaceholderUtil
                     .getMinionPlaceholders(minionEntity.getMinionUniqueId())
                     .with(MinionPlaceholderUtil.getMinionPlaceholders(minion))
@@ -55,10 +55,10 @@ public final class MinionRecipePreviewGUI extends MinionGUI {
         return inventory;
     }
 
-    private void setRecipeItems(Minion minion, List<Integer> recipeSlots, int resultSlot){
+    private void setRecipeItems(Minion minion, List<Integer> recipeSlots, int resultSlot) {
         MinionRecipeConfig minionRecipe = minion.getRecipe(level);
 
-        if(minionRecipe == null) return;
+        if (minionRecipe == null) return;
 
         Recipe recipe = TheMinions.getApi()
                 .getRecipeProvider()
@@ -71,10 +71,10 @@ public final class MinionRecipePreviewGUI extends MinionGUI {
         inventory.setItem(resultSlot, recipe.getResult());
     }
 
-    private Minion getMinion(){
+    private Minion getMinion() {
         String id = minionEntity.getData().map(MinionData::getMinionId).orElse(null);
 
-        if(id == null) return null;
+        if (id == null) return null;
 
         return Minions.getByID(id);
     }
@@ -84,15 +84,15 @@ public final class MinionRecipePreviewGUI extends MinionGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         event.setCancelled(true);
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBack())){
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new MainMinionGUI(box, minionEntity).getInventory());
         }
     }

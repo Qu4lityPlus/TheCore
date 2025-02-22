@@ -6,6 +6,7 @@ import com.qualityplus.assistant.util.inventory.InventoryUtils;
 import com.qualityplus.crafting.api.box.Box;
 import com.qualityplus.crafting.api.edition.EditionObject;
 import com.qualityplus.crafting.api.edition.RecipeEdition;
+import com.qualityplus.crafting.api.recipes.Recipes;
 import com.qualityplus.crafting.base.gui.CraftingGUI;
 import com.qualityplus.crafting.base.gui.modify.ModifyRecipeGUI;
 import com.qualityplus.crafting.base.gui.recipes.RecipesGUI;
@@ -57,38 +58,54 @@ public final class RecipeIndividualGUI extends CraftingGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) {
+            return;
+        }
 
-        int slot = event.getSlot();
+        final int slot = event.getSlot();
 
-        Player player = (Player) event.getWhoClicked();
+        final Player player = (Player) event.getWhoClicked();
 
-        if(isItem(slot, config.getCloseGUI()))
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        else if(isItem(slot, config.getGoBack()))
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new RecipesGUI(box, 1, edition).getInventory());
-        else if(isItem(slot, config.getModifyRecipeItem()))
+        } else if (isItem(slot, config.getModifyRecipeItem())) {
             player.openInventory(new ModifyRecipeGUI(box, recipe, edition).getInventory());
-        else if(isItem(slot, config.getModifyDisplayNameItem())){
+        } else if (isItem(slot, config.getModifyDisplayNameItem())) {
             player.closeInventory();
             player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.typeDisplayName));
             edition.setEditMode(player.getUniqueId(), new EditionObject(recipe, RecipeEdition.EditionType.DISPLAY_NAME));
-        }else if(isItem(slot, config.getModifyPermissionItem())){
+        } else if (isItem(slot, config.getModifyPermissionItem())) {
             player.closeInventory();
             player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.typePermission));
             edition.setEditMode(player.getUniqueId(), new EditionObject(recipe, RecipeEdition.EditionType.PERMISSION));
-        }else if(isItem(slot, config.getModifyCategoryItem())){
+        } else if (isItem(slot, config.getModifyCategoryItem())) {
             player.closeInventory();
             player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.typeCategory));
             edition.setEditMode(player.getUniqueId(), new EditionObject(recipe, RecipeEdition.EditionType.CATEGORY));
-        }else if(isItem(slot, config.getModifySlotItem())){
+        } else if (isItem(slot, config.getModifySlotItem())) {
             player.closeInventory();
             player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.typeSlot));
             edition.setEditMode(player.getUniqueId(), new EditionObject(recipe, RecipeEdition.EditionType.SLOT));
-        }else if(isItem(slot, config.getModifyPageItem())){
+        } else if (isItem(slot, config.getModifyPageItem())) {
             player.closeInventory();
             player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.typePage));
             edition.setEditMode(player.getUniqueId(), new EditionObject(recipe, RecipeEdition.EditionType.PAGE));
+        } else if (isItem(slot, config.getDeleteItem())) {
+            player.closeInventory();
+
+            final CustomRecipe exist = Recipes.getByID(this.recipe.getId());
+
+            if (exist == null) {
+                player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.recipeDoesntExist));
+                return;
+            }
+
+            this.box.files().recipes().craftingRecipes.remove(this.recipe);
+            Recipes.removeByID(this.recipe.getId());
+
+            player.sendMessage(StringUtils.color(this.box.files().messages().recipeMessages.successfullyDeletedRecipe));
         }
     }
 

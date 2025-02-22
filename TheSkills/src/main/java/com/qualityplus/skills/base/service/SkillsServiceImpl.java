@@ -52,18 +52,18 @@ public final class SkillsServiceImpl implements SkillsService {
                 .map(UserData::getSkills)
                 .orElse(new UserSkills());
 
-        int level = skills.getLevel(skill.getId());
+        double level = skills.getLevel(skill.getId());
 
         skills.addXp(skill.getId(), toAdd);
 
-        if (skills.getXp(skill.getId()) >= skill.getLevelRequirement(level + 1) && level + 1 <= skill.getMaxLevel()) {
-            double remaining = skills.getXp(skill.getId()) - skill.getLevelRequirement(level + 1);
+        if (skills.getXp(skill.getId()) >= skill.getLevelRequirement((int)level + 1) && level + 1 <= skill.getMaxLevel()) {
+            double remaining = skills.getXp(skill.getId()) - skill.getLevelRequirement((int)level + 1);
             skills.setXp(skill.getId(), 0.0);
-            skills.addLevel(skill.getId(),  1);
-            SkillEvent levelUpEvent = new SkillsLevelUPEvent(player, skill, level + 1);
+            skills.addLevel(skill.getId(),  1D);
+            SkillEvent levelUpEvent = new SkillsLevelUPEvent(player, skill, (int)level + 1);
             Bukkit.getPluginManager().callEvent(levelUpEvent);
 
-            if(remaining > 0) addXp(player, false, false, skill, remaining);
+            if (remaining > 0) addXp(player, false, false, skill, remaining);
         }
     }
 }

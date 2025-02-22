@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 @Data @EqualsAndHashCode(callSuper = true) @NoArgsConstructor
 public final class BrewChancePerk extends Perk {
     private Map<XPotion, Double> potionAndChances;
-    private int secondsDurationPerLevel;
-    private int baseSecondsDuration;
+    private double secondsDurationPerLevel;
+    private double baseSecondsDuration;
 
     @Builder
     public BrewChancePerk(String id, boolean enabled, String displayName, List<String> description, GUIOptions skillGUIOptions, double baseAmount, double chancePerLevel, Map<XPotion, Double> potionAndChances,
@@ -45,7 +45,7 @@ public final class BrewChancePerk extends Perk {
 
     @EventHandler(ignoreCancelled = true)
     public void playerConsumePotion(PlayerItemConsumeEvent e) {
-        if(!e.getItem().getType().equals(Material.POTION)) return;
+        if (!e.getItem().getType().equals(Material.POTION)) return;
 
         Player p = e.getPlayer();
 
@@ -55,12 +55,12 @@ public final class BrewChancePerk extends Perk {
         getRandom(p).ifPresent(p::addPotionEffect);
     }
 
-    private Optional<PotionEffect> getRandom(Player player){
+    private Optional<PotionEffect> getRandom(Player player) {
         List<EasyRandom<XPotion>> items = potionAndChances.keySet().stream()
                 .map(item -> new EasyRandom<>(item, potionAndChances.get(item)))
                 .collect(Collectors.toList());
 
-        int level = getStat(player);
+        int level = (int) getStat(player);
 
         int duration = getDurationTicks(level);
 
@@ -68,15 +68,15 @@ public final class BrewChancePerk extends Perk {
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         return StringUtils.processMulti(super.getFormattedDescription(level), Collections.singletonList(new Placeholder("duration", getDurationSeconds(level))));
     }
 
-    private int getDurationTicks(int level){
+    private int getDurationTicks(double level) {
         return getDurationSeconds(level) * 20;
     }
 
-    private int getDurationSeconds(int level){
-        return baseSecondsDuration + (secondsDurationPerLevel * level);
+    private int getDurationSeconds(double level) {
+        return (int) (baseSecondsDuration + (secondsDurationPerLevel * level));
     }
 }

@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @Component
 public final class PlaceholdersRegistry {
     @Delayed(time = MinecraftTimeEquivalent.SECOND * 5)
-    public void registerBankPlaceholders(@Inject SoulsService service, @Inject Souls file){
+    public void registerBankPlaceholders(@Inject SoulsService service, @Inject Souls file) {
         PlaceholdersAddon addon = TheAssistantPlugin.getAPI().getAddons().getPlaceholders();
 
         addon.registerPlaceholders("souls_user_amount",

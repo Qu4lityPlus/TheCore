@@ -28,14 +28,14 @@ public final class AdvancedEnchantments extends OkaeriConfig {
             .put("exampleId",
                     new EnchantConfig("Example Display Name",
                             "Example description.",
-                            new HashMap<Integer, String>(){{
-                                for(int i = 0; i<1; i++) put(i, "permission.example.level." + i);
+                            new HashMap<Integer, String>() {{
+                                for (int i = 0; i<1; i++) put(i, "permission.example.level." + i);
                             }},
-                            new HashMap<Integer, Double>(){{
-                            for(int i = 0; i<1; i++) put(i, 15d * i);
+                            new HashMap<Integer, Double>() {{
+                            for (int i = 0; i<1; i++) put(i, 15d * i);
                             }},
-                            new HashMap<Integer, Double>(){{
-                                for(int i = 0; i<1; i++) put(i, 15d * i);
+                            new HashMap<Integer, Double>() {{
+                                for (int i = 0; i<1; i++) put(i, 15d * i);
                             }}))
             .build();
 }

@@ -24,7 +24,7 @@ public final class AddCrystalCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if(args.length == 1){
+        if (args.length == 1) {
             Location location = player.getLocation().getBlock().getLocation();
 
             box.structures().addStructure(new DragonCrystalImpl(location));
@@ -32,7 +32,7 @@ public final class AddCrystalCommand extends AssistantCommand {
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.crystalSet
                     .replace("%thedragon_crystal_location%", LocationUtils.toString(location))
                     .replace("%prefix%", box.files().config().prefix)));
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -44,7 +44,7 @@ public final class AddCrystalCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().addCrystalCommand));
     }
 }

@@ -21,9 +21,9 @@ public final class CraftingTableGUI extends CraftingGUI {
     private final TableClickHandler tableClickHandler;
     private final CraftingTableGUIConfig config;
 
-    private static Map<Integer, Integer> getSlots(Box box){
+    private static Map<Integer, Integer> getSlots(Box box) {
         Map<Integer, Integer> map = new HashMap<>();
-        for(int i = 1; i<=9; i++){
+        for (int i = 1; i<=9; i++) {
             map.put(i, box.files().inventories().craftingGui.getRecipeSlots().get(i-1));
         }
         return map;
@@ -35,7 +35,7 @@ public final class CraftingTableGUI extends CraftingGUI {
         this.tableClickHandler = new TableClickHandler(inventory, TheAssistantPlugin.getAPI().getNms().createWorkBench(player), box, getSlots(box));
         this.config = box.files().inventories().craftingGui;
 
-        tableClickHandler.handleClick(player);
+        this.tableClickHandler.handleClick(player);
     }
 
     @Override
@@ -55,21 +55,21 @@ public final class CraftingTableGUI extends CraftingGUI {
 
         int slot = event.getSlot();
 
-        if(getTarget(event).equals(ClickTarget.INSIDE)){
-            if(isItem(slot, config.getCloseGUI())){
+        if (getTarget(event).equals(ClickTarget.INSIDE)) {
+            if (isItem(slot, config.getCloseGUI())) {
                 player.closeInventory();
-            }else if(slot == config.getResultSlot()){
+            } else if (slot == config.getResultSlot()) {
                 tableClickHandler.handleResultClick(event, false);
-            }else if(config.getRecipeSlots().contains(slot)) {
+            } else if (config.getRecipeSlots().contains(slot)) {
                 tableClickHandler.handleClick(player);
-            }else if(config.getAutoRecipeSlots().contains(slot)) {
+            } else if (config.getAutoRecipeSlots().contains(slot)) {
                 tableClickHandler.handleResultClick(event, true);
 
-            }else if(isItem(slot, config.getCustomGoBackItem())){
+            } else if (isItem(slot, config.getCustomGoBackItem())) {
                 handleItemCommandClick(player, config.getCustomGoBackItem());
-            }else
+            } else
                 event.setCancelled(true);
-        }else
+        } else
             tableClickHandler.handleClick(player);
     }
 

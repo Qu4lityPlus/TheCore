@@ -6,11 +6,11 @@ import org.bukkit.entity.Player;
 
 public final class RuneCraftLevelProvider implements LevelProvider {
     @Override
-    public int getLevel(Player player) {
+    public double getLevel(Player player) {
         return TheSkills.getApi().getSkillsService()
                 .getData(player.getUniqueId())
                 .map(userData -> userData.getSkills().getLevel("runecrafting"))
-                .orElse(0);
+                .orElse(0D);
     }
 
     @Override

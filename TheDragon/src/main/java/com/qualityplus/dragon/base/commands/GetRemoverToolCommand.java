@@ -25,9 +25,9 @@ public final class GetRemoverToolCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2){
+        if (args.length == 2) {
             Player player = Bukkit.getPlayer(args[1]);
-            if(player != null) {
+            if (player != null) {
                 ItemStack item = XMaterial.ARROW.parseItem();
                 ItemMeta meta = item.getItemMeta();
                 meta.setDisplayName(StringUtils.color("&dRemover Tool &e(Right-Click)"));
@@ -35,10 +35,10 @@ public final class GetRemoverToolCommand extends AssistantCommand {
                 NBTItem nbtItem = new NBTItem(item);
                 nbtItem.setBoolean("dragonTool", true);
                 player.getInventory().addItem(nbtItem.getItem());
-            }else{
+            } else {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer.replace("%prefix%", box.files().config().prefix)));
             }
-        }else{
+        } else {
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -50,7 +50,7 @@ public final class GetRemoverToolCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().getRemoverToolCommand));
     }
 }

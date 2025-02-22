@@ -18,7 +18,7 @@ public final class TheSkills extends OkaeriSilentPlugin {
     private static @Inject @Getter TheSkillsAPI api;
 
     @Planned(ExecutionPhase.PRE_SHUTDOWN)
-    private void whenStop(Box box){
+    private void whenStop(Box box) {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .map(Player::getUniqueId)

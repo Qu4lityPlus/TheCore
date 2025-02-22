@@ -27,17 +27,17 @@ public final class TestCommand extends AssistantCommand {
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(args.length == 1){
+        if (args.length == 1) {
 
             getItems().forEach(player.getInventory()::addItem);
 
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return false;
     }
 
-    private List<ItemStack> getItems(){
+    private List<ItemStack> getItems() {
         return Arrays.asList(
                 ItemBuilder.of(XMaterial.DIAMOND_PICKAXE, 1, "Empty Item", Arrays.asList("first line", "second line")).buildStack(),
                 ItemBuilder.of(XMaterial.DIAMOND_PICKAXE, 1, "Empty Item", Collections.singletonList("first line")).buildStack(),
@@ -51,7 +51,7 @@ public final class TestCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().testCommand));
     }
 }

@@ -112,7 +112,7 @@ public final class DragonDamageListener implements Listener {
         replaceForFakeExplosion(location);
     }
 
-    private void replaceForFakeExplosion(final Location location){
+    private void replaceForFakeExplosion(final Location location) {
         if (location.getWorld() == null) {
             return;
         }
@@ -152,7 +152,7 @@ public final class DragonDamageListener implements Listener {
     }
 
 
-    private boolean isEnderDragon(final Entity entity){
+    private boolean isEnderDragon(final Entity entity) {
         return entity instanceof EnderDragon;
     }
 }

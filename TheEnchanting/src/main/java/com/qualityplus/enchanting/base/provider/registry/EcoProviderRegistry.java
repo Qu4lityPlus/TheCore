@@ -11,7 +11,6 @@ import com.qualityplus.assistant.lib.eu.okaeri.platform.core.annotation.Componen
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Component
 public final class EcoProviderRegistry {
@@ -20,24 +19,25 @@ public final class EcoProviderRegistry {
     private @Inject Logger logger;
 
     @Delayed(time = 1)
-    public void reload(){
-        if(!config.loadAllEcoEnchants)
+    public void reload() {
+        if (!this.config.loadAllEcoEnchants) {
             return;
+        }
 
-        List<ICoreEnchantment> enchants = provider.getEnchantments();
+        final List<ICoreEnchantment> enchants = this.provider.getEnchantments();
 
-        if(enchants.size() <= 0) {
-            logger.info("EcoEnchant Wasn't found!");
+        if (enchants.isEmpty()) {
+            this.logger.info("EcoEnchant Wasn't found!");
             return;
         }
 
         List<ICoreEnchantment> enchantments = enchants
                 .stream()
-                .filter(enchantment -> !config.blockedEnchants.contains(enchantment.getIdentifier()))
-                .collect(Collectors.toList());
+                .filter(enchantment -> !this.config.blockedEnchants.contains(enchantment.getIdentifier()))
+                .toList();
 
         enchantments.forEach(CoreEnchants::registerNewEnchantment);
 
-        logger.info("Successfully registered " + enchantments.size() + " Enchantments From EcoEnchants!");
+        this.logger.info("Successfully registered " + enchantments.size() + " Enchantments From EcoEnchants!");
     }
 }

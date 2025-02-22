@@ -46,15 +46,15 @@ public final class RecipePreviewGUI extends CraftingGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         int slot = event.getSlot();
 
         Player player = (Player) event.getWhoClicked();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBackBook())){
+        } else if (isItem(slot, config.getGoBackBook())) {
 
             Category category = box.files().categories().getCategory(recipe.getId());
 

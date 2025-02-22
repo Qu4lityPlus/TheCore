@@ -25,7 +25,7 @@ public final class MinionUpgrade extends OkaeriConfig {
     private boolean expandsOneBlock;
     private double percentageOfSecondsToRemove;
 
-    public ItemStack getItemStack(){
+    public ItemStack getItemStack() {
         List<String> lore = StringUtils.processMulti(description, new Placeholder("minion_upgrade_percentage_seconds", percentageOfSecondsToRemove).alone());
 
         ItemStack itemStack = ItemStackUtils.makeItem(item,

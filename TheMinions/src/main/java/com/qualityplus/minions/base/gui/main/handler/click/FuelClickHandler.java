@@ -24,7 +24,7 @@ public final class FuelClickHandler implements ClickHandler {
 
         event.setCancelled(true);
 
-        if(event.isShiftClick()) return;
+        if (event.isShiftClick()) return;
 
         Optional<MinionData> data = TheMinions.getApi().getMinionsService().getData(minionEntity.getMinionUniqueId());
         FuelEntity entity = data.map(MinionData::getFuel).orElse(null);
@@ -33,19 +33,19 @@ public final class FuelClickHandler implements ClickHandler {
         ItemStack oldToGive = getTaken(box, entity, minionEntity);
         boolean cursorIsEntity = MinionUpgradeUtil.isFuel(cursor);
 
-        if(cursorIsEntity){
+        if (cursorIsEntity) {
             FuelEntity newFuel = getEntityFromItem(box, entity, data, cursor);
 
             data.ifPresent(d -> d.setFuel(newFuel));
 
             player.setItemOnCursor(oldToGive);
 
-        }else{
-            if(entity == null) return;
+        } else {
+            if (entity == null) return;
 
-            if(BukkitItemUtil.isNull(cursor)) {
+            if (BukkitItemUtil.isNull(cursor)) {
                 Optional.ofNullable(oldToGive).ifPresent(player::setItemOnCursor);
-            }else
+            } else
                 Optional.ofNullable(oldToGive).ifPresent(item -> BukkitItemUtil.dropItem(player, item));
 
             data.ifPresent(MinionData::removeFuel);
@@ -71,12 +71,12 @@ public final class FuelClickHandler implements ClickHandler {
     }
 
     @SuppressWarnings("all")
-    private ItemStack getTaken(Box box, FuelEntity fuelEntity, MinionEntity entity){
-        if(fuelEntity == null) return null;
+    private ItemStack getTaken(Box box, FuelEntity fuelEntity, MinionEntity entity) {
+        if (fuelEntity == null) return null;
 
         MinionFuelUpgrade fuel = box.files().fuelUpgrades().fuelUpgrades.getOrDefault(fuelEntity.getId(), null);
 
-        if(fuel == null) return null;
+        if (fuel == null) return null;
 
         Markable markable = fuelEntity.getMarkable();
 

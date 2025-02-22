@@ -53,13 +53,13 @@ public final class DragonEventsFile extends OkaeriConfig {
     public static class SelfDragonEvents extends OkaeriConfig {
         private @Getter Map<Integer, SerializableEvent> dragonEventMap;
 
-        public Map<Integer, DragonGameEvent> getEvents(){
+        public Map<Integer, DragonGameEvent> getEvents() {
             Map<Integer, DragonGameEvent> eventMap = new HashMap<>();
 
-            for(Integer value : dragonEventMap.keySet()){
+            for (Integer value : dragonEventMap.keySet()) {
                 SerializableEvent event = dragonEventMap.get(value);
 
-                switch (event.generalSettings.eventType){
+                switch (event.generalSettings.eventType) {
                     case FIREBALLS:
                         eventMap.put(value, new DragonNormalFireBallEvent(event));
                         continue;

@@ -14,7 +14,7 @@ public final class MinionEgg extends OkaeriConfig {
     private String displayName;
     private String eggDisplayName;
 
-    public String getEggDisplayName(){
+    public String getEggDisplayName() {
         return StringUtils.processMulti(eggDisplayName, new Placeholder("minion_egg_displayname", displayName).alone());
     }
 }

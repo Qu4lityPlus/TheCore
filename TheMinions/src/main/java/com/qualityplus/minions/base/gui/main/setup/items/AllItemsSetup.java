@@ -57,15 +57,15 @@ public final class AllItemsSetup implements ItemSetup {
 
         Map<Integer, ItemStack> itemStackMap = minionEntity.getState().getFakeInventory().getItems();
 
-        for(Integer slot : config.getStorageSlots()){
+        for (Integer slot : config.getStorageSlots()) {
             //64
-            if(maxStorage >= count){
+            if (maxStorage >= count) {
 
                 try {
                     ItemStack itemStack = itemStackMap.getOrDefault(slotCount, null);
 
                     inventory.setItem(slot, itemStack);
-                }catch (Exception e){
+                } catch (Exception e) {
                     Bukkit.getConsoleSender().sendMessage("Error: " + slotCount);
                 }
                 count+=64;

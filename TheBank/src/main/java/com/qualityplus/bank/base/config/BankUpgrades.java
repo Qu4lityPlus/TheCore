@@ -29,27 +29,27 @@ public final class BankUpgrades extends OkaeriConfig {
             getDeluxeAccount()
     );
 
-    public Optional<BankUpgrade> getUpgrade(BankData data){
+    public Optional<BankUpgrade> getUpgrade(BankData data) {
         return bankUpgrades.stream()
                 .filter(bankUpgrade -> bankUpgrade.getId().equals(data.getBankUpgrade()))
                 .findFirst();
     }
 
-    public Optional<BankUpgrade> getLowest(){
+    public Optional<BankUpgrade> getLowest() {
         return bankUpgrades.stream()
                 .map(BankUpgrade::getHierarchy)
                 .min(Integer::compare)
                 .flatMap(v -> bankUpgrades.stream().filter(bankUpgrade -> bankUpgrade.getHierarchy() == v).findFirst());
     }
 
-    public Optional<BankUpgrade> getHighest(){
+    public Optional<BankUpgrade> getHighest() {
         return bankUpgrades.stream()
                 .map(BankUpgrade::getHierarchy)
                 .max(Integer::compare)
                 .flatMap(v -> bankUpgrades.stream().filter(bankUpgrade -> bankUpgrade.getHierarchy() == v).findFirst());
     }
 
-    private BankUpgrade getStarter(){
+    private BankUpgrade getStarter() {
         return BankUpgrade.builder()
                 .id("starter")
                 .displayName("&aStarter Account")
@@ -80,7 +80,7 @@ public final class BankUpgrades extends OkaeriConfig {
                 .build();
     }
 
-    private BankUpgrade getGoldAccount(){
+    private BankUpgrade getGoldAccount() {
         return BankUpgrade.builder()
                 .id("gold")
                 .displayName("&6Gold Account")
@@ -111,7 +111,7 @@ public final class BankUpgrades extends OkaeriConfig {
                 .build();
     }
 
-    private BankUpgrade getDeluxeAccount(){
+    private BankUpgrade getDeluxeAccount() {
         return BankUpgrade.builder()
                 .id("deluxe")
                 .displayName("&dDeluxe Account")

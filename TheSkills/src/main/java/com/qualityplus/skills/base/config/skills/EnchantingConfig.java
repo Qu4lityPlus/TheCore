@@ -56,7 +56,7 @@ public final class EnchantingConfig extends OkaeriConfig {
             ))
             .build();
 
-    public Skill getSkill(){
+    public Skill getSkill() {
         return EnchantingSkill.builder()
                 .id(id)
                 .enabled(enabled)
@@ -81,7 +81,7 @@ public final class EnchantingConfig extends OkaeriConfig {
     }
 
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return FastMap.listBuilder(Integer.class, String.class)
                 .put(1, Arrays.asList("&7Abilities To Upgrade:",
                         "&8» &f+1 %skill_intelligence_displayname%",
@@ -104,14 +104,14 @@ public final class EnchantingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<StatReward>> getInternalRewards(){
+    private Map<Integer, List<StatReward>> getInternalRewards() {
         return FastMap.listBuilder(Integer.class, StatReward.class)
                 .put(1, Arrays.asList(new StatReward("intelligence", 1), new StatReward("defense", 1), new StatReward("enchantment_master", 1), new StatReward("orb_master", 1)))
                 .put(10, Arrays.asList(new StatReward("intelligence", 2), new StatReward("defense", 2), new StatReward("enchantment_master", 1), new StatReward("orb_master", 1)))
                 .build();
     }
 
-    private Map<Integer, Double> getLevelsMap(){
+    private Map<Integer, Double> getLevelsMap() {
         Map<Integer, Double> levels = new HashMap<>();
 
         NumberUtil.intStream(0, maxLevel).forEach(n -> levels.put(n, n*15d));

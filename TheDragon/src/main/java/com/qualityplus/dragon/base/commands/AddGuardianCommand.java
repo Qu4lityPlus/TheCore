@@ -22,12 +22,12 @@ public final class AddGuardianCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if(args.length == 2){
+        if (args.length == 2) {
             String id = args[1];
 
             Guardian guardian = box.files().guardians().getGuardianById(id);
 
-            if(guardian == null){
+            if (guardian == null) {
 
                 box.files().guardians().addGuardian(id);
 
@@ -35,12 +35,12 @@ public final class AddGuardianCommand extends AssistantCommand {
                         .replace("%thedragon_guardian_id%", id)
                         .replace("%prefix%", box.files().config().prefix)));
 
-            }else{
+            } else {
                 player.sendMessage(StringUtils.color(box.files().messages().setupMessages.guardianAlreadyExist
                         .replace("%prefix%", box.files().config().prefix)));
             }
 
-    }else{
+    } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -52,7 +52,7 @@ public final class AddGuardianCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().addGuardianCommand));
     }
 }

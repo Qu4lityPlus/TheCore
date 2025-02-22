@@ -28,7 +28,7 @@ public final class CoalPolisherMasterPerk extends Perk {
     public void handlePerk(BlockBreakEvent e) {
         Block block = e.getBlock();
 
-        if(!block.getType().equals(XMaterial.COAL_ORE.parseMaterial())) return;
+        if (!block.getType().equals(XMaterial.COAL_ORE.parseMaterial())) return;
 
         Player p = e.getPlayer();
 

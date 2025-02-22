@@ -32,9 +32,9 @@ public final class PersonalBankListener implements Listener {
 
         ItemStack inHand = player.getItemInHand();
 
-        if(BukkitItemUtil.isNull(inHand)) return;
+        if (BukkitItemUtil.isNull(inHand)) return;
 
-        if(isPersonalBank(inHand)) e.setCancelled(true);
+        if (isPersonalBank(inHand)) e.setCancelled(true);
 
     }
 
@@ -46,28 +46,28 @@ public final class PersonalBankListener implements Listener {
 
         ItemStack inHand = player.getItemInHand();
 
-        if(BukkitItemUtil.isNull(inHand)) return;
+        if (BukkitItemUtil.isNull(inHand)) return;
 
-        if(!isPersonalBank(inHand)) return;
+        if (!isPersonalBank(inHand)) return;
 
         BankData data = box.service().getData(player.getUniqueId()).orElse(new BankData());
 
         RemainingTime time = TimeUtils.getRemainingTime(new Markable(box.files().config().personalBankDelay.getEffectiveTime(), data.getLastInterestTime()).remainingTime());
 
-        if(time.isZero())
+        if (time.isZero())
             player.openInventory(new BankInterfaceGUI(box, player, BankInterfaceGUI.GUIType.PERSONAL).getInventory());
         else
             player.sendMessage(StringUtils.color(getLastUsed(time)));
 
     }
 
-    private String getLastUsed(RemainingTime time){
+    private String getLastUsed(RemainingTime time) {
         Messages.BankMessages messages = box.files().messages().bankMessages;
 
         return getParsedTime(time, messages.personalBankRemainingTime);
     }
 
-    private String getParsedTime(RemainingTime remainingTime, String message){
+    private String getParsedTime(RemainingTime remainingTime, String message) {
         Messages.BankMessages messages = box.files().messages().bankMessages;
 
         String days = messages.days;
@@ -79,7 +79,7 @@ public final class PersonalBankListener implements Listener {
         return TimeUtils.getParsedTime(remainingTime, message, days, hours, minutes, seconds, noTime, messages.showTimeIfZero);
     }
 
-    private boolean isPersonalBank(ItemStack itemStack){
+    private boolean isPersonalBank(ItemStack itemStack) {
         NBTItem nbtItem = new NBTItem(itemStack);
 
         return nbtItem.hasKey("personalBank");

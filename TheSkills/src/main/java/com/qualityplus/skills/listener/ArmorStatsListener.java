@@ -17,17 +17,17 @@ public final class ArmorStatsListener implements Listener {
     private @Inject Box box;
 
     @EventHandler(ignoreCancelled = true)
-    public void onEquip(ArmorEquipEvent e){
+    public void onEquip(ArmorEquipEvent e) {
         Player player = e.getPlayer();
 
-        if(!BukkitItemUtil.isNull(e.getNewArmorPiece()))
+        if (!BukkitItemUtil.isNull(e.getNewArmorPiece()))
             TheSkills.getApi()
                     .getItemStats(e.getNewArmorPiece())
                     .forEach((key, value1) -> box.service().getData(player.getUniqueId())
                     .ifPresent(data -> data.getSkills().addArmor(key.getId(), value1)));
 
 
-        if(!BukkitItemUtil.isNull(e.getOldArmorPiece()))
+        if (!BukkitItemUtil.isNull(e.getOldArmorPiece()))
             TheSkills.getApi()
                     .getItemStats(e.getOldArmorPiece())
                     .forEach((key, value1) -> box.service().getData(player.getUniqueId())

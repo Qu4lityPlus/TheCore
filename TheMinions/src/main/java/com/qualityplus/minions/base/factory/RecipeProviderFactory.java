@@ -15,10 +15,10 @@ public final class RecipeProviderFactory {
     private @Inject("injector") OkaeriInjector injector;
 
     @Bean
-    public RecipeProvider createRecipeProvider(){
-        if(TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheCrafting")) {
+    public RecipeProvider createRecipeProvider() {
+        if (TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheCrafting")) {
             return injector.createInstance(TheCraftingRecipeProvider.class);
-        }else
+        } else
             return injector.createInstance(EmptyRecipeProviderImpl.class);
     }
 }

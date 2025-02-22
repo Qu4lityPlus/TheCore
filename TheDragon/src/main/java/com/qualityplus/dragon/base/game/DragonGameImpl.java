@@ -39,8 +39,8 @@ public final class DragonGameImpl implements DragonGame {
      * Start Dragon Game
      */
     @Override
-    public void start(){
-        if(!active) {
+    public void start() {
+        if (!active) {
             TheDragonAPI api = TheDragon.getApi();
 
             active = true;
@@ -49,10 +49,10 @@ public final class DragonGameImpl implements DragonGame {
                 api.getStructureService()
                         .pasteSchematic()
                         .thenAccept(this::runGame);
-            }catch (InvalidSpawnException e){
+            } catch (InvalidSpawnException e) {
                 logger.warning("[TheDragon] Arena Spawn not found, cancelling game!");
                 active = false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 active = false;
             }
@@ -64,7 +64,7 @@ public final class DragonGameImpl implements DragonGame {
      */
     @Override
     public void finish() {
-        if(active) {
+        if (active) {
             final TheDragonAPI api = TheDragon.getApi();
 
             active = false;
@@ -115,7 +115,7 @@ public final class DragonGameImpl implements DragonGame {
                 .collect(Collectors.toList());
     }
 
-    private void runGame(final PasterSession session){
+    private void runGame(final PasterSession session) {
         final TheDragonAPI api = TheDragon.getApi();
 
         api.getStructureService().clearAltars();
@@ -129,7 +129,7 @@ public final class DragonGameImpl implements DragonGame {
 
     }
 
-    private void startGame(){
+    private void startGame() {
         final TheDragonAPI api = TheDragon.getApi();
 
         api.getGamePlayerCheckService().startChecking();

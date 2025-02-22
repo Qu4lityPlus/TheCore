@@ -29,7 +29,7 @@ public final class PetLevelsGUI extends PetsGUI {
     private final PetLevelsGUIConfig config;
     private final InventoryPet invPet;
 
-    private static int getMaxPage(InventoryPet skill, Box box){
+    private static int getMaxPage(InventoryPet skill, Box box) {
         double maxLevel = getMaxLevel(skill);
 
         double slotsSize = box.files().inventories().petLevelsGUIConfig.getLevelSlots().size();
@@ -37,11 +37,11 @@ public final class PetLevelsGUI extends PetsGUI {
         return (int)Math.ceil(maxLevel / slotsSize);
     }
 
-    private static int getMaxLevel(InventoryPet pet){
+    private static int getMaxLevel(InventoryPet pet) {
         return Optional.ofNullable(Pets.getByID(pet.getPetId())).map(Pet::getMaxLevel).orElse(1);
     }
 
-    private static String getName(InventoryPet pet){
+    private static String getName(InventoryPet pet) {
         return Optional.ofNullable(Pets.getByID(pet.getPetId())).map(Pet::getPetEgg)
                 .map(PetEgg::getDisplayName)
                 .orElse("");
@@ -89,7 +89,7 @@ public final class PetLevelsGUI extends PetsGUI {
         for (Integer slot : config.getLevelSlots()) {
             count++;
 
-            if(count > maxLevel) break;
+            if (count > maxLevel) break;
 
             Item item = count == level + 1 ? config.getInProgressItem() :
                         count > level ? config.getLockedItem() : config.getUnlockedItem();
@@ -98,10 +98,10 @@ public final class PetLevelsGUI extends PetsGUI {
 
         }
 
-        if(page > 1)
+        if (page > 1)
             setItem(config.getPreviousPage());
 
-        if(hasNext)
+        if (hasNext)
             setItem(config.getNextPage());
 
         setItem(config.getGoBack());
@@ -109,7 +109,7 @@ public final class PetLevelsGUI extends PetsGUI {
         return inventory;
     }
 
-    private ItemStack getItem(Item item, PetData data, Pet pet, int level){
+    private ItemStack getItem(Item item, PetData data, Pet pet, int level) {
         /**
          * TODO Pass Pet Placeholders in arguments
          */
@@ -127,13 +127,13 @@ public final class PetLevelsGUI extends PetsGUI {
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBack())){
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new PetMainGUI(box, player).getInventory());
-        }else if(isItem(slot, config.getPreviousPage()) && page > 1){
+        } else if (isItem(slot, config.getPreviousPage()) && page > 1) {
             player.openInventory(new PetLevelsGUI(box, player, invPet, page - 1).getInventory());
-        }else if(isItem(slot, config.getNextPage()) && hasNext){
+        } else if (isItem(slot, config.getNextPage()) && hasNext) {
             player.openInventory(new PetLevelsGUI(box, player, invPet, page + 1).getInventory());
         }
     }

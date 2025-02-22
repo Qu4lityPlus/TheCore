@@ -18,7 +18,7 @@ public final class NormalClickHandler implements ClickHandler{
     private final Box box;
 
     @Override
-    public void handle(InventoryClickEvent event){
+    public void handle(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
         event.setCancelled(true);
@@ -26,13 +26,13 @@ public final class NormalClickHandler implements ClickHandler{
         final ItemStack copy = Optional.ofNullable(event.getCursor()).map(ItemStack::clone).orElse(null);
         final ItemStack current = Optional.ofNullable(event.getCurrentItem()).map(ItemStack::clone).orElse(null);
 
-        if(BukkitItemUtil.isNull(copy)){
+        if (BukkitItemUtil.isNull(copy)) {
             //PickUp
             gui.setGiveItem(false);
             event.setCurrentItem(null);
             player.openInventory(new EnchantMainGUI(box, page, bookShelf, null).getInventory());
             player.setItemOnCursor(current);
-        }else{
+        } else {
             //Put
             gui.setGiveItem(false);
 

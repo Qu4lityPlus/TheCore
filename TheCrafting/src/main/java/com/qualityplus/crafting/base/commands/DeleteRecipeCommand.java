@@ -25,20 +25,21 @@ public final class DeleteRecipeCommand extends AssistantCommand {
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(args.length == 2){
+        if (args.length == 2) {
             String id = args[1];
 
             CustomRecipe exist = Recipes.getByID(id);
 
-            if(exist == null){
+            if (exist == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.recipeDoesntExist));
                 return false;
             }
 
             box.files().recipes().craftingRecipes.remove(exist);
+            Recipes.removeByID(exist.getId());
 
             player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.successfullyDeletedRecipe));
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return false;
@@ -50,7 +51,7 @@ public final class DeleteRecipeCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().deleteCommand));
     }
 }

@@ -15,10 +15,10 @@ import org.bukkit.entity.Player;
 @EqualsAndHashCode(callSuper = true)
 public final class StatReward extends OkaeriConfig implements Reward {
     private String stat;
-    private int amount;
+    private double amount;
 
     @Override
-    public void execute(Player player) {
+    public void execute(final Player player) {
         TheSkills.getApi()
                 .getSkillsService()
                 .getData(player.getUniqueId())

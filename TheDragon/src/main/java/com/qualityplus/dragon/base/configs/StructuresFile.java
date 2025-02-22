@@ -32,7 +32,7 @@ public final class StructuresFile extends OkaeriConfig {
     public List<DragonCrystalImpl> crystals = new ArrayList<>();
 
 
-    public List<GameStructure> getStructures(){
+    public List<GameStructure> getStructures() {
         return new ListBuilder<GameStructure>()
                 .with(parseToSuperClass(altars))
                 .with(parseToSuperClass(crystals))
@@ -40,27 +40,27 @@ public final class StructuresFile extends OkaeriConfig {
                 .get();
     }
 
-    public void addStructure(GameStructure gameStructure){
-        if(gameStructure == null) return;
+    public void addStructure(GameStructure gameStructure) {
+        if (gameStructure == null) return;
 
-        if(gameStructure instanceof DragonSpawn)
+        if (gameStructure instanceof DragonSpawn)
             dragonSpawn = (DragonSpawnImpl) gameStructure;
-        else if(gameStructure instanceof DragonAltar)
+        else if (gameStructure instanceof DragonAltar)
             altars.add((DragonAltarImpl) gameStructure);
-        else if(gameStructure instanceof DragonCrystal)
+        else if (gameStructure instanceof DragonCrystal)
             crystals.add((DragonCrystalImpl) gameStructure);
     }
 
-    public void removeStructure(GameStructure gameStructure){
-        if(gameStructure == null) return;
+    public void removeStructure(GameStructure gameStructure) {
+        if (gameStructure == null) return;
 
-        if(gameStructure instanceof DragonAltar)
+        if (gameStructure instanceof DragonAltar)
             altars.remove((DragonAltarImpl) gameStructure);
-        else if(gameStructure instanceof DragonCrystal)
+        else if (gameStructure instanceof DragonCrystal)
             crystals.remove((DragonCrystalImpl) gameStructure);
     }
 
-    private List<GameStructure> parseToSuperClass(List<? extends GameStructure> structures){
+    private List<GameStructure> parseToSuperClass(List<? extends GameStructure> structures) {
         return structures.stream().map(structure -> (GameStructure) structure).collect(Collectors.toList());
     }
 }

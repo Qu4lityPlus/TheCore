@@ -35,11 +35,11 @@ public final class ResetCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
 
             final Player player = Bukkit.getPlayer(args[1]);
 
-            if(player == null){
+            if (player == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
@@ -55,7 +55,7 @@ public final class ResetCommand extends AssistantCommand {
 
             sender.sendMessage(StringUtils.processMulti(message, placeholders));
 
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax));
         return true;
     }
@@ -71,7 +71,7 @@ public final class ResetCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject final Box box){
+    public void register(@Inject final Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().addCommand));
     }
 }

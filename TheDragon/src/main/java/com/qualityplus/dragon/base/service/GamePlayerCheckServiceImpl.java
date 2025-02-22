@@ -39,14 +39,14 @@ public final class GamePlayerCheckServiceImpl implements GamePlayerCheckService 
     private Integer task;
 
     @Override
-    public void startChecking(){
+    public void startChecking() {
         this.addTargetPlayers();
 
         this.task = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this::checkPlayerStatus, 20, 20);
     }
 
     @Override
-    public void stopChecking(){
+    public void stopChecking() {
         Optional.ofNullable(this.task).ifPresent(Bukkit.getScheduler()::cancelTask);
 
         TheAssistantPlugin.getAPI().getNms().sendBossBar(null, null);
@@ -60,7 +60,7 @@ public final class GamePlayerCheckServiceImpl implements GamePlayerCheckService 
         updatePlayerStatus();
     }
 
-    private void updatePlayerStatus(){
+    private void updatePlayerStatus() {
         this.dragonGame.getPlayers().forEach(this::updateStatus);
     }
 
@@ -101,7 +101,7 @@ public final class GamePlayerCheckServiceImpl implements GamePlayerCheckService 
 
     }
 
-    private void addTargetPlayers(){
+    private void addTargetPlayers() {
         final TheDragonAPI api = TheDragon.getApi();
 
         List<EventPlayer> players = this.getSpawn()
@@ -119,7 +119,7 @@ public final class GamePlayerCheckServiceImpl implements GamePlayerCheckService 
         return new EventPlayer(player.getUniqueId(), 0, PlayerStatus.ACTIVE);
     }
 
-    private Collection<Player> getNearbyPlayers(final Location location){
+    private Collection<Player> getNearbyPlayers(final Location location) {
         return location.getWorld()
                 .getNearbyEntities(location, DRAGON_RADIUS_AROUND, DRAGON_RADIUS_AROUND, DRAGON_RADIUS_AROUND)
                 .stream()

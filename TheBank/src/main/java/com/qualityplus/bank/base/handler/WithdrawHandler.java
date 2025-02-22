@@ -19,17 +19,21 @@ public final class WithdrawHandler implements TrxHandler {
     public TrxResponse handle(final TrxRequest request) {
         final BankData bankData = request.getBankData();
         final BankTransaction transaction = request.getTransaction();
-
         final EconomyAddon economy = TheAssistantPlugin.getAPI().getAddons().getEconomy();
 
-        double bankMoney = bankData.getMoney();
+        if (request.isForce()) {
 
-        if(bankMoney <= 0){
-            throw new ZeroMoneyException(bankData);
-        }
+            double bankMoney = bankData.getMoney();
 
-        if(transaction.getAmount() > bankMoney){
-            throw new NotEnoughMoneyException(bankData);
+            if (bankMoney <= 0) {
+                throw new ZeroMoneyException(bankData);
+            }
+
+            if (transaction.getAmount() > bankMoney) {
+                throw new NotEnoughMoneyException(bankData);
+            }
+
+            transaction.setAmount(Math.max(transaction.getAmount(), 0));
         }
 
         final OfflinePlayer player = Bukkit.getOfflinePlayer(bankData.getUuid());

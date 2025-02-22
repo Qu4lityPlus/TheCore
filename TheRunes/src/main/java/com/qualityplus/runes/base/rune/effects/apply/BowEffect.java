@@ -23,7 +23,7 @@ public final class BowEffect implements ChainEffect{
 
             Location location =  entity.getLocation();
 
-            if(!arrowIsDead(entity)){
+            if (!arrowIsDead(entity)) {
 
                 displayEffect(location, rune);
 
@@ -38,11 +38,11 @@ public final class BowEffect implements ChainEffect{
         }, 0, 4).getTaskId());
     }
 
-    private boolean arrowIsDead(Entity entity){
+    private boolean arrowIsDead(Entity entity) {
         return entity == null || entity.isDead() || entity.isOnGround();
     }
 
-    private void cancel(UUID uuid){
+    private void cancel(UUID uuid) {
         Optional.ofNullable(taskMap.getOrDefault(uuid, null)).ifPresent(id -> Bukkit.getScheduler().cancelTask(id));
 
         taskMap.remove(uuid);

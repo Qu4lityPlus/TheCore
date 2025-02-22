@@ -37,7 +37,7 @@ public final class TradeOptionsGUI extends TradeGUI {
     public @NotNull Inventory getInventory() {
         InventoryUtils.fillInventory(inventory, config.getBackground());
 
-        for(Map.Entry<Integer, Item> entry : config.getItemsAndAmountToTrade().entrySet()){
+        for (Map.Entry<Integer, Item> entry : config.getItemsAndAmountToTrade().entrySet()) {
 
             inventory.setItem(entry.getValue().getSlot(), ItemStackUtils.makeItem(
                     entry.getValue(),
@@ -62,22 +62,22 @@ public final class TradeOptionsGUI extends TradeGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         Player player = (Player) event.getWhoClicked();
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getGoBack())) {
+        } else if (isItem(slot, config.getGoBack())) {
             player.openInventory(new TradesGUI(box, uuid, 1).getInventory());
-        }else if(slotsAndAmountMap.containsKey(slot)){
+        } else if (slotsAndAmountMap.containsKey(slot)) {
             Integer amount = slotsAndAmountMap.getOrDefault(slot, null);
 
-            if(amount == null) return;
+            if (amount == null) return;
 
-            if(!trade.hasPermission(player)){
+            if (!trade.hasPermission(player)) {
                 player.sendMessage(StringUtils.color(box.files().messages().tradeMessages.noPermission));
                 return;
             }

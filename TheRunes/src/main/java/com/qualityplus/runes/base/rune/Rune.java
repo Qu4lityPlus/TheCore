@@ -39,16 +39,16 @@ public final class Rune extends OkaeriConfig {
         this.levelDataMap = levelDataMap;
     }
 
-    public @Nullable RuneLevel getRuneLevel(int level){
+    public @Nullable RuneLevel getRuneLevel(int level) {
         return levelDataMap == null || !levelDataMap.containsKey(level) ? null : levelDataMap.get(level);
     }
 
-    public Optional<RuneLevel> getOptRuneLevel(int level){
+    public Optional<RuneLevel> getOptRuneLevel(int level) {
         return Optional.ofNullable(getRuneLevel(level));
     }
 
 
-    public void register(){
+    public void register() {
         Runes.registerNewRune(this);
     }
 }

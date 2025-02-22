@@ -173,11 +173,11 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
 
     );
 
-    public Item getBackUpGuardianSpawn(){
+    public Item getBackUpGuardianSpawn() {
         return ItemBuilder.of(XMaterial.PLAYER_HEAD, 23, 1, "&5&nGame Spawn Guardians", Arrays.asList("", "&5► &dAmount: &5%thedragon_guardian_spawns_amount%", "", "&5» &dClick to view all guardian spawns!")).headData("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQwOWUwM2JlZTYxNDdlYzllYTdjMjFiNjc1MmQ0OWJlMDRhZTFlNzdjYmVjNTc0YWY4N2FjMzlhNDE5NzUyYyJ9fX0=").build();
     }
 
-    public Item getBackUpWiki(){
+    public Item getBackUpWiki() {
         return ItemBuilder.of(XMaterial.PLAYER_HEAD, 21, 1, "&5&nWiki Tutorial", Arrays.asList("", "&5► &dClick to view wiki tutorial!")).headData("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjZGVlNmQwNmRmMjM0YjhlNjAzMzI4Yjk2YzU3ZjNhMzEyZTc5YWFiZmMzYmU3MmE4YjQyMTg3OGVkNjhjZiJ9fX0=").build();
     }
 
@@ -200,7 +200,7 @@ public final class Inventories extends OkaeriConfig implements DefaultBackground
             ItemBuilder.of(XMaterial.DIAMOND_BOOTS, 22, 1, "&5&nEdit Weapon", Arrays.asList("", "&5 » &dClick to change")).build()
             );
 
-    private Background getMainMenuFiller(){
+    private Background getMainMenuFiller() {
         return Background.builder()
                 .filler(ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE, 1, " ", Collections.emptyList()).build())
                 .useFiller(true)

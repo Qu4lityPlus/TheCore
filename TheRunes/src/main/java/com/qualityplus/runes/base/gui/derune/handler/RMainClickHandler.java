@@ -12,8 +12,8 @@ public final class RMainClickHandler implements ClickHandler {
         this.shiftHandler = shiftHandler;
     }
 
-    public void handle(InventoryClickEvent event){
-        if(event.isShiftClick())
+    public void handle(InventoryClickEvent event) {
+        if (event.isShiftClick())
             shiftHandler.handle(event);
         else
             normalHandler.handle(event);
@@ -21,7 +21,7 @@ public final class RMainClickHandler implements ClickHandler {
 
     @Override
     public void handleOutSide(InventoryClickEvent event) {
-        if(event.isShiftClick())
+        if (event.isShiftClick())
             shiftHandler.handleOutSide(event);
         else
             normalHandler.handleOutSide(event);

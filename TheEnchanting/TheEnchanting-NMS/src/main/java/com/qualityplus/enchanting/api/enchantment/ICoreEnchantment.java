@@ -38,15 +38,15 @@ public interface ICoreEnchantment {
 
     ProviderType getProviderType();
 
-    default boolean isVanilla(){
+    default boolean isVanilla() {
         return getProviderType().equals(ProviderType.VANILLA_ENCHANT);
     }
 
-    default boolean isEco(){
+    default boolean isEco() {
         return getProviderType().equals(ProviderType.ECO_ENCHANT);
     }
 
-    default boolean isAE(){
+    default boolean isAE() {
         return getProviderType().equals(ProviderType.ADVANCED_ENCHANT);
     }
 }

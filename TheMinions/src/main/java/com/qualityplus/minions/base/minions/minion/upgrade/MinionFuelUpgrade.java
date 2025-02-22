@@ -26,7 +26,7 @@ public final class MinionFuelUpgrade extends OkaeriConfig {
     private double percentageOfSecondsToRemove;
     private HumanTime timer;
 
-    public ItemStack getItemStack(long delay, long marked){
+    public ItemStack getItemStack(long delay, long marked) {
         List<String> lore = StringUtils.processMulti(description, new Placeholder("minion_upgrade_percentage_seconds", percentageOfSecondsToRemove).alone());
 
         ItemStack itemStack = ItemStackUtils.makeItem(item,

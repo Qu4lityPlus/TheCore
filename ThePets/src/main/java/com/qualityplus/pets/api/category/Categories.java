@@ -47,7 +47,7 @@ public final class Categories {
     }
 
     @Delayed(time = 1)
-    public static void reloadCategories(@Inject CategoriesFile categories, @Inject Logger logger){
+    public static void reloadCategories(@Inject CategoriesFile categories, @Inject Logger logger) {
         PET_CATEGORY_MAP.clear();
 
         categories.petCategories.forEach(Categories::registerNewCategory);

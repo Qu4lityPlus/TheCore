@@ -10,23 +10,23 @@ import org.bukkit.inventory.ItemStack;
 
 @UtilityClass
 public class AnvilFinderUtil {
-    public SessionResult getAnswer(AnvilSession session){
+    public SessionResult getAnswer(AnvilSession session) {
         return TheAnvil.getApi().getProvider().getAnswer(session);
     }
 
-    public double getMoneyCost(AnvilSession session){
+    public double getMoneyCost(AnvilSession session) {
         return TheAnvil.getApi().getProvider().getMoneyCost(session);
     }
 
-    public double getLevelsCost(AnvilSession session){
+    public double getLevelsCost(AnvilSession session) {
         return TheAnvil.getApi().getProvider().getLevelsCost(session);
     }
 
-    public boolean dontHavePermission(AnvilSession session, Player player){
+    public boolean dontHavePermission(AnvilSession session, Player player) {
         return TheAnvil.getApi().getProvider().dontHavePermission(session, player);
     }
 
-    public ItemStack getFinalItem(AnvilSession session){
+    public ItemStack getFinalItem(AnvilSession session) {
         return TheAnvil.getApi().getProvider().getFinalItem(session);
     }
 }

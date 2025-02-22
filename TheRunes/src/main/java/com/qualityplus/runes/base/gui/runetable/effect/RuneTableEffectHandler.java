@@ -47,7 +47,7 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
 
         future.thenRun(() ->{
 
-            if(hasBeenClosed) return;
+            if (hasBeenClosed) return;
 
             session.setFusing(false);
 
@@ -62,7 +62,7 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
     }
 
     @Override
-    public ItemStack getResult(Player player, RuneSession session){
+    public ItemStack getResult(Player player, RuneSession session) {
         ItemStack itemStack = RuneFinderUtil.getFinalItem(box, session);
 
         boolean bothRunes = session.getSessionResult().equals(RuneSession.SessionResult.BOTH_RUNES_SET);
@@ -71,12 +71,12 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
 
         boolean succeed = true;
 
-        if(bothRunes){
+        if (bothRunes) {
             int random = new Random().nextInt(100);
 
             Rune rune = session.getRuneInstance().getRune();
 
-            if(random <= rune.getOptRuneLevel(level).map(RuneLevel::getSuccessChance).orElse(0D))
+            if (random <= rune.getOptRuneLevel(level).map(RuneLevel::getSuccessChance).orElse(0D))
                 succeed = false;
         }
 
@@ -91,7 +91,7 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
 
         player.sendMessage(StringUtils.processMulti(bothRunes ? box.files().messages().runeMessages.addedXpFusing : box.files().messages().runeMessages.addedXpApplying, placeholders));
 
-        if(!succeed)
+        if (!succeed)
             player.sendMessage(StringUtils.color(box.files().messages().runeMessages.youDidntSucceed));
 
         return !succeed ? null : itemStack;
@@ -102,7 +102,7 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
         this.tasksMap.keySet().forEach(this::cancelTask);
     }
 
-    private void startBrewing(Inventory inventory){
+    private void startBrewing(Inventory inventory) {
         UUID uuid = UUID.randomUUID();
 
         RuneTableEffects standEffects = box.files().inventories().runeTableGUIConfig.getRuneTableEffects();
@@ -110,28 +110,28 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
         this.time = new Markable(new HumanTime(4, HumanTime.TimeType.SECONDS).getEffectiveTime(), System.currentTimeMillis());
 
         this.tasksMap.put(uuid, Bukkit.getScheduler().runTaskTimer(box.plugin(), () -> {
-            if(time.remainingTime() > 0){
+            if (time.remainingTime() > 0) {
                 standEffects
                         .getEffectList()
                         .get(effect)
                         .forEach(ef -> inventory.setItem(ef.getSlot(), ItemStackUtils.makeItem(ef.getItem())));
 
                 effect = standEffects.getEffectList().containsKey(effect + 1) ? effect + 1 : 0;
-            }else
+            } else
                 cancelTask(uuid);
 
         }, 0L, 3L).getTaskId());
     }
 
-    private void cancelTask(UUID uuid){
+    private void cancelTask(UUID uuid) {
         Optional.ofNullable(tasksMap.getOrDefault(uuid, null)).ifPresent(Bukkit.getScheduler()::cancelTask);
     }
 
-    private void checkIfEnd(Player player, RuneSession recipe, Inventory inventory){
+    private void checkIfEnd(Player player, RuneSession recipe, Inventory inventory) {
         UUID uuid = UUID.randomUUID();
 
         this.tasksMap.put(uuid, Bukkit.getScheduler().runTaskTimer(box.plugin(), () -> {
-            if(time.remainingTime() < 0){
+            if (time.remainingTime() < 0) {
                 finish(player, recipe);
                 clearAll(inventory);
                 future.complete(null);
@@ -140,7 +140,7 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
         }, 0L, 0L).getTaskId());
     }
 
-    private void clearAll(Inventory inventory){
+    private void clearAll(Inventory inventory) {
         this.tasksMap.keySet().forEach(this::cancelTask);
 
         this.time = new Markable(0,0);
@@ -149,12 +149,12 @@ public final class RuneTableEffectHandler implements EffectHandler<RuneTableGUI>
         InventoryUtils.fillInventory(inventory, box.files().inventories().runeTableGUIConfig.getBackground());
     }
 
-    private void finish(Player player, RuneSession session){
+    private void finish(Player player, RuneSession session) {
         /*AlchemistBrewEvent event = new AlchemistBrewEvent(player, recipe);
 
         Bukkit.getPluginManager().callEvent(event);
 
-        if(event.isCancelled())
+        if (event.isCancelled())
             return;
         */
     }

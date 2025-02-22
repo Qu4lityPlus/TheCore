@@ -22,29 +22,29 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public interface MinionItemsGetter {
-    default MinionStorageState getMinionState(FakeInventory fakeInventory, UUID minionUniqueId, Minion minion){
+    default MinionStorageState getMinionState(FakeInventory fakeInventory, UUID minionUniqueId, Minion minion) {
         ItemSettings itemSettings = getItemSettings(null, minionUniqueId, minion);
 
         MinionStorageState storageState = getStateFromSlot(fakeInventory, itemSettings, null);
 
-        for(UpgradeSlot slot : UpgradeSlot.values()){
+        for (UpgradeSlot slot : UpgradeSlot.values()) {
             ItemSettings upgradeItemSettings = getItemSettings(slot, minionUniqueId, minion);
             MinionStorageState upgradeStorageState = getStateFromSlot(fakeInventory, upgradeItemSettings, slot);
 
-            if(upgradeStorageState == null) continue;
+            if (upgradeStorageState == null) continue;
 
-            if(upgradeStorageState.isHasFullStorage()) continue;
+            if (upgradeStorageState.isHasFullStorage()) continue;
 
             return upgradeStorageState;
         }
         return storageState;
     }
 
-    default MinionStorageState getStateFromSlot(FakeInventory fakeInventory, ItemSettings itemSettings, UpgradeSlot slot){
+    default MinionStorageState getStateFromSlot(FakeInventory fakeInventory, ItemSettings itemSettings, UpgradeSlot slot) {
 
-        if(itemSettings == null) return null;
+        if (itemSettings == null) return null;
 
-        if(slot != null && !hasRequiredItems(fakeInventory.getItemsArray(), itemSettings))
+        if (slot != null && !hasRequiredItems(fakeInventory.getItemsArray(), itemSettings))
             return null;
 
         FakeInventory copyOfFake = TheAssistantPlugin
@@ -68,11 +68,11 @@ public interface MinionItemsGetter {
         boolean hasFullStorage = remainingAmount >= toAddCopyAmount;
 
 
-        if(copyOfFake.getEmptySlots() <= 0 && slot != null){
+        if (copyOfFake.getEmptySlots() <= 0 && slot != null) {
             return null;
         }
 
-        if(hasFullStorage && slot != null) {
+        if (hasFullStorage && slot != null) {
             /*Bukkit.getConsoleSender().sendMessage("Remaining: " + remainingAmount + " | To Add Amount: " + toAddCopyAmount);
 
             Bukkit.getConsoleSender().sendMessage("Return -> " + slot.name());*/
@@ -83,35 +83,35 @@ public interface MinionItemsGetter {
     }
 
 
-    default ItemSettings getItemSettings(UpgradeSlot slot, UUID minionUniqueId, Minion minion){
-        if(slot == null){
+    default ItemSettings getItemSettings(UpgradeSlot slot, UUID minionUniqueId, Minion minion) {
+        if (slot == null) {
             return minion.getMinionUpdateSettings().getBaseItem();
         }
 
         //Get id of upgrade
         String id = getUpgrade(slot, minionUniqueId);
 
-        if(id == null) return null;
+        if (id == null) return null;
 
         //Get settings for upgrade with id
         UpgradeSettings settings = minion.getMinionUpdateSettings().getUpgradeSettings().getOrDefault(id,null);
 
-        if(settings == null) return null;
+        if (settings == null) return null;
 
         return settings.getItemSettings();
     }
 
-    default boolean hasRequiredItems(ItemStack[] inventoryItems, ItemSettings itemSettings){
+    default boolean hasRequiredItems(ItemStack[] inventoryItems, ItemSettings itemSettings) {
         Map<Integer, ItemStack> requiredItems = itemSettings.getRequiredItemsToCreate();
 
         boolean hasRequiredItems = true;
 
-        for(Map.Entry<Integer, ItemStack> entry : requiredItems.entrySet()){
+        for (Map.Entry<Integer, ItemStack> entry : requiredItems.entrySet()) {
             int inInventory = InventoryUtils.getItemQuantity(inventoryItems, entry.getValue());
 
             int requiredAmount = entry.getKey();
 
-            if(inInventory < requiredAmount){
+            if (inInventory < requiredAmount) {
                 hasRequiredItems = false;
                 break;
             }
@@ -120,7 +120,7 @@ public interface MinionItemsGetter {
         return hasRequiredItems;
     }
 
-    default String getUpgrade(UpgradeSlot slot, UUID minionUniqueId){
+    default String getUpgrade(UpgradeSlot slot, UUID minionUniqueId) {
         Optional<MinionData> data = TheMinions.getApi().getMinionsService().getData(minionUniqueId);
 
         String id = data
@@ -128,16 +128,16 @@ public interface MinionItemsGetter {
                 .map(UpgradeEntity::getId)
                 .orElse(null);
 
-        if(id == null) return null;
+        if (id == null) return null;
 
         MinionUpgrade upgrade = TheMinions.getApi().getConfigFiles().upgrades().normalUpgrades.getOrDefault(id, null);
 
-        if(upgrade == null) return null;
+        if (upgrade == null) return null;
 
         return upgrade.getId();
     }
 
-    default int getItemsAmount(List<ItemStack> itemStacks){
+    default int getItemsAmount(List<ItemStack> itemStacks) {
         return itemStacks
                 .stream()
                 .filter(BukkitItemUtil::isNotNull)

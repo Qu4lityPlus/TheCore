@@ -23,7 +23,7 @@ public final class ReloadCommand extends AssistantCommand {
             box.files().reloadFiles();
 
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.successfullyReloaded.replace("%prefix%", box.files().config().prefix)));
-        }else{
+        } else {
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -35,7 +35,7 @@ public final class ReloadCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().reloadCommand));
     }
 }

@@ -21,5 +21,7 @@ public final class Commands extends OkaeriConfig {
     public CommandDetails bankCommand = new CommandDetails(Collections.singletonList("open"), "Open bank gui", "/TheBank open", "thebank.open", true, Duration.ZERO.getSeconds(), true, "thebank");
     public CommandDetails givePersonalBankCommand = new CommandDetails(Collections.singletonList("givepersonal"), "Give personal bank to players", "/TheBank givepersonal <player>", "thebank.givepersonal", true, Duration.ZERO.getSeconds(), true, "thebank");
     public CommandDetails helpCommand = new CommandDetails(Collections.singletonList("help"), "Show all commands", "/TheBank help", "thebank.help", true, Duration.ZERO.getSeconds(), true, "thebank");
-
+    public CommandDetails depositBankCommand = new CommandDetails(Collections.singletonList("deposit"), "Deposit money from player bank", "/TheBank deposit <player> <amount>", "thebank.deposit", true, Duration.ZERO.getSeconds(), true, "thebank");
+    public CommandDetails withdrawBankCommand = new CommandDetails(Collections.singletonList("withdraw"), "Withdraw money from player bank", "/TheBank withdraw <player> <amount>", "thebank.withdraw", true, Duration.ZERO.getSeconds(), true, "thebank");
+    public CommandDetails resetBankCommand = new CommandDetails(Collections.singletonList("reset"), "Reset player bank", "/TheBank reset <player>", "thebank.reset", true, Duration.ZERO.getSeconds(), true, "thebank");
 }

@@ -21,29 +21,29 @@ import java.util.stream.Collectors;
 public interface ChainEffect {
     void execute(Player player, Entity entity, Rune rune);
 
-    default Color getColor(RuneEffect effect){
+    default Color getColor(RuneEffect effect) {
         try {
-            if(effect.getParticleColor() == null || effect.getParticleColor().getColor() == null) return null;
+            if (effect.getParticleColor() == null || effect.getParticleColor().getColor() == null) return null;
 
             return effect.getParticleColor().getColor();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    default void displayEffect(Location location, Rune rune){
+    default void displayEffect(Location location, Rune rune) {
         RuneEffect effect = rune.getEffect();
 
         try {
             Color color = getColor(effect);
 
-            if(color == null){
+            if (color == null) {
                 new ParticleBuilder(effect.getParticle())
                         .count(effect.getParticleQuantity())
                         .allPlayers()
                         .spawn();
-            }else{
+            } else {
                 final org.bukkit.Color bukkitColor = org.bukkit.Color.fromRGB(
                         color.getRed(),
                         color.getGreen(),
@@ -56,19 +56,19 @@ public interface ChainEffect {
                         .spawn();
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    default void displayFakeItems(Location location, Rune rune){
+    default void displayFakeItems(Location location, Rune rune) {
         RuneEffect effect = rune.getEffect();
 
         try {
             List<XMaterial> materials = effect.getFakeDropItems();
 
-            if(materials == null || materials.isEmpty()) return;
+            if (materials == null || materials.isEmpty()) return;
 
             XMaterial material = RandomUtil.getRandom(
                     materials.stream()
@@ -79,11 +79,11 @@ public interface ChainEffect {
 
             spawnFakeItem(location, material);
 
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
         }
     }
 
-    default void spawnFakeItem(Location location, XMaterial material){
+    default void spawnFakeItem(Location location, XMaterial material) {
         ArmorStand stand = location.getWorld().spawn(location, ArmorStand.class);
 
         stand.setSmall(true);
@@ -97,7 +97,7 @@ public interface ChainEffect {
 
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        if(event.isCancelled()){
+        if (event.isCancelled()) {
             stand.remove();
             return;
         }

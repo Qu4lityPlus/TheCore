@@ -1,32 +1,42 @@
 package com.qualityplus.minions.api.minion;
 
-import com.qualityplus.assistant.api.gui.FakeInventory;
+import com.qualityplus.assistant.hologram.TheHologram;
 import com.qualityplus.minions.base.minions.entity.getter.DataGetter;
 import com.qualityplus.minions.base.minions.entity.getter.LevelGetter;
 import com.qualityplus.minions.base.minions.entity.getter.MinionItemsGetter;
 import com.qualityplus.minions.base.minions.entity.state.MinionState;
+import com.qualityplus.minions.base.minions.minion.Minion;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 
-public interface MinionEntity extends LevelGetter, DataGetter, MinionItemsGetter {
-    void load();
-    void unload();
+public interface MinionEntity extends LevelGetter, MinionItemsGetter, DataGetter {
+    public void spawnMinionEntity();
+    public void unloadMinionEntity();
 
-    MinionState getState();
-    void tick();
+    public MinionState getState();
+    public void tick();
 
-    Collection<ItemStack> pickUpAllItems();
+    public Collection<ItemStack> pickUpAllItems();
 
-    void spawn(Location location, boolean load);
-    void deSpawn(DeSpawnReason reason);
+    public void spawnMinion(final Location location, boolean load);
+    public void unloadMinion(final DeSpawnReason reason, final boolean saveDBAsync);
 
-    void updateSkin();
-    void updateInventory();
+    public void updateSkin();
+    public void updateInventory();
+
+    public ArmorStand getEntity();
+    public TheHologram getHologram();
+    public void setHologram(final TheHologram hologram);
+    public void setEntity(final ArmorStand entity);
+
+    public Minion getMinion();
 
     public enum DeSpawnReason{
         SERVER_TURNED_OFF,
-        PLAYER_DE_SPAWN_PET
+        PLAYER_DE_SPAWN_MINION
     }
 }

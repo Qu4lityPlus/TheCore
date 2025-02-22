@@ -54,9 +54,16 @@ public final class Config extends OkaeriConfig {
 
     public Item skinItem = ItemBuilder.of(XMaterial.PLAYER_HEAD, 1, "&a%minion_skin_display_name%", Collections.singletonList("&7%minion_skin_lore%")).build();
 
+    @CustomKey("maxMinionsPerPlayer")
+    @Comment("maxMinionsPerPlayer = This is the max amount of minions that a player can place")
+    @Comment("Take in count this is the max amount per all players, then you need to set permissions")
+    @Comment("for each player, e.g: 'theminions.place_amount.1' if you want player have 1 minion")
+    @Comment("'theminions.place_amount.2' if you want he to place just two and so")
+    public int maxMinionsPerPlayer = 15;
+
     public Map<MinionStatus, List<RandomMessage>> messages = FastMap.listBuilder(MinionStatus.class, RandomMessage.class)
-            .put(MinionStatus.IDEAL_LAYOUT, Arrays.asList(new RandomMessage(Collections.singletonList("          "), 100)))
-            .put(MinionStatus.INVALID_LAYOUT, Arrays.asList(new RandomMessage(Arrays.asList("&c/!\\", "&cInvalid Layout!"), 100)))
-            .put(MinionStatus.STORAGE_FULL, Arrays.asList(new RandomMessage(Arrays.asList("&c/!\\", "&cStorage limit reached!"), 100)))
+            .put(MinionStatus.IDEAL_LAYOUT, List.of(new RandomMessage(Collections.singletonList("          "), 100)))
+            .put(MinionStatus.INVALID_LAYOUT, List.of(new RandomMessage(Arrays.asList("&c/!\\", "&cInvalid Layout!"), 100)))
+            .put(MinionStatus.STORAGE_FULL, List.of(new RandomMessage(Arrays.asList("&c/!\\", "&cStorage limit reached!"), 100)))
             .build();
 }

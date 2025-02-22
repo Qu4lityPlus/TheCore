@@ -38,7 +38,7 @@ public final class MagicFindConfig extends OkaeriConfig implements StatFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2VkNTE5OGRkY2RkODliZTkxYzY5ZmU5YWJmZTJjYTRjMTk0N2M3ZTJlYWMxMWYxODQ2YmQzMTIyY2E1YjhjNiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_intelligence_description%"))
             .build();
-    public Stat getStat(){
+    public Stat getStat() {
         return MagicFindStat.builder()
                 .id(id)
                 .displayName(displayName)

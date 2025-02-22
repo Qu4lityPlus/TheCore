@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.qualityplus.core'
-version = '3.4.3'
+version = '3.53.0'
 
 subprojects {
     version = rootProject.version
@@ -33,7 +33,7 @@ subprojects {
         }
 
         maven {
-            url 'https://papermc.io/repo/repository/maven-public/'
+            url 'https://repo.papermc.io/repo/repository/maven-public/'
         }
     }
 
@@ -41,7 +41,7 @@ subprojects {
         implementation("org.jetbrains:annotations:22.0.0")
 
         compileOnly("org.projectlombok:lombok:1.18.30")
-        compileOnly 'com.github.r3back:the-assistant:3.2.16'
+        compileOnly 'com.github.r3back:the-assistant:3.11.0'
         //These both are temporal until jar class loader be added
         compileOnly 'io.lettuce:lettuce-core:6.1.1.RELEASE'
         compileOnly 'org.mongodb:mongo-java-driver:3.12.10'

@@ -9,6 +9,7 @@ import com.qualityplus.pets.api.category.Categories;
 import com.qualityplus.pets.api.pet.Pets;
 import com.qualityplus.pets.api.pet.category.PetCategory;
 import com.qualityplus.pets.base.pet.Pet;
+import com.qualityplus.pets.base.pet.egg.PetEgg;
 import com.qualityplus.pets.persistance.data.PetData;
 import lombok.experimental.UtilityClass;
 
@@ -16,7 +17,7 @@ import java.util.*;
 
 @UtilityClass
 public class PetPlaceholderUtil {
-    /*public List<IPlaceholder> getPlaceholders(PetEntity petEntity){
+    /*public List<IPlaceholder> getPlaceholders(PetEntity petEntity) {
         Optional<Pet> pet = Optional.ofNullable(Pets.getByID(petEntity.getEgg().getPet().getId()));
         Optional<PetEntity> entity = PetEntityTracker.getByID(petEntity.getPetUniqueId());
 
@@ -38,9 +39,9 @@ public class PetPlaceholderUtil {
         ).get();
     }*/
 
-    public PlaceholderBuilder getPetPlaceholders(Pet pet){
+    public PlaceholderBuilder getPetPlaceholders(Pet pet) {
 
-        if(pet == null) return PlaceholderBuilder.empty();
+        if (pet == null) return PlaceholderBuilder.empty();
 
 
         return PlaceholderBuilder.create(
@@ -50,7 +51,7 @@ public class PetPlaceholderUtil {
         );
     }
 
-    public PlaceholderBuilder getPetPlaceholders(String id){
+    public PlaceholderBuilder getPetPlaceholders(String id) {
         return getPetPlaceholders(Pets.getByID(id));
     }
 
@@ -59,7 +60,7 @@ public class PetPlaceholderUtil {
      *
      * Optimize this placeholderbuilder so it doesn't call getData in both
      */
-    public PlaceholderBuilder getPetPlaceholders(UUID petUuid){
+    public PlaceholderBuilder getPetPlaceholders(UUID petUuid) {
         Optional<PetData> petData = ThePets.getApi().getPetsService().getData(petUuid);
 
         int level = petData.map(PetData::getLevel).orElse(1);
@@ -67,7 +68,7 @@ public class PetPlaceholderUtil {
         return getPetPlaceholders(petUuid, level);
     }
 
-    public PlaceholderBuilder getPetPlaceholders(PetData data){
+    public PlaceholderBuilder getPetPlaceholders(PetData data) {
         Optional<PetData> petData = Optional.ofNullable(data);
 
         Optional<Pet> pet = petData.map(PetData::getPetId)
@@ -92,7 +93,7 @@ public class PetPlaceholderUtil {
         );
     }
 
-    public PlaceholderBuilder getPetPlaceholders(UUID petUuid, int level){
+    public PlaceholderBuilder getPetPlaceholders(UUID petUuid, int level) {
         Optional<PetData> petData = ThePets.getApi().getPetsService().getData(petUuid);
 
         Optional<Pet> pet = petData.map(PetData::getPetId)
@@ -104,6 +105,7 @@ public class PetPlaceholderUtil {
         double percentage = ActionBarUtils.getPercentageFromTotal(xp, maxXp);
 
         return PlaceholderBuilder.create(
+                new Placeholder("pet_egg_displayname", pet.map(Pet::getPetEgg).map(PetEgg::getDisplayName).orElse("")),
                 new Placeholder("pet_level_number", level),
                 new Placeholder("pet_level_roman", NumberUtil.toRoman(level)),
                 new Placeholder("pet_level_progress", percentage),
@@ -115,7 +117,7 @@ public class PetPlaceholderUtil {
         );
     }
 
-    private List<String> getCachedLore(Pet pet, int level){
+    private List<String> getCachedLore(Pet pet, int level) {
         return pet.getPetCachedMessage(level);
     }
 }

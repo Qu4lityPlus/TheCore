@@ -11,7 +11,7 @@ public final class TheCraftingRecipeProvider implements RecipeProvider {
     public Recipe getRecipe(String id) {
         CustomRecipe customRecipe = Recipes.getByID(id);
 
-        if(customRecipe == null) return null;
+        if (customRecipe == null) return null;
 
         return new MinionRecipe(customRecipe.getIngredients(), customRecipe.getResult());
     }

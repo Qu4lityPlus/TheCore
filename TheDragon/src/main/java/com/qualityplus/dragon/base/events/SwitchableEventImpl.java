@@ -13,10 +13,10 @@ public final class SwitchableEventImpl implements SwitchableEvents {
     private DragonGameEvent currentEvent;
 
     @Override
-    public DragonGameEvent getNext(){
-        if(this.currentEvent == null){
+    public DragonGameEvent getNext() {
+        if (this.currentEvent == null) {
             this.currentEvent = this.events.getOrDefault(1, null);
-        }else{
+        } else {
             final Optional<Integer> next = getCurrentPosEvent();
 
             next.ifPresent(this::setupNextEvent);
@@ -25,11 +25,11 @@ public final class SwitchableEventImpl implements SwitchableEvents {
     }
 
     @Override
-    public DragonGameEvent getCurrentEvent(){
+    public DragonGameEvent getCurrentEvent() {
         return currentEvent;
     }
 
-    private Optional<Integer> getCurrentPosEvent(){
+    private Optional<Integer> getCurrentPosEvent() {
         return events.keySet()
                 .stream()
                 .filter(value -> this.events.get(value) == currentEvent)

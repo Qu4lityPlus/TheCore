@@ -35,20 +35,20 @@ public final class SetDropItemCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
-        if(args.length == 2){
+        if (args.length == 2) {
 
             Player player = (Player) sender;
 
             Minion minion = Minions.getByID(args[1]);
 
-            if(minion == null){
+            if (minion == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidMinion));
                 return false;
             }
 
             ItemStack inHand = player.getItemInHand();
 
-            if(BukkitItemUtil.isNull(inHand)) {
+            if (BukkitItemUtil.isNull(inHand)) {
                 sender.sendMessage(StringUtils.color(Optional.ofNullable(box.files().messages().minionMessages.invalidMinion)
                         .orElse("&cInvalid Item!")));
                 return false;
@@ -59,7 +59,7 @@ public final class SetDropItemCommand extends AssistantCommand {
                     .changeItem(ChangeItem.DROP_ITEM)
                     .build(), inHand.clone()).getInventory());
 
-        }else{
+        } else {
             String message = box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax);
 
             sender.sendMessage(StringUtils.color(message));
@@ -72,7 +72,7 @@ public final class SetDropItemCommand extends AssistantCommand {
         return args.length == 2 ? getMinions() : Collections.emptyList();
     }
 
-    private List<String> getMinions(){
+    private List<String> getMinions() {
         return Minions.values()
                 .stream()
                 .map(Minion::getId)
@@ -80,7 +80,7 @@ public final class SetDropItemCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI()
                 .getCommandProvider()
                 .registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().setDropItemCommand));

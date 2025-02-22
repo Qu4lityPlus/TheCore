@@ -35,7 +35,7 @@ public final class DragonGuardian extends OkaeriConfig implements Guardian {
 
     @Override
     public Entity spawn(Location location) {
-        if(location == null || health <= 1 || entity == null) return null;
+        if (location == null || health <= 1 || entity == null) return null;
 
         LivingEntity guardian = (LivingEntity) location.getWorld().spawnEntity(location, EntityType.valueOf(entity));
 
@@ -50,11 +50,11 @@ public final class DragonGuardian extends OkaeriConfig implements Guardian {
         EntityEquipment equipment = guardian.getEquipment();
 
         if (equipment != null) {
-            if(BukkitItemUtil.isNotNull(guardianArmor.getWeapon())) equipment.setItemInMainHand(guardianArmor.getWeapon());
-            if(BukkitItemUtil.isNotNull(guardianArmor.getHelmet())) equipment.setHelmet(guardianArmor.getHelmet());
-            if(BukkitItemUtil.isNotNull(guardianArmor.getChestplate())) equipment.setChestplate(guardianArmor.getChestplate());
-            if(BukkitItemUtil.isNotNull(guardianArmor.getLeggings())) equipment.setLeggings(guardianArmor.getLeggings());
-            if(BukkitItemUtil.isNotNull(guardianArmor.getBoots())) equipment.setBoots(guardianArmor.getBoots());
+            if (BukkitItemUtil.isNotNull(guardianArmor.getWeapon())) equipment.setItemInMainHand(guardianArmor.getWeapon());
+            if (BukkitItemUtil.isNotNull(guardianArmor.getHelmet())) equipment.setHelmet(guardianArmor.getHelmet());
+            if (BukkitItemUtil.isNotNull(guardianArmor.getChestplate())) equipment.setChestplate(guardianArmor.getChestplate());
+            if (BukkitItemUtil.isNotNull(guardianArmor.getLeggings())) equipment.setLeggings(guardianArmor.getLeggings());
+            if (BukkitItemUtil.isNotNull(guardianArmor.getBoots())) equipment.setBoots(guardianArmor.getBoots());
         }
 
         return guardian;

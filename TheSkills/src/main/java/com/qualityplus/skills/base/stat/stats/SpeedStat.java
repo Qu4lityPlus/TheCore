@@ -27,10 +27,10 @@ public final class SpeedStat extends Stat {
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         List<IPlaceholder> placeholders = PlaceholderBuilder.create()
                 .with(new Placeholder("level_number", level),
-                      new Placeholder("level_roman", NumberUtil.toRoman(level)),
+                      new Placeholder("level_roman", NumberUtil.toRoman((int)level)),
                       new Placeholder("extra_speed", level * extraSpeedPercentagePerLevel)
 
                 ).get();

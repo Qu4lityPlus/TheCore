@@ -31,34 +31,34 @@ public abstract class Perk extends CommonObject implements ListenerRegistrable {
         this.chancePerLevel = chancePerLevel;
     }
 
-    public void register(){
+    public void register() {
         Perks.registerNewPerk(this);
     }
 
-    public int getStat(Player player, String id){
+    public double getStat(Player player, String id) {
         return TheSkills.getApi().getSkillsService().getData(player.getUniqueId())
                 .map(UserData::getSkills)
                 .map(userPerks -> userPerks.getLevel(id))
-                .orElse(1);
+                .orElse(1D);
     }
 
-    public int getStat(Player player){
+    public double getStat(Player player) {
         return getStat(player, id);
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         return StringUtils.processMulti(description, getPlaceholders(level).get());
     }
 
     @Override
-    public void addExtraListener(Class<? extends ExtraListener> listener){
+    public void addExtraListener(Class<? extends ExtraListener> listener) {
         extraListeners.add(listener);
     }
 
-    protected PlaceholderBuilder getPlaceholders(int level){
+    protected PlaceholderBuilder getPlaceholders(double level) {
         return PlaceholderBuilder.create()
-                .with(new Placeholder("level_number", level), new Placeholder("level_roman", NumberUtil.toRoman(level)))
+                .with(new Placeholder("level_number", level), new Placeholder("level_roman", NumberUtil.toRoman((int)level)))
                 .with(new Placeholder("percent", MathUtil.round(getChancePerLevel() * level)));
     }
 

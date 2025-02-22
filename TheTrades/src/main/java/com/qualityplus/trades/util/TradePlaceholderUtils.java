@@ -30,7 +30,7 @@ public class TradePlaceholderUtils {
         );
     }
 
-    private IPlaceholder getResultFormat(Box box, PluginTrade trade, int multiplier){
+    private IPlaceholder getResultFormat(Box box, PluginTrade trade, int multiplier) {
         Messages.TradeMessages msg = box.files().messages().tradeMessages;
 
         int amount = multiplier <= 1 ? trade.getResult().getAmount() : multiplier;
@@ -40,14 +40,14 @@ public class TradePlaceholderUtils {
         return new Placeholder("trade_result_item_amount", placeholder.replaceAll("%amount%", String.valueOf(amount)));
     }
 
-    private IPlaceholder getFormattedCost(Box box, PluginTrade trade, int multiplier){
+    private IPlaceholder getFormattedCost(Box box, PluginTrade trade, int multiplier) {
 
         List<String> finalList = new ArrayList<>();
 
-        for(String line : box.files().messages().tradeMessages.costFormat){
+        for (String line : box.files().messages().tradeMessages.costFormat) {
 
-            if(line.contains("%trade_cost_list%")){
-                if(trade.getPrice() > 0) {
+            if (line.contains("%trade_cost_list%")) {
+                if (trade.getPrice() > 0) {
                     int toMultiply = multiplier == 0 ? 1 : multiplier;
 
                     finalList.add(box.files().messages().tradeMessages.moneyCostFormat.replace("%trade_money_price%", MathUtil.round(trade.getPrice() * toMultiply)));
@@ -56,7 +56,7 @@ public class TradePlaceholderUtils {
 
                 int resultAmount = trade.getResult().getAmount();
 
-                for(Map.Entry<XMaterial, Integer> itemCost : trade.getItemCost().entrySet()){
+                for (Map.Entry<XMaterial, Integer> itemCost : trade.getItemCost().entrySet()) {
                     String name = BukkitItemUtil.getMaterialName(itemCost.getKey().parseItem());
 
                     int toMultiply = itemCost.getValue() / resultAmount;
@@ -71,7 +71,7 @@ public class TradePlaceholderUtils {
                     finalList.add(StringUtils.processMulti(box.files().messages().tradeMessages.itemCostFormat, placeholders));
                 }
 
-            }else{
+            } else {
                 finalList.add(line);
             }
         }

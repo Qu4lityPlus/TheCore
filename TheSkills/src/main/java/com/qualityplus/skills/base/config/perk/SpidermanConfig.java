@@ -37,7 +37,7 @@ public final class SpidermanConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDU5NzZmZTMyZmM1ZDEwNTg5ZGZhODhkMDM2M2FkYmM5ODJlYjM1ZjhjZmNkMGUwYzg5M2E2MDk5NjY1YTg3NyJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_spiderman_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return SpidermanPerk.builder()
                 .id(id)
                 .displayName(displayName)

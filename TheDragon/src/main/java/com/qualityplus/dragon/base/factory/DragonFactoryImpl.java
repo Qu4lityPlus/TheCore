@@ -17,29 +17,29 @@ public final class DragonFactoryImpl implements DragonFactory {
     private @Inject Config configuration;
 
     @Override
-    public TheDragonEntity getDragon(Map<String, TheDragonEntityImpl> map){
+    public TheDragonEntity getDragon(Map<String, TheDragonEntityImpl> map) {
         GameSettings settings = configuration.eventSettings;
 
-        if(settings.dragonSettings.useRandomDragon) {
+        if (settings.dragonSettings.useRandomDragon) {
             return getRandomDragon(map);
-        }else{
-            if(settings.dragonSettings.takeFromMythicMobs)
+        } else {
+            if (settings.dragonSettings.takeFromMythicMobs)
                 return new TheMythicDragonEntity(settings.dragonSettings.dragonId, 100, 100, settings.dragonSettings.mythicMobDragonLevel);
             else
                 return map.get(settings.dragonSettings.dragonId);
         }
     }
 
-    private TheDragonEntity getRandomDragon(Map<String, TheDragonEntityImpl> dragonMap){
-        if(dragonMap.size() == 0)
+    private TheDragonEntity getRandomDragon(Map<String, TheDragonEntityImpl> dragonMap) {
+        if (dragonMap.size() == 0)
             return null;
 
         List<TheDragonEntity> dragonList = new ArrayList<>(dragonMap.values());
         dragonList.sort(Comparator.comparingDouble(TheDragonEntity::getChance));
         int random = new Random().nextInt(100);
         TheDragonEntity randomDragon = null;
-        for(TheDragonEntity dragon : dragonList)
-            if(random < dragon.getChance()){
+        for (TheDragonEntity dragon : dragonList)
+            if (random < dragon.getChance()) {
                 randomDragon = dragon;
                 break;
             }

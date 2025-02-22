@@ -41,7 +41,7 @@ public final class AllRunesGUI extends RuneGUI {
         try {
             int slot = 0;
             int i = maxPerPage * (page - 1);
-            if(runes.size() > 0){
+            if (runes.size() > 0) {
                 while (slot < maxPerPage) {
                     if (runes.size() > i && i >= 0) {
                         Rune rune = runes.get(i);
@@ -55,13 +55,13 @@ public final class AllRunesGUI extends RuneGUI {
                     slot++;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(page > 1) setItem(config.getPreviousPage());
+        if (page > 1) setItem(config.getPreviousPage());
 
-        if(hasNext) setItem(config.getNextPage());
+        if (hasNext) setItem(config.getNextPage());
 
         setItem(config.getCloseGUI());
 
@@ -74,22 +74,22 @@ public final class AllRunesGUI extends RuneGUI {
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
 
-        if(!getTarget(event).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(event).equals(ClickTarget.INSIDE)) return;
 
         Player player = (Player) event.getWhoClicked();
 
         int slot = event.getSlot();
 
-        if(isItem(slot, config.getCloseGUI())){
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getNextPage()) && hasNext){
+        } else if (isItem(slot, config.getNextPage()) && hasNext) {
             player.openInventory(new AllRunesGUI(box, page + 1).getInventory());
-        }else if(isItem(slot, config.getPreviousPage()) && page > 1){
+        } else if (isItem(slot, config.getPreviousPage()) && page > 1) {
             player.openInventory(new AllRunesGUI(box, page - 1).getInventory());
-        }else if(slotsAndRune.containsKey(slot)){
+        } else if (slotsAndRune.containsKey(slot)) {
             Rune rune = slotsAndRune.get(slot);
 
-            if(rune == null) return;
+            if (rune == null) return;
 
             player.getInventory().addItem(RunesUtils.makeRune(box, rune, 1));
         }

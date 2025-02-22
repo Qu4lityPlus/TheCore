@@ -26,10 +26,12 @@ public final class WizardPerk extends AbstractPotionPerk {
     public void handlePerk(EntityDamagedByPlayerEvent e) {
         Player p = e.getPlayer();
 
-        if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p))
+        if (RandomUtil.randomBetween(0.0, 100.0) >= getChancePerLevel() * getStat(p)) {
             return;
+        }
 
         Optional.of(XPotion.CONFUSION)
+        //Optional.of(XPotion.NAUSEA)
                 .map(potion -> potion.buildPotionEffect(getDurationTicks(getStat(p)), getLevel()))
                 .ifPresent(p::addPotionEffect);
     }

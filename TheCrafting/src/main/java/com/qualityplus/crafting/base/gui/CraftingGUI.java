@@ -41,7 +41,7 @@ public abstract class CraftingGUI extends GUI {
         setItem(item, placeholderList, box.files().config().loreWrapper);
     }
 
-    protected void setRecipeItems(CustomRecipe recipe, List<Integer> recipeSlots, int resultSlot){
+    protected void setRecipeItems(CustomRecipe recipe, List<Integer> recipeSlots, int resultSlot) {
         recipe.getIngredients().entrySet().stream()
                 .filter(entry -> !BukkitItemUtil.isNull(entry.getValue()))
                 .forEach(entry -> inventory.setItem(recipeSlots.get(entry.getKey() - 1), entry.getValue()));
@@ -68,7 +68,7 @@ public abstract class CraftingGUI extends GUI {
         );
     }
 
-    private int getUnlocked(List<CustomRecipe> recipeList){
+    private int getUnlocked(List<CustomRecipe> recipeList) {
         return (int) recipeList.stream()
                 .filter(recipe -> recipe.hasPermission(Bukkit.getPlayer(uuid)))
                 .count();

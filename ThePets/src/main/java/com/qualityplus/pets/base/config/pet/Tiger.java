@@ -48,7 +48,7 @@ public final class Tiger extends OkaeriConfig {
     private final String id = "tiger";
     private final int maxLevel = 50;
 
-    public Pet getPet(){
+    public Pet getPet() {
         return Pet.builder()
                 .id(id)
                 .category(category)
@@ -60,7 +60,7 @@ public final class Tiger extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, PetLevel> getPetLevelsMap(){
+    private Map<Integer, PetLevel> getPetLevelsMap() {
         return FastMap.builder(Integer.class, PetLevel.class)
                 .put(1, PetLevel.builder()
                         .requiredXp(15)

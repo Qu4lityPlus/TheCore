@@ -33,7 +33,7 @@ public final class ForagingSkill extends BlockBreakSkill {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onMine(BlockBreakEvent e){
+    public void onMine(BlockBreakEvent e) {
         onBreak(e);
     }
 }

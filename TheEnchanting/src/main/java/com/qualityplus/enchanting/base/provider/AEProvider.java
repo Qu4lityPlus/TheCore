@@ -26,7 +26,7 @@ public final class AEProvider implements EnchantmentProvider {
                 .collect(Collectors.toList());
     }
 
-    private ICoreEnchantment build(String id){
+    private ICoreEnchantment build(String id) {
         Optional<EnchantConfig> conf = Optional.ofNullable(config.customAEOptions.getOrDefault(id, null));
 
         AdvancedEnchantment enchantment =  AEAPI.getEnchantmentInstance(id);

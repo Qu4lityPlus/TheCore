@@ -68,7 +68,7 @@ public final class PetServiceImpl implements PetService {
 
         Bukkit.getPluginManager().callEvent(skillsXPGainEvent);
 
-        if(skillsXPGainEvent.isCancelled()) return;
+        if (skillsXPGainEvent.isCancelled()) return;
 
         toAdd = skillsXPGainEvent.getXp();
 
@@ -97,7 +97,7 @@ public final class PetServiceImpl implements PetService {
 
             Bukkit.getPluginManager().callEvent(levelUpEvent);
 
-            if(remaining > 0) addXp(petData, remaining);
+            if (remaining > 0) addXp(petData, remaining);
         }
     }
 
@@ -125,7 +125,7 @@ public final class PetServiceImpl implements PetService {
      * @param level int level
      * @return Required xp to level up for @level
      */
-    private double getMaxXp(Pet pet, int level){
+    private double getMaxXp(Pet pet, int level) {
         return Optional.ofNullable(pet)
                 .map(p -> p.getLevelRequirement(level))
                 .orElse(1D);
@@ -136,7 +136,7 @@ public final class PetServiceImpl implements PetService {
      * @param pet Pet pet
      * @return Max level of a pet
      */
-    private double getMaxLevel(Pet pet){
+    private double getMaxLevel(Pet pet) {
         return Optional.ofNullable(pet)
                 .map(Pet::getMaxLevel)
                 .orElse(1);

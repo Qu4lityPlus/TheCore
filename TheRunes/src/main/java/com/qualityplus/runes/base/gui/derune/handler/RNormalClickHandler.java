@@ -23,13 +23,13 @@ public final class RNormalClickHandler implements ClickHandler {
 
 
     @Override
-    public void handle(InventoryClickEvent event){
+    public void handle(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if(event.getSlot() == gui.getConfig().getClickToRemoveRune().getSlot()){
+        if (event.getSlot() == gui.getConfig().getClickToRemoveRune().getSlot()) {
             event.setCancelled(true);
 
-            if(session.getSessionResult().isError()) return;
+            if (session.getSessionResult().isError()) return;
 
             gui.setGiveItem(false);
 
@@ -38,7 +38,7 @@ public final class RNormalClickHandler implements ClickHandler {
             player.openInventory(new RemoveRuneGUI(box, new RemoveSessionImpl(RunesUtils.removeRuneFromItem(session.getItemToRemove()), true)).getInventory());
 
 
-        } else if(event.getSlot() == gui.getConfig().getToUpgradeSlot()){
+        } else if (event.getSlot() == gui.getConfig().getToUpgradeSlot()) {
             event.setCancelled(true);
 
             final ItemStack copy = Optional.ofNullable(event.getCursor()).map(ItemStack::clone).orElse(null);
@@ -50,7 +50,7 @@ public final class RNormalClickHandler implements ClickHandler {
 
             player.openInventory(new RemoveRuneGUI(box, new RemoveSessionImpl(copy, false)).getInventory());
 
-            if(BukkitItemUtil.isNull(current)) return;
+            if (BukkitItemUtil.isNull(current)) return;
 
             //Set in cursor if there was smth in the clicked slot
             player.setItemOnCursor(current);

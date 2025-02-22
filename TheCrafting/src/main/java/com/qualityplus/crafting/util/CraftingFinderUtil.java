@@ -19,64 +19,79 @@ import java.util.Map;
 @UtilityClass
 public class CraftingFinderUtil {
     //Normal Slot | Special Slot
-    public IRecipe getCraftingRecipe(Inventory inventory, InventoryView fakeTable, Map<Integer, Integer> tableRelationSlots){
+    public IRecipe getCraftingRecipe(Inventory inventory, InventoryView fakeTable, Map<Integer, Integer> tableRelationSlots) {
         //Trying to get Vanilla -
-        ItemStack result = fakeTable.getItem(0);
+        final ItemStack result = fakeTable.getItem(0);
 
-        if(BukkitItemUtil.isNull(result)){
-            for(CustomRecipe recipe : Recipes.values()){
-                Map<Integer, ItemStack> ingredients = recipe.getIngredients();
+        if (BukkitItemUtil.isNull(result)) {
+            for (CustomRecipe recipe : Recipes.values()) {
+                final Map<Integer, ItemStack> ingredients = recipe.getIngredients();
 
                 int count = 0;
 
                 //Fake Slot | Special Slot
-                for(Map.Entry<Integer, Integer> entry : tableRelationSlots.entrySet()){
-                    ItemStack inRecipe = ingredients.getOrDefault(entry.getKey(), null);
+                for (Map.Entry<Integer, Integer> entry : tableRelationSlots.entrySet()) {
+                    final int recipeSlot = entry.getKey();
 
-                    if(BukkitItemUtil.isNull(inRecipe)) continue;
+                    final ItemStack inRecipe = ingredients.getOrDefault(recipeSlot, null);
+                    final ItemStack inTable = inventory.getItem(entry.getValue());
 
-                    ItemStack inTable = inventory.getItem(entry.getValue());
 
-                    if(BukkitItemUtil.isNull(inTable)) continue;
+                    final boolean inRecipeIsNull = BukkitItemUtil.isNull(inRecipe);
+                    final boolean inTableIsNull = BukkitItemUtil.isNull(inTable);
 
-                    if(!inTable.isSimilar(inRecipe)) continue;
+                    if ((inRecipeIsNull && !inTableIsNull)) {
+                        count++;
+                    }
 
-                    if(inTable.getAmount() < inRecipe.getAmount()) continue;
+                    if (inRecipeIsNull || inTableIsNull) {
+                        continue;
+                    }
+
+                    if (!inTable.isSimilar(inRecipe)) {
+                        continue;
+                    }
+
+                    if (inTable.getAmount() < inRecipe.getAmount()) {
+                        continue;
+                    }
 
                     count++;
                 }
 
-                if(count == ingredients.size()) return recipe;
+                if (count == ingredients.size()) {
+                    return recipe;
+                }
             }
 
-        }else{
+        } else {
             return new VanillaRecipe(result);
         }
         return null;
     }
 
-    public List<CustomRecipe> getCraftingRecipes(Player player, int amount){
+    public List<CustomRecipe> getCraftingRecipes(Player player, int amount) {
         List<CustomRecipe> recipes = new ArrayList<>();
 
-        for(CustomRecipe recipe : Recipes.values()){
+        for (CustomRecipe recipe : Recipes.values()) {
             Map<Integer, ItemStack> ingredients = recipe.getIngredients();
 
             int count = 0;
 
             //Fake Slot | Special Slot
-            for(ItemStack inRecipe : ingredients.values()){
-                if(BukkitItemUtil.isNull(inRecipe)) continue;
+            for (ItemStack inRecipe : ingredients.values()) {
+                if (BukkitItemUtil.isNull(inRecipe)) continue;
 
-                if(!recipe.hasPermission(player)) continue;
+                if (!recipe.hasPermission(player)) continue;
 
-                if(InventoryUtils.getItemQuantity(player.getInventory().getContents(), inRecipe) < inRecipe.getAmount()) continue;
+                if (InventoryUtils.getItemQuantity(player.getInventory().getContents(), inRecipe) < inRecipe.getAmount()) continue;
 
                 count++;
             }
 
-            if(count == ingredients.size()) recipes.add(recipe);
+            if (count == ingredients.size()) recipes.add(recipe);
 
-            if(recipes.size() >= amount) break;
+            if (recipes.size() >= amount) break;
         }
 
         return recipes;

@@ -52,7 +52,7 @@ public final class ActionBarServiceImpl implements ActionBarService {
     }
 
     @Scheduled(rate = 5, delay = 5)
-    public void startScheduling(@Inject SkillsService service, @Inject Config config){
+    public void startScheduling(@Inject SkillsService service, @Inject Config config) {
         AbstractNMS nms = (AbstractNMS) TheAssistantPlugin.getAPI().getNms();
 
         for (Player player :  Bukkit.getOnlinePlayers()) {
@@ -64,7 +64,7 @@ public final class ActionBarServiceImpl implements ActionBarService {
 
             ConfigActionBar actionBar = config.informationActionBar;
 
-            if(!actionBar.isEnabled()) return;
+            if (!actionBar.isEnabled()) return;
 
             Optional<UserData> data = service.getData(player.getUniqueId());
 

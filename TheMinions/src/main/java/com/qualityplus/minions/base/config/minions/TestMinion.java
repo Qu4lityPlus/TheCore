@@ -97,7 +97,7 @@ public final class TestMinion extends OkaeriConfig {
                     .build())
             .build();
 
-    public Minion getMinion(){
+    public Minion getMinion() {
         return Minion.builder()
                 .id(id)
                 .displayName(displayName)
@@ -112,7 +112,7 @@ public final class TestMinion extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, MinionLevel> getMinionLevels(){
+    private Map<Integer, MinionLevel> getMinionLevels() {
         return FastMap.builder(Integer.class, MinionLevel.class)
                 .put(1, MinionLevel.builder()
                         .matRequirement(MatRequirement.builder()

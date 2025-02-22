@@ -20,7 +20,7 @@ public final class ParticleHandlerImpl implements ParticleHandler {
         Bukkit.getScheduler().runTaskLater(TheDragon.getApi().getPlugin(), () -> {
             final DragonController controller = TheDragon.getApi().getDragonService().getDragonController();
 
-            if(!dragonGame.isActive() || controller == null || controller.dragon() == null) return;
+            if (!dragonGame.isActive() || controller == null || controller.dragon() == null) return;
 
             final Location origin = TheAssistantPlugin
                     .getAPI()
@@ -29,7 +29,7 @@ public final class ParticleHandlerImpl implements ParticleHandler {
                     .clone()
                     .subtract(0,3,0);
 
-            for(double radius = initialRadius; radius>0; radius-=0.1) {
+            for (double radius = initialRadius; radius>0; radius-=0.1) {
                 for (int i = 0; i < points; i++) {
                     double angle = 2 * Math.PI * i / points;
 

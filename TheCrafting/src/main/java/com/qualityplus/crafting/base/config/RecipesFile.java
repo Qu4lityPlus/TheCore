@@ -24,7 +24,7 @@ import java.util.List;
 public final class RecipesFile extends OkaeriConfig {
     public List<CustomRecipe> craftingRecipes = new ArrayList<>();
 
-    public void saveRecipes(){
+    public void saveRecipes() {
         craftingRecipes = new ArrayList<>(Recipes.values());
         save();
     }

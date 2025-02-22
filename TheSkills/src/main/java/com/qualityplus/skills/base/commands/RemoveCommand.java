@@ -37,11 +37,11 @@ public final class RemoveCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 4) {
+        if (args.length == 4) {
 
             Player player = Bukkit.getPlayer(args[1]);
 
-            if(player == null){
+            if (player == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
@@ -51,14 +51,14 @@ public final class RemoveCommand extends AssistantCommand {
 
             CommonObject object = skill != null ? skill : stat;
 
-            if(object == null){
+            if (object == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().skillsMessages.invalidObject));
                 return false;
             }
 
-            Integer level = NumberUtil.intOrNull(args[3]);
+            Double level = NumberUtil.doubleOrNull(args[3]);
 
-            if(level == null){
+            if (level == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidAmount));
                 return false;
             }
@@ -69,10 +69,10 @@ public final class RemoveCommand extends AssistantCommand {
             List<IPlaceholder> placeholders = Arrays.asList(new Placeholder("amount", level)
                     , new Placeholder("object", object.getId())
                     , new Placeholder("player", player.getName())
-                    , new Placeholder("new_level", data.map(d -> d.getSkills().getLevel(object.getId())).orElse(0)));
+                    , new Placeholder("new_level", data.map(d -> d.getSkills().getLevel(object.getId())).orElse(0D)));
 
             sender.sendMessage(StringUtils.processMulti(box.files().messages().skillsMessages.removedAmount, placeholders));
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax));
         return true;
     }
@@ -88,7 +88,7 @@ public final class RemoveCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().removeCommand));
     }
 }

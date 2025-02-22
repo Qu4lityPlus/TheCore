@@ -44,7 +44,7 @@ public final class TableClickHandler {
         this.box = box;
     }
 
-    public void handleClick(Player player){
+    public void handleClick(Player player) {
         scheduler.runTask(box.plugin(), () -> {
             moveItemsToFakeTable();
             checkRecipe(player);
@@ -52,17 +52,17 @@ public final class TableClickHandler {
         });
     }
 
-    public void handleResultClick(InventoryClickEvent event, boolean autoRecipe){
-        Player player = (Player) event.getWhoClicked();
+    public void handleResultClick(InventoryClickEvent event, boolean autoRecipe) {
+        final Player player = (Player) event.getWhoClicked();
 
         event.setCancelled(true);
 
-        IRecipe automaticRecipe = automaticRecipes.getOrDefault(event.getSlot(), null);
+        final IRecipe automaticRecipe = this.automaticRecipes.getOrDefault(event.getSlot(), null);
 
-        if(!event.isShiftClick()){
-            normalHandler.handle(player, event, automaticRecipe, autoRecipe);
-        }else{
-            shiftHandler.handle(player, event.getCurrentItem(), automaticRecipe, autoRecipe);
+        if (!event.isShiftClick()) {
+            this.normalHandler.handle(player, event, automaticRecipe, autoRecipe);
+        } else {
+            this.shiftHandler.handle(player, event.getCurrentItem(), automaticRecipe, autoRecipe);
         }
 
     }
@@ -70,62 +70,71 @@ public final class TableClickHandler {
     /*
     Chequea si hay recipe y si hay pone los items
      */
-    private void checkRecipe(Player player){
-        int slot = config.getResultSlot();
+    private void checkRecipe(Player player) {
+        final int slot = config.getResultSlot();
 
-        IRecipe recipe = CraftingFinderUtil.getCraftingRecipe(inventory, view, tableRelationSlots);
+        final IRecipe recipe = CraftingFinderUtil.getCraftingRecipe(inventory, view, tableRelationSlots);
 
-        ItemStack item = getItem(player, recipe);
+        final ItemStack item = getItem(player, recipe);
 
         Bukkit.getScheduler().runTask(box.plugin(), () -> inventory.setItem(slot, item));
     }
 
-    private void checkAutomaticCrafts(Player player){
+    private void checkAutomaticCrafts(Player player) {
         InventoryUtils.fillInventory(inventory, config.getBackground());
 
         automaticRecipes.clear();
 
-        List<CustomRecipe> recipeList = CraftingFinderUtil.getCraftingRecipes(player, config.getAutoRecipeSlots().size());
+        final int recipesToShow = this.config.getAutoRecipeSlots().size();
+        final List<CustomRecipe> recipeList = CraftingFinderUtil.getCraftingRecipes(player, recipesToShow);
 
-        if(recipeList.size() <= 0) return;
+        if (recipeList.isEmpty()) {
+            return;
+        }
 
-        scheduler.runTask(box.plugin(), () -> {
+        this.scheduler.runTask(this.box.plugin(), () -> {
             int i = 0;
-            for(CustomRecipe recipe : recipeList){
-                if(box.files().blockedCraftings().isBlocked(recipe)) continue;
+            for (final CustomRecipe recipe : recipeList) {
+                if (this.box.files().blockedCraftings().isBlocked(recipe)) {
+                    continue;
+                }
 
-                int slot = config.getAutoRecipeSlots().get(i);
+                if (!recipe.canCraft(player)) {
+                    continue;
+                }
 
-                inventory.setItem(slot, getItem(player, recipe));
+                final int slot = this.config.getAutoRecipeSlots().get(i);
 
-                automaticRecipes.put(slot, recipe);
+                this.inventory.setItem(slot, getItem(player, recipe));
+
+                this.automaticRecipes.put(slot, recipe);
                 i++;
             }
         });
     }
 
-    private ItemStack getItem(Player player, IRecipe recipe){
+    private ItemStack getItem(Player player, IRecipe recipe) {
 
-        if(recipe != null){
+        if (recipe != null) {
             PlaceholderBuilder placeholderList = PlaceholderBuilder.create(
                     new Placeholder("crafting_recipe_result_item_displayname", BukkitItemUtil.getName(recipe.getResult())),
                     new Placeholder("crafting_recipe_result_item_lore", BukkitItemUtil.getItemLore(recipe.getResult()))
             );
 
-            if(box.files().blockedCraftings().isBlocked(recipe)){
+            if (box.files().blockedCraftings().isBlocked(recipe)) {
                 placeholderList.with(new Placeholder("crafting_recipe_status_placeholder", Optional
                         .ofNullable(box.files().messages().recipeMessages.blockedCraftingPlaceholder)
                         .orElse("&cThis recipe is disabled!")));
                 return ItemStackUtils.makeItem(config.getResultItemEmpty(), placeholderList.get());
             }
 
-            if(recipe instanceof CustomRecipe && !((CustomRecipe) recipe).hasPermission(player)) {
+            if (recipe instanceof CustomRecipe && !((CustomRecipe) recipe).hasPermission(player)) {
                 placeholderList.with(new Placeholder("crafting_recipe_status_placeholder", box.files().messages().recipeMessages.noPermissionPlaceholder));
                 return ItemStackUtils.makeItem(config.getResultItemEmpty(), placeholderList.get());
             }
 
             return ItemStackUtils.makeItem(config.getResultItemFilled(), placeholderList.get(), recipe.getResult().clone());
-        }else{
+        } else {
             return ItemStackUtils.makeItem(config.getResultItemEmpty(), Collections.singletonList(
                             new Placeholder("crafting_recipe_status_placeholder", box.files().messages().recipeMessages.recipeNotFoundPlaceholder)
             ));
@@ -136,7 +145,7 @@ public final class TableClickHandler {
     /*
     Mueve los items de la mesa special al fake inventory
      */
-    private void moveItemsToFakeTable(){
+    private void moveItemsToFakeTable() {
         tableRelationSlots.forEach((key, value) -> view.setItem(key, inventory.getItem(value)));
     }
 }

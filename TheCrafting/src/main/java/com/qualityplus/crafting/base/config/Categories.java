@@ -31,7 +31,7 @@ public final class Categories extends OkaeriConfig {
             new Category("discoverer", "Discoverer", XMaterial.PLAYER_HEAD, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5MTk2YjMzMGM2Yjg5NjJmMjNhZDU2MjdmYjZlY2NlNDcyZWFmNWM5ZDQ0Zjc5MWY2NzA5YzdkMGY0ZGVjZSJ9fX0=", 33)
     );
 
-    public Category getCategory(String id){
+    public Category getCategory(String id) {
         return categoryList.stream().filter(category -> category.getId().equals(id)).findAny().orElse(null);
     }
 }

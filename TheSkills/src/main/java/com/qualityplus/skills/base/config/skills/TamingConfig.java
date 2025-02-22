@@ -47,7 +47,7 @@ public final class TamingConfig extends OkaeriConfig {
                     "&8» %skill_pet_luck_displayname%"))
             .build();
 
-    public Skill getSkill(){
+    public Skill getSkill() {
         return TamingSkill.builder()
                 .id(id)
                 .enabled(enabled)
@@ -64,7 +64,7 @@ public final class TamingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return FastMap.listBuilder(Integer.class, String.class)
                 .put(1, Arrays.asList("&7Abilities To Upgrade:",
                         "&8» &f+1 %skill_ferocity_displayname%",
@@ -75,14 +75,14 @@ public final class TamingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<StatReward>> getInternalRewards(){
+    private Map<Integer, List<StatReward>> getInternalRewards() {
         return FastMap.listBuilder(Integer.class, StatReward.class)
                 .put(1, Arrays.asList(new StatReward("ferocity", 1), new StatReward("pet_luck", 1)))
                 .put(10, Arrays.asList(new StatReward("ferocity", 2), new StatReward("pet_luck", 2)))
                 .build();
     }
 
-    private Map<Integer, Double> getLevelsMap(){
+    private Map<Integer, Double> getLevelsMap() {
         Map<Integer, Double> levels = new HashMap<>();
 
         NumberUtil.intStream(0, maxLevel).forEach(n -> levels.put(n, n*15d));

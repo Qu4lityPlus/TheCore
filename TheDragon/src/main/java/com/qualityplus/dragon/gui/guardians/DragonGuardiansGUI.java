@@ -39,7 +39,7 @@ public final class DragonGuardiansGUI extends TheDragonGUI {
         int slot = 0;
 
         int i = maxPerPage * (page - 1);
-        if(guardians.size() > 0){
+        if (guardians.size() > 0) {
             while (slot < maxPerPage) {
                 if (guardians.size() > i && i >= 0) {
                     Guardian guardian = guardians.get(i);
@@ -58,9 +58,9 @@ public final class DragonGuardiansGUI extends TheDragonGUI {
         }
 
 
-        if(page > 1) setItem(config.getPreviousPageItem());
+        if (page > 1) setItem(config.getPreviousPageItem());
 
-        if(hasNext) setItem(config.getNextPageItem());
+        if (hasNext) setItem(config.getNextPageItem());
 
         inventory.setItem(config.getCloseGUI().getSlot(), ItemStackUtils.makeItem(config.getCloseGUI()));
 
@@ -77,17 +77,17 @@ public final class DragonGuardiansGUI extends TheDragonGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getNextPageItem()) && hasNext) {
+        } else if (isItem(slot, config.getNextPageItem()) && hasNext) {
             player.openInventory(new DragonGuardiansGUI(box, page + 1).getInventory());
-        }else if(isItem(slot, config.getPreviousPageItem()) && page > 1) {
+        } else if (isItem(slot, config.getPreviousPageItem()) && page > 1) {
             player.openInventory(new DragonGuardiansGUI(box, page - 1).getInventory());
-        }else if (isItem(slot, config.getBackToMainMenu())){
+        } else if (isItem(slot, config.getBackToMainMenu())) {
             player.openInventory(new MainMenuGUI(box).getInventory());
-        }else {
+        } else {
             Guardian guardian = guardiansMap.getOrDefault(slot, null);
 
             if (guardian == null) return;

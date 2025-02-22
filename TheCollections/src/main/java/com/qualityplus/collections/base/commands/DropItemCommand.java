@@ -31,7 +31,7 @@ public final class DropItemCommand extends AssistantCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
             Player player = (Player) sender;
 
             String id = args[1];
@@ -40,16 +40,16 @@ public final class DropItemCommand extends AssistantCommand {
 
             ItemStack itemStack = player.getItemInHand();
 
-            if(collection == null){
+            if (collection == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().collectionsMessages.invalidCollection));
                 return false;
             }
 
             Item item = player.getWorld().spawn(player.getLocation().clone().add(5, 0, 5), Item.class);
 
-            if(collection.getCollectionExecutor().getExecutorType().equals(ExecutorType.BY_PICK_UP_MATERIAL)){
+            if (collection.getCollectionExecutor().getExecutorType().equals(ExecutorType.BY_PICK_UP_MATERIAL)) {
                 item.setItemStack(Objects.requireNonNull(collection.getCollectionExecutor().getMaterial().parseItem()));
-            }else{
+            } else {
                 item.setItemStack(collection.getCollectionExecutor().getItem());
             }
 
@@ -58,7 +58,7 @@ public final class DropItemCommand extends AssistantCommand {
 
             player.sendMessage(StringUtils.processMulti(box.files().messages().collectionsMessages.successfullyDroppedItem, placeholders));
 
-        }else
+        } else
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         return true;
     }
@@ -69,7 +69,7 @@ public final class DropItemCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().dropItem));
     }
 }

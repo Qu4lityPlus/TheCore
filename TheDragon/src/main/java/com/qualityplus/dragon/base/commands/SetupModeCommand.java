@@ -25,17 +25,17 @@ public final class SetupModeCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if(args.length == 1){
+        if (args.length == 1) {
             UUID uuid = player.getUniqueId();
 
-            if(setupService.playerIsInEditMode(uuid)){
+            if (setupService.playerIsInEditMode(uuid)) {
                 setupService.removePlayer(uuid);
                 player.sendMessage(StringUtils.color(box.files().messages().setupMessages.setupModeLeft.replace("%prefix%", box.files().config().prefix)));
-            }else{
+            } else {
                 setupService.addPlayer(uuid);
                 box.files().messages().setupMessages.altarSetupMode.forEach(message -> player.sendMessage(StringUtils.color(message.replace("%prefix%", box.files().config().prefix))));
             }
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return true;
@@ -48,7 +48,7 @@ public final class SetupModeCommand extends AssistantCommand {
 
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().setupModeCommand));
     }
 

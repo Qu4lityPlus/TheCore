@@ -3,7 +3,6 @@ package com.qualityplus.minions;
 import com.qualityplus.assistant.lib.com.cryptomorin.xseries.XMaterial;
 import com.qualityplus.assistant.TheAssistantPlugin;
 import com.qualityplus.assistant.api.addons.WorldManagerAddon;
-import com.qualityplus.assistant.api.addons.response.ChunkCheckResponse;
 import com.qualityplus.assistant.lib.eu.okaeri.injector.OkaeriInjector;
 import com.qualityplus.assistant.lib.eu.okaeri.injector.annotation.Inject;
 import com.qualityplus.assistant.okaeri.OkaeriSilentPlugin;
@@ -17,10 +16,10 @@ import com.qualityplus.minions.base.minions.minion.Minion;
 import com.qualityplus.minions.base.minions.entity.factory.MinionEntityFactory;
 import com.qualityplus.minions.base.minions.Minions;
 import com.qualityplus.minions.base.minions.entity.tracker.MinionEntityTracker;
-import com.qualityplus.minions.base.minions.minion.layout.LayoutType;
 import com.qualityplus.minions.listener.chunk.ChunkListenerLegacy;
 import com.qualityplus.minions.listener.chunk.ChunkListenerNewest;
 import com.qualityplus.minions.persistance.MinionsRepository;
+import com.qualityplus.minions.persistance.UserRepository;
 import com.qualityplus.minions.persistance.data.MinionData;
 import com.qualityplus.minions.persistance.data.UserData;
 import com.qualityplus.minions.util.MinionAnimationUtil;
@@ -34,7 +33,6 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -46,8 +44,8 @@ import java.util.logging.Logger;
 
 @Scan(deep = true)
 public final class TheMinions extends OkaeriSilentPlugin {
-    private static @Inject
-    @Getter TheMinionsAPI api;
+    @Inject @Getter
+    private static TheMinionsAPI api;
     private static TheMinions INSTANCE;
 
     public static TheMinions getInstance() {
@@ -75,7 +73,7 @@ public final class TheMinions extends OkaeriSilentPlugin {
     }
 
     @Planned(ExecutionPhase.PRE_SHUTDOWN)
-    private void whenStopSaveUsers(Box box){
+    private void whenStopSaveUsers(Box box) {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .map(Player::getUniqueId)
@@ -83,13 +81,11 @@ public final class TheMinions extends OkaeriSilentPlugin {
     }
 
     @Planned(ExecutionPhase.PRE_SHUTDOWN)
-    private void whenStopSaveMinions(@Inject Logger logger, @Inject MinionsService minionsService) {
-        AtomicInteger countDown = new AtomicInteger(0);
+    private void whenStopSaveMinions(final @Inject Logger logger) {
+        final AtomicInteger countDown = new AtomicInteger(0);
 
-        for (MinionEntity minionEntity : MinionEntityTracker.values()) {
-            minionEntity.deSpawn(MinionEntity.DeSpawnReason.SERVER_TURNED_OFF);
-
-            minionsService.getData(minionEntity.getMinionUniqueId()).ifPresent(Document::save);
+        for (final MinionEntity minionEntity : MinionEntityTracker.values()) {
+            minionEntity.unloadMinion(MinionEntity.DeSpawnReason.SERVER_TURNED_OFF, false);
 
             countDown.getAndIncrement();
         }
@@ -98,90 +94,109 @@ public final class TheMinions extends OkaeriSilentPlugin {
     }
 
     @Planned(ExecutionPhase.POST_STARTUP)
-    private void whenStartFixMessages(@Inject Messages messages) {
+    private void whenStartFixMessages(final @Inject Messages messages) {
         boolean save = false;
-        if(messages.minionMessages.pickUpMinion == null) {
+        if (messages.minionMessages.pickUpMinion == null) {
             save = true;
             messages.minionMessages.pickUpMinion = "&aYou picked up a minion! You currently have %minions_placed_amount% out of a maximum of %minions_max_amount_to_place% minions placed.";
         }
-        if(messages.minionMessages.youPlacedAMinion == null) {
+        if (messages.minionMessages.youPlacedAMinion == null) {
             save = true;
             messages.minionMessages.youPlacedAMinion = "&bYou placed a minion! (%minions_placed_amount%/%minions_max_amount_to_place%)";
         }
-        if(messages.minionMessages.youCanOnlyPlaceAMaxOf == null){
+        if (messages.minionMessages.youCanOnlyPlaceAMaxOf == null) {
             save = true;
             messages.minionMessages.youCanOnlyPlaceAMaxOf = "&cYou can only can place a max of %minions_max_amount_to_place% minions!";
         }
 
-        if(save)
+        if (save)
             messages.save();
     }
 
 
 
     @Delayed(time = 5)
-    private void whenStart(@Inject Logger logger, @Inject MinionsRepository repository, @Inject MinionsService service) {
+    private void whenStart(@Inject Logger logger, @Inject MinionsRepository repository, @Inject MinionsService service, @Inject UserRepository userRepository) {
         Collection<MinionData> allData = repository.findAll();
 
         logger.info(String.format("Plugin has loaded %s minions from database!", allData.size()));
 
         allData.forEach(data -> {
 
-            if(data.getLocation() != null) {
+            if (data.getOwner() == null) {
+                userRepository.findAll().stream().filter(userData -> userData.getMinionsPlaced()
+                                .contains(data.getUuid()))
+                        .findFirst()
+                        .ifPresent(user -> data.setOwner(user.getUuid()));
+            }
+
+            if (data.getLocation() != null) {
 
                 loadChunk(data.getLocation()).thenRun(() -> {
+                    final Minion minion = Minions.getByID(data.getMinionId());
 
-                    Minion minion = Minions.getByID(data.getMinionId());
-
-                    if(minion == null){
+                    if (minion == null) {
                         logger.warning("Failed to load minion " + data.getMinionId());
                         return;
                     }
-                    logger.warning("Loaded Minion with id " + data.getMinionId());
+
+                    logger.warning("Loaded Minion with id " + data.getMinionId() + " and uuid " + data.getUuid() +  " and owner " + data.getOwner());
 
                     service.addData(data);
 
-                    MinionEntity entity = MinionEntityFactory.create(data.getUuid(), data.getOwner(), minion, false);
+                    final MinionEntity entity = MinionEntityFactory.create(data.getUuid(), data.getOwner(), minion, false);
 
-                    entity.spawn(data.getLocation(), true);
-
+                    entity.spawnMinion(data.getLocation(), true);
                 });
-
+                return;
             }
+            service.addData(data);
 
         });
     }
 
-    private CompletableFuture<Void> loadChunk(Location spawn){
-        CompletableFuture<Void> future = new CompletableFuture<>();
+    private CompletableFuture<Void> loadChunk(final Location spawn) {
+        final CompletableFuture<Void> future = new CompletableFuture<>();
 
-        WorldManagerAddon addon = TheAssistantPlugin.getAPI().getAddons().getWorldManager();
-
-        Bukkit.getScheduler().runTask(this, () -> {
-
-            addon.chunksAreLoaded(spawn).thenAccept(response -> {
-
-                if(!response.isCanBeLoaded()) return;
-
-                if(!response.isAreLoaded()){
-                    addon.loadChunks(spawn);
-                }
-
-                List<Vector> vectors =  MinionAnimationUtil.getThree();
-
-                Location location = spawn.clone()
-                        .subtract(new Vector(0, 1, 0));
-
-                for (Vector vector : vectors) {
-                    Location newLocation = location.clone().add(vector);
-
-                    if(newLocation.getChunk().isLoaded()) continue;
-
-                    newLocation.getChunk().load();
-                }
+        try {
+            if (spawn == null || spawn.getWorld() == null) {
                 future.complete(null);
+                return future;
+            }
+
+            final WorldManagerAddon addon = TheAssistantPlugin.getAPI().getAddons().getWorldManager();
+            Bukkit.getScheduler().runTask(this, () -> {
+                try {
+                    addon.chunksAreLoaded(spawn).thenAccept(response -> {
+
+                        if (!response.isCanBeLoaded()) return;
+
+                        if (!response.isAreLoaded()) {
+                            addon.loadChunks(spawn);
+                        }
+
+                        List<Vector> vectors =  MinionAnimationUtil.getThree();
+
+                        final Location location = spawn.clone()
+                                .subtract(new Vector(0, 1, 0));
+
+                        for (Vector vector : vectors) {
+                            Location newLocation = location.clone().add(vector);
+
+                            if (newLocation.getChunk().isLoaded()) continue;
+
+                            newLocation.getChunk().load();
+                        }
+                        future.complete(null);
+                    });
+                } catch (Exception e) {
+                    future.complete(null);
+                }
             });
-        });
+
+        } catch (Exception e) {
+            future.complete(null);
+        }
 
         return future;
     }

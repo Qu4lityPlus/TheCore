@@ -2,6 +2,11 @@ package com.qualityplus.minions.api;
 
 import com.qualityplus.minions.api.config.ConfigFiles;
 import com.qualityplus.minions.api.recipe.provider.RecipeProvider;
+import com.qualityplus.minions.api.service.MinionArmorStandService;
+import com.qualityplus.minions.api.service.MinionDisplayNameService;
+import com.qualityplus.minions.api.service.MinionLayoutService;
+import com.qualityplus.minions.api.service.MinionMobSpawnService;
+import com.qualityplus.minions.api.service.MinionTargetSearchService;
 import com.qualityplus.minions.api.service.MinionsService;
 import com.qualityplus.minions.api.service.UserService;
 import com.qualityplus.minions.base.config.*;
@@ -14,4 +19,9 @@ public interface TheMinionsAPI {
     MinionsService getMinionsService();
     RecipeProvider getRecipeProvider();
     UserService getUserService();
+    MinionMobSpawnService getMinionMobSpawnService();
+    MinionTargetSearchService getMinionTargetSearchService();
+    MinionLayoutService getMinionLayoutService();
+    MinionArmorStandService getMinionArmorStandService();
+    MinionDisplayNameService getMinionDisplayNameService();
 }

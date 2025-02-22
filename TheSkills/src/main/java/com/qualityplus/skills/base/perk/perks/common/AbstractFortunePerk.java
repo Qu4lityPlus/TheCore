@@ -24,21 +24,21 @@ public abstract class AbstractFortunePerk extends Perk {
         this.allowedMaterials = allowedMaterials;
     }
 
-    protected ItemStack getModified(ItemStack itemStack, int additional){
+    protected ItemStack getModified(ItemStack itemStack, int additional) {
         itemStack.setAmount(itemStack.getAmount() * additional);
 
         return itemStack;
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(
                 new Placeholder("multiplier", getMultiplier(level)),
                 new Placeholder("chance", getChance(level)))
                 .get());
     }
 
-    protected int getMultiplier(int level) {
+    protected int getMultiplier(double level) {
         double chance = chancePerLevel * level;
 
         double add = 2;
@@ -49,7 +49,7 @@ public abstract class AbstractFortunePerk extends Perk {
         return (int) ((chance / 100) + add);
     }
 
-    protected double getChance(int level) {
+    protected double getChance(double level) {
         double chance = chancePerLevel * level;
 
         chance -= ((getMultiplier(level) - 2) * 100);

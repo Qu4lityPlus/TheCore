@@ -36,7 +36,8 @@ public final class Config extends OkaeriConfig {
     public GainXPSettings gainXPSettings = new GainXPSettings();
     public LevelUpSettings levelUpSettings = new LevelUpSettings();
     public UnlockSettings unlockSettings = new UnlockSettings();
-
+    @Comment("Set this in 'true' if you want players to get XP from Drops generated from TNT explosions")
+    public boolean allowXPFromTNTExplosions = false;
     public static class UnlockSettings extends OkaeriConfig{
         public ConfigSound sound = new ConfigSound(XSound.ENTITY_EXPERIENCE_BOTTLE_THROW, true, 0.2f, 1f);
     }

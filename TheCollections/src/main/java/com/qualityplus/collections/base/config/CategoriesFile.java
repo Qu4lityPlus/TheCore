@@ -31,11 +31,11 @@ public final class CategoriesFile extends OkaeriConfig {
         Categories.FISHING.getCategory()
     );
 
-    public Optional<CollectionCategory> getById(String id){
+    public Optional<CollectionCategory> getById(String id) {
         return collectionCategories.stream().filter(collection -> collection.getId().equals(id)).findFirst();
     }
 
-    public Optional<CollectionCategory> getBySlot(int slot){
+    public Optional<CollectionCategory> getBySlot(int slot) {
         return collectionCategories.stream().filter(category -> category.getGuiOptions().getSlot() == slot).findFirst();
     }
 }

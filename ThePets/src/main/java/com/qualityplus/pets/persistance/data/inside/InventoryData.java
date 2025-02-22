@@ -14,11 +14,11 @@ import java.util.UUID;
 public final class InventoryData extends Document{
     private List<InventoryPet> pets = new ArrayList<>();
 
-    public void addInventoryPet(UUID uuid, String petId){
+    public void addInventoryPet(UUID uuid, String petId) {
         pets.add(new InventoryPet(uuid, petId));
     }
 
-    public void removePet(UUID uuid){
+    public void removePet(UUID uuid) {
         pets.stream()
                 .filter(pet -> pet.getUuid().equals(uuid))
                 .findFirst()

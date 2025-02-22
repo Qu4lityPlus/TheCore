@@ -30,20 +30,20 @@ public final class RunesUtils {
     private static final String ITEM_STACK_RUNE_ID_KEY = "THE_RUNES_ITEM_STACK_RUNE_ID";
     private static final String ITEM_STACK_RUNE_LEVEL_KEY = "THE_RUNES_ITEM_STACK_RUNE_LEVEL";
 
-    public boolean hasNBTData(ItemStack itemStack, String key){
+    public boolean hasNBTData(ItemStack itemStack, String key) {
         return !BukkitItemUtil.isNull(itemStack) && new NBTItem(itemStack).hasKey(key);
     }
 
-    public boolean isRune(ItemStack itemStack){
+    public boolean isRune(ItemStack itemStack) {
         return hasNBTData(itemStack, RUNE_ID_KEY);
     }
 
-    public boolean isRunedItem(ItemStack itemStack){
+    public boolean isRunedItem(ItemStack itemStack) {
         return hasNBTData(itemStack, ITEM_STACK_RUNE_ID_KEY);
     }
 
-    public @Nullable RuneInstance getRuneInstance(ItemStack itemStack){
-        if(BukkitItemUtil.isNull(itemStack)) return null;
+    public @Nullable RuneInstance getRuneInstance(ItemStack itemStack) {
+        if (BukkitItemUtil.isNull(itemStack)) return null;
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
@@ -53,8 +53,8 @@ public final class RunesUtils {
         return new RuneInstanceImpl(Runes.getByID(id), level);
     }
 
-    public RuneInstance getRuneItemInstance(ItemStack itemStack){
-        if(BukkitItemUtil.isNull(itemStack)) return new ItemRuneInstanceImpl(null, 0);
+    public RuneInstance getRuneItemInstance(ItemStack itemStack) {
+        if (BukkitItemUtil.isNull(itemStack)) return new ItemRuneInstanceImpl(null, 0);
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
@@ -64,7 +64,7 @@ public final class RunesUtils {
         return new ItemRuneInstanceImpl(Runes.getByID(id), level);
     }
 
-    public ItemStack makeRune(Box box, Rune rune, int level){
+    public ItemStack makeRune(Box box, Rune rune, int level) {
         Item item = ItemBuilder.of(new Item(box.files().config().runeItem))
                 .material(rune.getRuneItem().getMaterial())
                 .headData(rune.getRuneItem().getTexture())
@@ -79,7 +79,7 @@ public final class RunesUtils {
         return nbtItem.getItem();
     }
 
-    public ItemStack removeRuneFromItem(ItemStack itemStack){
+    public ItemStack removeRuneFromItem(ItemStack itemStack) {
         NBTItem item = new NBTItem(itemStack);
 
         String id = item.getString(ITEM_STACK_RUNE_ID_KEY);
@@ -94,7 +94,7 @@ public final class RunesUtils {
                 .map(rune1 -> StringUtils.color(rune1.getToAddLore().replace("%rune_level%", NumberUtil.toRoman(level))))
                 .orElse(null);
 
-        if(toRemove != null)
+        if (toRemove != null)
             lore.remove(toRemove);
 
         ItemMeta meta = itemStack.getItemMeta();
@@ -110,7 +110,7 @@ public final class RunesUtils {
         return item2.getItem();
     }
 
-    public ItemStack addNBTData(ItemStack itemStack, String id, int level){
+    public ItemStack addNBTData(ItemStack itemStack, String id, int level) {
 
         NBTItem item = new NBTItem(itemStack);
 

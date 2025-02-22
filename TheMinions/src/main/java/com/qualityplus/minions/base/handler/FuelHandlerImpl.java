@@ -16,13 +16,17 @@ public final class FuelHandlerImpl implements FuelHandler, DataGetter {
     /* Remove Fuel if expired */
     @Override
     public void removeFuel() {
-        Optional<MinionData> data = getData();
+        final Optional<MinionData> data = getData();
 
-        FuelEntity fuel = data.map(MinionData::getFuel).orElse(null);
+        final FuelEntity fuel = data.map(MinionData::getFuel).orElse(null);
 
-        if(fuel == null) return;
+        if (fuel == null) {
+            return;
+        }
 
-        if(fuel.getMarkable().isMarked()) return;
+        if (fuel.getMarkable().isMarked()) {
+            return;
+        }
 
         data.ifPresent(MinionData::removeFuel);
     }

@@ -2,71 +2,76 @@ package com.qualityplus.minions.base.minions.entity;
 
 import com.qualityplus.assistant.TheAssistantPlugin;
 import com.qualityplus.assistant.api.gui.FakeInventory;
+import com.qualityplus.assistant.hologram.TheHologram;
+import com.qualityplus.assistant.util.armorstand.ArmorStandUtil;
 import com.qualityplus.assistant.util.time.Markable;
 import com.qualityplus.assistant.util.time.HumanTime;
 import com.qualityplus.minions.TheMinions;
-import com.qualityplus.minions.api.handler.ArmorStandHandler;
+import com.qualityplus.minions.api.minion.animation.MinionAnimation;
+import com.qualityplus.minions.api.minion.animation.MinionAnimationContext;
 import com.qualityplus.minions.base.config.Skins;
-import com.qualityplus.minions.base.handler.ArmorStandHandlerImpl;
-import com.qualityplus.minions.base.minions.entity.mob.MinionMobEntity;
+import com.qualityplus.minions.base.minions.entity.animation.MinionAnimationContextImpl;
+import com.qualityplus.minions.base.minions.entity.tracker.MinionEntityTracker;
 import com.qualityplus.minions.base.minions.minion.Minion;
 import com.qualityplus.minions.base.minions.animations.StartAnimation;
 import com.qualityplus.minions.base.minions.entity.status.MinionStatus;
-import com.qualityplus.minions.base.minions.minion.MinionType;
 import com.qualityplus.minions.persistance.data.MinionData;
+import com.qualityplus.minions.persistance.data.upgrade.SkinEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class ArmorStandMinion<T> extends MinecraftMinion implements Listener {
+    @Getter @Setter
+    protected ArmorStand entity;
+    @Getter @Setter
+    protected TheHologram hologram;
+    protected MinionAnimation currentAnimation;
+    protected MinionAnimation startAnimation;
 
-    protected final ArmorStandHandler armorStand;
-    protected BukkitRunnable breakingAnimation;
-    protected BukkitRunnable startAnimation;
-
-    protected ArmorStandMinion(UUID minionUniqueId, UUID owner, Minion pet, boolean loaded) {
-        super(minionUniqueId, owner, pet, loaded);
-
-        this.armorStand = new ArmorStandHandlerImpl();
+    protected ArmorStandMinion(final UUID minionUniqueId, final UUID owner, final Minion minion, final boolean loaded) {
+        super(minionUniqueId, owner, minion, loaded);
     }
 
     @Override
-    public void load(){
-        //if(state.isLoaded()) return;
-        state.setLoaded(true);
+    public void spawnMinionEntity() {
+        this.state.setArmorStandLoaded(true);
 
-        Optional.ofNullable(state.getSpawn())
+        Optional.ofNullable(this.state.getSpawn())
                 .ifPresent(this::createArmorStand);
+    }
 
+    @Override
+    public void unloadMinionEntity() {
+        this.state.setArmorStandLoaded(false);
+
+        Optional.ofNullable(this.entity)
+                .ifPresent(ArmorStand::remove);
+        Optional.ofNullable(this.hologram)
+                .ifPresent(TheHologram::remove);
+
+        Optional.ofNullable(this.currentAnimation).ifPresent(MinionAnimation::cancel);
+        Optional.ofNullable(this.startAnimation).ifPresent(MinionAnimation::cancel);
 
     }
 
     @Override
-    public void unload(){
-        state.setLoaded(false);
+    public void spawnMinion(final Location location, final boolean loadMinionEntity) {
+        MinionEntityTracker.registerNewEntity(this);
 
-        Optional.ofNullable(armorStand)
-                .ifPresent(ArmorStandHandler::removeEntity);
+        this.state.setSpawn(location);
 
-        Optional.ofNullable(breakingAnimation).ifPresent(BukkitRunnable::cancel);
-        Optional.ofNullable(startAnimation).ifPresent(BukkitRunnable::cancel);
-
-    }
-
-    @Override
-    public void spawn(Location location, boolean load) {
-        super.spawn(location, load);
-
-        if(load) load();
+        if (loadMinionEntity) {
+            spawnMinionEntity();
+        }
 
         updateInventory();
 
@@ -74,85 +79,93 @@ public abstract class ArmorStandMinion<T> extends MinecraftMinion implements Lis
     }
 
     @Override
-    public void deSpawn(DeSpawnReason deSpawnReason) {
-        unload();
+    public void unloadMinion(
+            final DeSpawnReason deSpawnReason,
+            final boolean saveDBAsync
+    ) {
+        MinionEntityTracker.unregisterEntity(this);
 
-        super.deSpawn(deSpawnReason);
+        unloadMinionEntity();
 
-        if(!deSpawnReason.equals(DeSpawnReason.PLAYER_DE_SPAWN_PET)) return;
+        final Optional<MinionData> data = getData();
+        if (data.isEmpty()) {
+            return;
+        }
 
-        getData().ifPresent(data -> data.setLocation(null));
+        if (!deSpawnReason.equals(DeSpawnReason.SERVER_TURNED_OFF)) {
+            data.get().setLocation(null);
+        }
+
+        if (saveDBAsync) {
+            Bukkit.getScheduler().runTaskAsynchronously(TheMinions.getInstance(), () -> data.get().save());
+        } else {
+            data.get().save();
+        }
     }
 
     @Override
-    public void tick(){
-        if(!armorStand.entityIsValid()) return;
-
-        handlers.getFuelHandler().removeFuel();
-
-        if(timeHasHappened())
+    public void tick() {
+        if (!ArmorStandUtil.entityIsValid(entity)) {
             return;
+        }
 
-        if(state.isBreaking() || state.isSelling())
+        this.handlers.getFuelHandler().removeFuel();
+
+        if (timeHasHappened()) {
             return;
+        }
+
+        if (!state.isCanExecuteAnimation() || state.isSelling()) {
+            return;
+        }
 
         updateStatus();
 
-        if(!state.getStatus().equals(MinionStatus.IDEAL_LAYOUT)) {
+        if (!state.getStatus().equals(MinionStatus.IDEAL_LAYOUT)) {
             sellIfItsPossible();
             return;
         }
 
-        state.setBreaking(true);
-
-        rotateToBlock();
+        rotateToTarget();
     }
 
-    private boolean timeHasHappened(){
-        int level = getLevel();
-
-        HumanTime timer = minion.getTimer(level);
-
-        if(state.getLastActionTime() == 0) return true;
-
-        long time = timer.getEffectiveTime();
-
-        long reduction = getData().map(data -> data.getFuelReductionMillis(time) + data.getUpgradesReductionMillis(time)).orElse(0L);
-
-        Markable markable = new Markable(time - reduction, state.getLastActionTime());
-
-        return markable.isMarked();
-    }
 
     @Override
-    public void updateInventory(){
-        int level = getLevel();
+    public void updateInventory() {
+        final int level = getLevel();
 
-        int maxStorage = minion.getMaxStorage(level);
+        final int maxStorage = this.minion.getMaxStorage(level);
 
-        state.setFakeInventory(TheAssistantPlugin.getAPI().getNms().getFakeInventory(null, maxStorage));
+        this.state.setFakeInventory(TheAssistantPlugin.getAPI().getNms().getFakeInventory(null, maxStorage));
 
-        state.getFakeInventory().setItems(getData().map(MinionData::getItemStackList).orElse(new HashMap<>()));
+        this.state.getFakeInventory().setItems(getData().map(MinionData::getItemStackList).orElse(new HashMap<>()));
 
     }
 
     @Override
-    public void updateSkin(){
-        Optional<MinionData> data = getData();
+    public void updateSkin() {
+        final Optional<MinionData> data = getData();
 
-        if(!data.isPresent()) return;
-
-        int level = data.get().getLevel();
-
-        if(data.get().getSkinEntity() == null){
-            minion.getSkin(level).ifPresent(skin -> skin.apply(armorStand));
-        }else{
-            String id = data.get().getSkinEntity().getId();
-
-            if(id == null) return;
-
-            Skins.getSkin(id).ifPresent(skin -> skin.apply(armorStand));
+        if (data.isEmpty()) {
+            return;
         }
+
+        final int level = data.get().getLevel();
+
+        final SkinEntity skinEntity = data.get().getSkinEntity();
+
+        if (skinEntity == null) {
+            this.minion.getSkin(level).ifPresent(skin -> skin.apply(this.entity));
+            return;
+        }
+
+        final String id = data.get().getSkinEntity().getId();
+
+        if (id == null) {
+            return;
+        }
+
+        Skins.getSkin(id).ifPresent(skin -> skin.apply(this.entity));
     }
 
 
@@ -176,7 +189,7 @@ public abstract class ArmorStandMinion<T> extends MinecraftMinion implements Lis
     }
 
 
-    protected void addItemsToMinionInventory(){
+    protected void addItemsToMinionInventory() {
         MinionStorageState storageState = state.getStorageState();
 
         FakeInventory fakeInventory = state.getFakeInventory();
@@ -191,78 +204,82 @@ public abstract class ArmorStandMinion<T> extends MinecraftMinion implements Lis
         getData().ifPresent(minionData1 -> minionData1.setItemStackList(fakeInventory.getItems()));
     }
 
-    protected void sellIfItsPossible(){
+    protected void sellIfItsPossible() {
         handlers.getSellHandler().sellIfItsPossible();
     }
 
-    protected void checkBlockAfterRotate(Block block){}
+    protected abstract void checkTargetAfterRotate(T target);
 
-    protected void checkEntityAfterRotate(MinionMobEntity entity){}
+    protected abstract void executeWhenTargetIsNull(T target);
 
-    protected void doIfItsNull(T toCheck){}
+    protected abstract void executeWhenTargetIsNotNull(T toCheck);
 
-    protected void doIfItsNotNull(T toCheck){}
-
-    protected void teleportBack(){
-        state.setLastActionTime(System.currentTimeMillis());
+    protected void resetPositionAndBreakingState() {
+        this.state.setLastActionTime(System.currentTimeMillis());
 
         Bukkit.getScheduler().runTaskLater(TheMinions.getInstance(), () -> {
-            if(state.isLoaded()){
-                armorStand.manipulateEntity(entity -> entity.setHeadPose(new EulerAngle(0, 0, 0)));
-                armorStand.teleportToSpawn();
+            if (!this.state.isArmorStandLoaded()) {
+                return;
             }
+            this.entity.setHeadPose(new EulerAngle(0, 0, 0));
+            this.entity.teleport(this.state.getSpawn());
         }, 15);
 
-
-        Bukkit.getScheduler().runTaskLater(TheMinions.getInstance(), () -> state.setBreaking(false), 25);
+        Bukkit.getScheduler().runTaskLater(TheMinions.getInstance(), () -> {
+            this.state.setCanExecuteAnimation(true);
+        }, 20L);
     }
 
-    private void rotateToBlock() {
-        if(state.isLoaded()){
-            if(minion.getType().equals(MinionType.MOB_KILLER)){
-                handlers.getAnimationHandler()
-                        .getEntityToRotate(armorStand)
-                        .thenAccept(this::checkEntityAfterRotate);
-            }else{
-                handlers.getAnimationHandler()
-                        .getBlockToRotate(armorStand)
-                        .thenAccept(this::checkBlockAfterRotate);
-            }
-        }else{
-            if(minion.getType().equals(MinionType.MOB_KILLER)) {
-                checkEntityAfterRotate(null);
-            }else{
-                checkBlockAfterRotate(null);
-            }
+    protected abstract void rotateToTarget();
+
+    private boolean timeHasHappened() {
+        int level = getLevel();
+
+        HumanTime timer = minion.getTimer(level);
+
+        if (state.getLastActionTime() == 0) {
+            return true;
         }
+
+        long time = timer.getEffectiveTime();
+
+        long reduction = getData().map(data -> data.getFuelReductionMillis(time) + data.getUpgradesReductionMillis(time)).orElse(0L);
+
+        Markable markable = new Markable(time - reduction, state.getLastActionTime());
+
+        return markable.isMarked();
+    }
+
+    private void createArmorStand(final Location location) {
+        TheMinions.getApi()
+                .getMinionArmorStandService()
+                .spawnArmorStand(this, location)
+                .thenRun(this::updateSkin)
+                .thenRun(this::executeStartAnimation);
     }
 
 
-    private void createArmorStand(Location location){
-
-        armorStand.createEntity(this, location)
-                        .thenAccept(this::handlePostCreation);
+    private void executeStartAnimation() {
+        final MinionAnimationContext context = MinionAnimationContextImpl.builder()
+                .minionEntity(this)
+                .build();
+        this.startAnimation = new StartAnimation();
+        this.startAnimation.executeAnimation(context).thenRun(() -> Bukkit.getScheduler().runTaskLater(TheMinions.getInstance(), () -> this.state.setCanExecuteAnimation(true), 20));
     }
 
-    private void handlePostCreation(ArmorStand armorStand){
-        updateSkin();
+    private void updateStatus() {
+        final MinionStorageState storageState = this.handlers.getStorageHandler().getMinionStorageState();
 
-        startAnimation = StartAnimation.start(() -> Bukkit.getScheduler().runTaskLater(TheMinions.getInstance(), () -> state.setBreaking(false), 20), armorStand);
-    }
-
-    private void updateStatus(){
-        MinionStorageState storageState = handlers.getStorageHandler().getMinionStorageState();
-
-        state.setStorageState(storageState);
+        this.state.setStorageState(storageState);
 
         //TODO save state in database if its removed
 
-        boolean hasInvalidLayout = state.isLoaded() ? handlers.getLayoutHandler().hasInvalidLayout(armorStand) : false;
+        boolean hasInvalidLayout = state.isArmorStandLoaded() ? TheMinions.getApi().getMinionLayoutService().hasInvalidLayout(this) : false;
         boolean hasFullStorage = storageState.isHasFullStorage();
 
         state.setStatus(hasInvalidLayout ? MinionStatus.INVALID_LAYOUT : hasFullStorage ? MinionStatus.STORAGE_FULL : MinionStatus.IDEAL_LAYOUT);
 
-        armorStand.updateDisplayName(state);
+        TheMinions.getApi().getMinionDisplayNameService().updateDisplayName(this);
     }
 
 }

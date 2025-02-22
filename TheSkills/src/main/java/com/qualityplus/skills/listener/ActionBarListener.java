@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 @Component
 public final class ActionBarListener implements Listener {
     @EventHandler
-    public void onActionBar(ActionBarMessageEvent event){
+    public void onActionBar(ActionBarMessageEvent event) {
         ActionBarType type = event.getType();
 
         //if (type != ActionBarType.GAME_INFO) return;

@@ -19,7 +19,7 @@ public class RunesPlaceholderUtils {
         );
     }
 
-    public PlaceholderBuilder placeholderWithRequired(Rune rune, int level){
+    public PlaceholderBuilder placeholderWithRequired(Rune rune, int level) {
         RuneLevel runeLevel = rune.getRuneLevel(level);
 
         int requiredLevel = Optional.ofNullable(runeLevel).map(RuneLevel::getRequiredRuneCraftingLevel).orElse(1);

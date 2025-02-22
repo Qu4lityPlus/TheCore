@@ -32,16 +32,16 @@ public final class CombatSkill extends Skill {
 
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onKillMob(PlayerKillEvent e){
+    public void onKillMob(PlayerKillEvent e) {
         Player player = e.getPlayer();
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return;
 
         Entity entity = e.getKilled();
 
         double xp = rewards.getOrDefault(entity.getType(), 0D);
 
-        if(xp <= 0) return;
+        if (xp <= 0) return;
 
         TheSkills.getApi().getSkillsService().addXp(player, true, true, this, xp);
     }

@@ -10,7 +10,7 @@ import org.bukkit.World;
 public abstract class AbstractStructure extends OkaeriConfig {
     protected @Getter final Location location;
 
-    public World getWorld(){
+    public World getWorld() {
         return location.getWorld();
     }
 }

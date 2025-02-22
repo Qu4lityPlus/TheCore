@@ -32,7 +32,7 @@ public final class SkillsInternalListener implements Listener {
     private @Inject Box box;
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onXpGain(SkillsXPGainEvent event){
+    public void onXpGain(SkillsXPGainEvent event) {
         Player player = event.getPlayer();
 
         UUID uuid = player.getUniqueId();
@@ -51,13 +51,13 @@ public final class SkillsInternalListener implements Listener {
 
             String message = StringUtils.processMulti(actionBar.getMessage(), placeholders);
 
-            if(actionBar.isEnabled() && event.isShowXpActionBar())
+            if (actionBar.isEnabled() && event.isShowXpActionBar())
                 box.actionBarService().sendActionBar(event.getPlayer(), message);
         });
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onXpGain(SkillsLevelUPEvent event){
+    public void onXpGain(SkillsLevelUPEvent event) {
         Player player = event.getPlayer();
 
         UUID uuid = player.getUniqueId();
@@ -91,10 +91,10 @@ public final class SkillsInternalListener implements Listener {
 
             String message = StringUtils.processMulti(actionBar.getMessage(), placeholders);
 
-            if(settings.message.isEnabled())
+            if (settings.message.isEnabled())
                 StringUtils.processMulti(settings.message.getMessages(), placeholders).forEach(msg -> player.sendMessage(StringUtils.color(msg)));
 
-            if(actionBar.isEnabled())
+            if (actionBar.isEnabled())
                 box.actionBarService().sendActionBar(event.getPlayer(), message);
 
 

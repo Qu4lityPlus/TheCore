@@ -36,7 +36,7 @@ public final class BonusAttackSpeedConfig extends OkaeriConfig implements PerkFi
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQ5MmNhOTQwNzkxMzZkMjUyNTcwM2QzNzVjMjU1N2VhYzIwMWVlN2RkMzljZTExYzY0YTljMzgxNDdlY2M0ZCJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_bonus_attack_speed_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return BonusAttackSpeedPerk.builder()
                 .id(id)
                 .displayName(displayName)

@@ -25,23 +25,23 @@ public class PetEggUtil {
     private final String PET_ID_KEY = "PET_ID_KEY";
     private final String PET_UNIQUE_ID_KEY = "PET_UUID_KEY";
 
-    public Optional<PetData> dataFromEgg(ItemStack itemStack){
-        if(BukkitItemUtil.isNull(itemStack)) return Optional.empty();
+    public Optional<PetData> dataFromEgg(ItemStack itemStack) {
+        if (BukkitItemUtil.isNull(itemStack)) return Optional.empty();
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if(!nbtItem.hasKey(PET_ID_KEY) || !nbtItem.hasKey(PET_UNIQUE_ID_KEY)) return Optional.empty();
+        if (!nbtItem.hasKey(PET_ID_KEY) || !nbtItem.hasKey(PET_UNIQUE_ID_KEY)) return Optional.empty();
 
         Pet pet = Pets.getByID(nbtItem.getString(PET_ID_KEY));
 
-        if(pet == null) return Optional.empty();
+        if (pet == null) return Optional.empty();
 
         UUID uuid = UUID.fromString(nbtItem.getString(PET_UNIQUE_ID_KEY));
 
         return ThePets.getApi().getPetsService().getData(uuid);
     }
 
-    public Optional<ItemStack> createNewEgg(Item item, Pet pet){
+    public Optional<ItemStack> createNewEgg(Item item, Pet pet) {
 
         UUID petUuid = UUID.randomUUID();
 
@@ -55,19 +55,19 @@ public class PetEggUtil {
 
     }
 
-    public Optional<ItemStack> createFromExistent(Item item, UUID petUuid){
+    public Optional<ItemStack> createFromExistent(Item item, UUID petUuid) {
         Optional<PetData> petData = ThePets.getApi().getPetsService().getData(petUuid);
 
-        if(!petData.isPresent()) return Optional.empty();
+        if (!petData.isPresent()) return Optional.empty();
 
         Optional<Pet> pet = Optional.ofNullable(Pets.getByID(petData.get().getPetId()));
 
-        if(!pet.isPresent()) return Optional.empty();
+        if (!pet.isPresent()) return Optional.empty();
 
         return getItemStack(item, pet.get(), petUuid);
     }
 
-    private Optional<ItemStack> getItemStack(Item item, Pet pet, UUID petUuid){
+    private Optional<ItemStack> getItemStack(Item item, Pet pet, UUID petUuid) {
         PetEgg petEgg = pet.getPetEgg();
 
         List<IPlaceholder> placeholderList = PetPlaceholderUtil.getPetPlaceholders(pet)
@@ -90,7 +90,7 @@ public class PetEggUtil {
         return Optional.ofNullable(nbtItem.getItem());
     }
 
-    private Optional<ItemStack> getItemStack(Item item, Pet pet, PetData petData){
+    private Optional<ItemStack> getItemStack(Item item, Pet pet, PetData petData) {
         PetEgg petEgg = pet.getPetEgg();
 
         List<IPlaceholder> placeholderList = PetPlaceholderUtil.getPetPlaceholders(pet)

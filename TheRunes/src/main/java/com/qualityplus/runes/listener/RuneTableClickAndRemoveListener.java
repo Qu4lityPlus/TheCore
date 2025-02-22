@@ -29,19 +29,19 @@ public final class RuneTableClickAndRemoveListener implements Listener {
     public void onPlace(PlayerInteractAtEntityEvent e) {
         Player player = e.getPlayer();
 
-        if(!(e.getRightClicked() instanceof ArmorStand)) return;
+        if (!(e.getRightClicked() instanceof ArmorStand)) return;
 
         ArmorStand armorStand = (ArmorStand) e.getRightClicked();
 
         String name = Optional.ofNullable(armorStand.getName()).orElse("");
 
-        if(!name.equals("RunePart")) return;
+        if (!name.equals("RunePart")) return;
 
         ItemStack inHand = player.getItemInHand();
 
-        if (!BukkitItemUtil.isNull(inHand) && RunesUtils.hasNBTData(inHand, "runeTableRemover")){
+        if (!BukkitItemUtil.isNull(inHand) && RunesUtils.hasNBTData(inHand, "runeTableRemover")) {
 
-            if(!player.hasPermission("therunes.remove.table")){
+            if (!player.hasPermission("therunes.remove.table")) {
                 player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.noPermission));
                 return;
             }
@@ -60,7 +60,7 @@ public final class RuneTableClickAndRemoveListener implements Listener {
         player.openInventory(new RuneTableGUI(box, new RuneSessionImpl(player.getUniqueId(), null, null, null, null)).getInventory());
     }
 
-    private void removeRuneTable(Location location){
+    private void removeRuneTable(Location location) {
         Optional.ofNullable(location.getWorld())
                 .ifPresent(world -> world
                         .getNearbyEntities(location, 3, 3 ,3)

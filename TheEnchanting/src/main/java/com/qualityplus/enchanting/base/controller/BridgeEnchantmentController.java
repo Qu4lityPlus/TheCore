@@ -14,7 +14,7 @@ public final class BridgeEnchantmentController implements EnchantmentController<
 
     @Override
     public ItemStack addEnchantment(final ItemStack itemStack, final ICoreEnchantment enchantment, final int level) {
-        if(enchantment.isAE())
+        if (enchantment.isAE())
             return advancedController.addEnchantment(itemStack, enchantment, level);
         else
             return normalController.addEnchantment(itemStack, enchantment, level);
@@ -22,7 +22,7 @@ public final class BridgeEnchantmentController implements EnchantmentController<
 
     @Override
     public ItemStack removeEnchantment(ItemStack itemStack, ICoreEnchantment enchantment) {
-        if(enchantment.isAE())
+        if (enchantment.isAE())
             return advancedController.removeEnchantment(itemStack, enchantment);
         else
             return normalController.removeEnchantment(itemStack, enchantment);

@@ -41,12 +41,12 @@ public final class AltarListener implements Listener {
     private @Inject Box box;
 
     @EventHandler
-    public void onUseTool(PlayerInteractAtEntityEvent e){
-        if(!(e.getRightClicked() instanceof EnderCrystal)) return;
+    public void onUseTool(PlayerInteractAtEntityEvent e) {
+        if (!(e.getRightClicked() instanceof EnderCrystal)) return;
         ItemStack itemStack = e.getPlayer().getItemInHand();
-        if(itemStack == null || itemStack.getType() == Material.AIR) return;
+        if (itemStack == null || itemStack.getType() == Material.AIR) return;
         NBTItem nbtItem = new NBTItem(itemStack);
-        if(!nbtItem.hasKey("dragonTool")) return;
+        if (!nbtItem.hasKey("dragonTool")) return;
         e.getRightClicked().remove();
     }
 
@@ -56,24 +56,24 @@ public final class AltarListener implements Listener {
      * @param event PlayerInteractEvent
      */
     @EventHandler
-    public void onInteract(PlayerInteractEvent event){
+    public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         ItemStack itemStack = player.getItemInHand();
 
-        if(!DragonItemStackUtil.isEnderKey(itemStack)) return;
+        if (!DragonItemStackUtil.isEnderKey(itemStack)) return;
 
         event.setCancelled(true);
 
-        if(box.game().isActive()){
+        if (box.game().isActive()) {
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.errorDragonEventInProgress.replace("%prefix%", box.files().config().prefix)));
             return;
         }
 
-        if(setupService.playerIsInEditMode(uuid)){
+        if (setupService.playerIsInEditMode(uuid)) {
             player.sendMessage(StringUtils.color(box.files().messages().setupMessages.errorInSetupMode.replace("%prefix%", box.files().config().prefix)));
             return;
         }
@@ -92,7 +92,7 @@ public final class AltarListener implements Listener {
     private void manageAltars(Player player, PlayerInteractEvent event, ItemStack itemStack) {
         Block block = event.getClickedBlock();
 
-        if(block == null) return;
+        if (block == null) return;
 
         Optional<DragonAltar> altar = box.structures().getAltar(block.getLocation());
 
@@ -106,7 +106,7 @@ public final class AltarListener implements Listener {
             return;
         }
 
-        if(!gameCanStart(player))
+        if (!gameCanStart(player))
             return;
 
         player.setItemInHand(BukkitItemUtil.getItemWithout(itemStack, 1));
@@ -118,21 +118,21 @@ public final class AltarListener implements Listener {
         sendAltarsFilledMessage(player);
     }
 
-    private boolean gameCanStart(Player player){
+    private boolean gameCanStart(Player player) {
         try {
             return box.game().canStart();
-        }catch (NoSpawnException e){
+        } catch (NoSpawnException e) {
             player.sendMessage(StringUtils.color(box.files().messages().gameMessages.cantPlaceSpawn
                     .replace("%prefix%", box.files().config().prefix)));
             return false;
-        }catch (NoStructureException e){
+        } catch (NoStructureException e) {
             player.sendMessage(StringUtils.color(box.files().messages().gameMessages.cantPlaceStructure
                     .replace("%prefix%", box.files().config().prefix)));
             return false;
         }
     }
 
-    private void sendAltarPlacedMessage(Player player){
+    private void sendAltarPlacedMessage(Player player) {
         List<DragonAltar> altarList = box.structures().getAltars();
 
         String message = StringUtils.processMulti(box.files().messages().gameMessages.placedEnderKey, getPlaceholders(altarList));
@@ -140,13 +140,13 @@ public final class AltarListener implements Listener {
         player.sendMessage(StringUtils.color(message));
     }
 
-    private void sendAltarsFilledMessage(Player player){
+    private void sendAltarsFilledMessage(Player player) {
         List<DragonAltar> altarList = box.structures().getAltars();
 
         int current = (int) altarList.stream().filter(DragonAltar::isEnderKey).count();
         int total = altarList.size();
 
-        if(current < total) return;
+        if (current < total) return;
 
         altarList.forEach(dragonAltar1 -> dragonAltar1.setEnderKey(false));
 
@@ -157,7 +157,7 @@ public final class AltarListener implements Listener {
         box.game().start();
     }
 
-    private List<IPlaceholder> getPlaceholders(List<DragonAltar> altarList){
+    private List<IPlaceholder> getPlaceholders(List<DragonAltar> altarList) {
         int current = (int) altarList.stream().filter(DragonAltar::isEnderKey).count();
         int total = altarList.size();
 

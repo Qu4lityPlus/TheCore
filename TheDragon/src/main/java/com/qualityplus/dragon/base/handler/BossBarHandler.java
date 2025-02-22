@@ -14,11 +14,11 @@ public final class BossBarHandler implements ReplyHandler<Player, String> {
     @Override
     public void handle(Player player, String message) {
 
-        if(player == null || message == null || message.equals("")){
+        if (player == null || message == null || message.equals("")) {
             bossBar.removeAll();
             return;
         }
-        if(bossBar != null) bossBar.removeAll();
+        if (bossBar != null) bossBar.removeAll();
         this.bossBar = Bukkit.createBossBar(message, BarColor.PURPLE, BarStyle.SEGMENTED_10, BarFlag.DARKEN_SKY);
         this.bossBar.addPlayer(player);
     }

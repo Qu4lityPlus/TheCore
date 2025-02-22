@@ -16,7 +16,7 @@ public final class GuardianFactoryImpl implements GuardianFactory {
     private @Inject DragonGuardiansFile guardians;
 
     @Override
-    public Guardian getRandom(List<GuardianChanceConfig> guardianList){
+    public Guardian getRandom(List<GuardianChanceConfig> guardianList) {
 
         int r = new Random().nextInt(100);
 
@@ -26,22 +26,22 @@ public final class GuardianFactoryImpl implements GuardianFactory {
 
         guardians.sort((o1, o2) -> o2.percentage - o1.percentage);
 
-        for(PercentageGuardian guardian : guardians)
-            if(r < guardian.percentage)
+        for (PercentageGuardian guardian : guardians)
+            if (r < guardian.percentage)
                 return guardian.iGuardian;
         return guardians.isEmpty() ? null : guardians.get(0).iGuardian;
     }
 
-    private Map<Guardian, Integer> translateGuardianList(List<GuardianChanceConfig> guardianList){
+    private Map<Guardian, Integer> translateGuardianList(List<GuardianChanceConfig> guardianList) {
         Map<Guardian, Integer> guardianIntegerMap = new HashMap<>();
 
-        for(GuardianChanceConfig config : guardianList){
+        for (GuardianChanceConfig config : guardianList) {
             try {
-                if(config.isFromMythicMobs)
+                if (config.isFromMythicMobs)
                     guardianIntegerMap.put(new MythicGuardian(config.id, config.mythicMobLevel), config.chance);
                 else
                     guardianIntegerMap.put(guardians.getGuardianById(config.id), config.chance);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

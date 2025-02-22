@@ -55,7 +55,7 @@ public final class FishingConfig extends OkaeriConfig {
                     "   &7%skill_iron_lungs_description%"))
             .build();
 
-    public Skill getSkill(){
+    public Skill getSkill() {
         return FishingSkill.builder()
                 .id(id)
                 .enabled(enabled)
@@ -77,7 +77,7 @@ public final class FishingConfig extends OkaeriConfig {
     }
 
 
-    private Map<Integer, List<String>> getInfo(){
+    private Map<Integer, List<String>> getInfo() {
         return FastMap.listBuilder(Integer.class, String.class)
                 .put(1, Arrays.asList("&7Abilities To Upgrade:",
                         "&8» &f+1 %skill_speed_displayname%",
@@ -100,14 +100,14 @@ public final class FishingConfig extends OkaeriConfig {
                 .build();
     }
 
-    private Map<Integer, List<StatReward>> getInternalRewards(){
+    private Map<Integer, List<StatReward>> getInternalRewards() {
         return FastMap.listBuilder(Integer.class, StatReward.class)
                 .put(1, Arrays.asList(new StatReward("speed", 1), new StatReward("magic_find", 1), new StatReward("fishing_fortune", 1), new StatReward("iron_lungs", 1)))
                 .put(10, Arrays.asList(new StatReward("speed", 2), new StatReward("magic_find", 2), new StatReward("fishing_fortune", 1), new StatReward("iron_lungs", 1)))
                 .build();
     }
 
-    private Map<Integer, Double> getLevelsMap(){
+    private Map<Integer, Double> getLevelsMap() {
         Map<Integer, Double> levels = new HashMap<>();
 
         NumberUtil.intStream(0, maxLevel).forEach(n -> levels.put(n, n*15d));

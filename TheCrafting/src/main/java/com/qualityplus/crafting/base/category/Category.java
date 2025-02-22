@@ -21,7 +21,7 @@ public final class Category extends OkaeriConfig {
     private String iconTexture;
     private int slot;
 
-    public List<CustomRecipe> getRecipes(){
+    public List<CustomRecipe> getRecipes() {
         return Recipes.values().stream()
                 .filter(recipe -> recipe.getCategory() != null && recipe.getCategory().equals(id))
                 .collect(Collectors.toList());

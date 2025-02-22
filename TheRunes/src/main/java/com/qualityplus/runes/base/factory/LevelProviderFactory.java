@@ -18,7 +18,7 @@ public final class LevelProviderFactory {
 
     @Bean
     public LevelProvider configureLevelProvider() {
-        if(TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheSkills"))
+        if (TheAssistantPlugin.getAPI().getDependencyResolver().isPlugin("TheSkills"))
             return injector.createInstance(RuneCraftLevelProvider.class);
         else
             return injector.createInstance(XPLevelProvider.class);

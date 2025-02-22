@@ -23,10 +23,10 @@ public abstract class AbstractFortuneBlockPerk extends AbstractFortunePerk {
         super(id, enabled, displayName, description, skillGUIOptions, baseAmount, chancePerLevel, allowedMaterials);
     }
 
-    protected boolean isAllowedMaterial(BlockBreakEvent e){
+    protected boolean isAllowedMaterial(BlockBreakEvent e) {
         Player player = e.getPlayer();
 
-        if(!SkillsPlayerUtil.isInSurvival(player)) return false;
+        if (!SkillsPlayerUtil.isInSurvival(player)) return false;
 
         XMaterial material = XMaterial.matchXMaterial(e.getBlock().getType());
 
@@ -35,7 +35,7 @@ public abstract class AbstractFortuneBlockPerk extends AbstractFortunePerk {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void  onBreak(BlockBreakEvent event) {
-        if(!isAllowedMaterial(event)) return;
+        if (!isAllowedMaterial(event)) return;
 
         Player player = event.getPlayer();
 
@@ -44,7 +44,7 @@ public abstract class AbstractFortuneBlockPerk extends AbstractFortunePerk {
         if (BlockUtils.isPlacedByPlayer(block))
             return;
 
-        int level = getStat(player);
+        double level = getStat(player);
 
         double chance = getChance(level);
 

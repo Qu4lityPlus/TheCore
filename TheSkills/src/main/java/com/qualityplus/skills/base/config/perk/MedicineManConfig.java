@@ -37,7 +37,7 @@ public final class MedicineManConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGY5MTkwN2VjYzllMjNkNTRhYmY4ZDNhYmMyNDU1ZmU3YmZlNzU5ODBiNDdjYTkyOTQ5MDFlZGU0ZGI4NGE0ZiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_medicine_man_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return MedicineManPerk.builder()
                 .id(id)
                 .displayName(displayName)

@@ -27,17 +27,17 @@ public final class OpenRecipePreviewCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if(args.length == 2){
+        if (args.length == 2) {
             CustomRecipe recipe = Recipes.getByID(args[1]);
 
-            if(recipe == null){
+            if (recipe == null) {
                 player.sendMessage(StringUtils.color(box.files().messages().recipeMessages.recipeDoesntExist));
                 return false;
             }
 
             player.openInventory(new RecipePreviewGUI(box, recipe, edition).getInventory());
 
-        }else{
+        } else {
             player.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return false;
@@ -49,7 +49,7 @@ public final class OpenRecipePreviewCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().previewCommand));
     }
 }

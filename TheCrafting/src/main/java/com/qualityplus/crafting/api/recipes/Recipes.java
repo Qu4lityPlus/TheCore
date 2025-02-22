@@ -51,7 +51,7 @@ public final class Recipes {
     }
 
     @Delayed(time = 1)
-    public static void reloadRecipes(@Inject Box box){
+    public static void reloadRecipes(@Inject Box box) {
         box.files().recipes().craftingRecipes.forEach(CustomRecipe::register);
     }
 }

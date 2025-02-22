@@ -42,7 +42,7 @@ public final class DragonCrystalsGUI extends TheDragonGUI {
 
         int i = maxPerPage * (page - 1);
 
-        if(crystals.size() > 0){
+        if (crystals.size() > 0) {
             while (slot < maxPerPage) {
                 if (crystals.size() > i && i >= 0) {
                     DragonCrystal crystal = crystals.get(i);
@@ -63,9 +63,9 @@ public final class DragonCrystalsGUI extends TheDragonGUI {
             }
         }
 
-        if(hasNext)
+        if (hasNext)
             inventory.setItem(config.getNextPage().getSlot(), ItemStackUtils.makeItem(config.getNextPage()));
-        if(page > 1)
+        if (page > 1)
             inventory.setItem(config.getPreviousPage().getSlot(), ItemStackUtils.makeItem(config.getPreviousPage()));
 
         inventory.setItem(config.getBackToMainMenu().getSlot(), ItemStackUtils.makeItem(config.getBackToMainMenu()));
@@ -84,26 +84,26 @@ public final class DragonCrystalsGUI extends TheDragonGUI {
 
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
-        if(isItem(slot, config.getCloseGUI())) {
+        if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if (isItem(slot, config.getBackToMainMenu())){
+        } else if (isItem(slot, config.getBackToMainMenu())) {
             player.openInventory(new MainMenuGUI(box).getInventory());
-        }else if (isItem(slot, config.getNextPage()) && hasNext){
+        } else if (isItem(slot, config.getNextPage()) && hasNext) {
             player.openInventory(new DragonCrystalsGUI(box, page + 1).getInventory());
-        }else if (isItem(slot, config.getPreviousPage()) && page > 1){
+        } else if (isItem(slot, config.getPreviousPage()) && page > 1) {
             player.openInventory(new DragonCrystalsGUI(box, page - 1).getInventory());
-        }else{
+        } else {
 
             DragonCrystal toRemove = crystalMap.getOrDefault(slot, null);
 
-            if(toRemove == null) return;
+            if (toRemove == null) return;
 
-            if(e.isLeftClick()){
+            if (e.isLeftClick()) {
                 player.closeInventory();
                 player.teleport(toRemove.getLocation());
-            }else{
+            } else {
                 box.structures().removeStructure(toRemove);
                 player.openInventory(new DragonCrystalsGUI(box, page).getInventory());
             }

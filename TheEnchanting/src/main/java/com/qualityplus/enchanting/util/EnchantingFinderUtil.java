@@ -17,19 +17,19 @@ import java.util.Optional;
 
 @UtilityClass
 public class EnchantingFinderUtil {
-    public int getItemLevel(ItemStack itemStack, Enchantment enchantment){
-        if(itemStack == null || enchantment == null) return 0;
+    public int getItemLevel(final ItemStack itemStack, final Enchantment enchantment) {
+        if (itemStack == null || enchantment == null) return 0;
 
         ItemMeta meta = itemStack.getItemMeta();
 
         return Optional.ofNullable(meta).map(m -> m.getEnchantLevel(enchantment)).orElse(0);
     }
 
-    public int getBookShelfPower(Player player){
+    public int getBookShelfPower(Player player) {
         return getBookShelfPower(player.getLocation());
     }
 
-    public int getBookShelfPower(Location location){
+    public int getBookShelfPower(Location location) {
         return (int) getBlocksInRadius(location, 6).stream()
                 .filter(block -> !BlockUtils.isNull(block))
                 .filter(block -> block.getType().equals(XMaterial.BOOKSHELF.parseMaterial()))
@@ -38,14 +38,14 @@ public class EnchantingFinderUtil {
 
     private static List<Block> getBlocksInRadius(Location location, int radius) {
         List<Block> inRadius = new ArrayList<>();
-        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++)
-            for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++)
-                for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++)
-                    if(location.getWorld() != null) inRadius.add(location.getWorld().getBlockAt(x, y, z));
+        for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++)
+            for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++)
+                for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++)
+                    if (location.getWorld() != null) inRadius.add(location.getWorld().getBlockAt(x, y, z));
         return inRadius;
     }
 
-    private Block getBlockAt(World world, int x, int y, int z){
+    private Block getBlockAt(World world, int x, int y, int z) {
         return world.getBlockAt(x, y, z);
     }
 }

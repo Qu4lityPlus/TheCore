@@ -44,7 +44,7 @@ public final class DefenseStat extends Stat {
         double multiplier = damageReductionPercentagePerLevel * TheSkills.getApi().getSkillsService().getData(player.getUniqueId())
                 .map(UserData::getSkills)
                 .map(userPerks -> userPerks.getLevel(id))
-                .orElse(1);
+                .orElse(1D);
 
         multiplier /= 100;
         multiplier += 1;
@@ -53,10 +53,10 @@ public final class DefenseStat extends Stat {
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         List<IPlaceholder> placeholders = PlaceholderBuilder.create()
                 .with(new Placeholder("level_number", level),
-                      new Placeholder("level_roman", NumberUtil.toRoman(level)),
+                      new Placeholder("level_roman", NumberUtil.toRoman((int)level)),
                       new Placeholder("percentage", MathUtil.round(damageReductionPercentagePerLevel * (double) level))
                 ).get();
         return StringUtils.processMulti(description, placeholders);

@@ -27,15 +27,15 @@ public final class TheCrafting extends OkaeriSilentPlugin {
     }
 
     @Planned(ExecutionPhase.POST_SETUP)
-    private void fixInventories(final @Inject Logger logger, final @Inject Inventories inventories){
+    private void fixInventories(final @Inject Logger logger, final @Inject Inventories inventories) {
 
         try {
-            if(inventories.recipeBookSubGUI.getUnlockedItem() == null){
+            if (inventories.recipeBookSubGUI.getUnlockedItem() == null) {
                 inventories.recipeBookSubGUI.setUnlockedItem(ItemBuilder.of(XMaterial.GRAY_DYE,  4, 1, "%crafting_recipe_result_item_displayname%", Arrays.asList("%crafting_recipe_result_item_lore%", "", "&eClick to view recipe")).build());
                 inventories.save();
                 logger.info("Successfully fixed problem with recipe book gui!");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

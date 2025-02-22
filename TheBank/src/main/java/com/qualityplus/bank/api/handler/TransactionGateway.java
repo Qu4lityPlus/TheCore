@@ -7,5 +7,9 @@ import com.qualityplus.bank.persistence.data.BankTransaction;
 import java.util.Optional;
 
 public interface TransactionGateway {
-    public Optional<TrxResponse> handle(final BankData data, final BankTransaction transaction, final boolean showMessage);
+    public Optional<TrxResponse> handle(final BankData data,
+                                        final BankTransaction transaction,
+                                        final boolean showMessage,
+                                        final boolean force,
+                                        final boolean interest);
 }

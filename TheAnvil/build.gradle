@@ -1,7 +1,13 @@
+repositories {
+    maven { url 'https://repo.auxilor.io/repository/maven-public/' }
+}
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    compileOnly("org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT")  {
+        exclude group: "net.md-5", module: "bungeecord-chat"
+    }
     compileOnly project(':TheEnchanting:TheEnchanting-NMS')
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(':TheEnchanting')
+    compileOnly("com.willfp:EcoEnchants:12.19.3")
+    compileOnly("com.willfp:eco:6.74.5")
 }

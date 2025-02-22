@@ -37,7 +37,7 @@ public final class IronLungsConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTczMTFiMWZjNzdmM2I3ZWQxYmNlNjVlM2ZiMjRkNzI2YTgzY2EyMTIzZGI0MzNiZWMxYzNmMzBhZTdmMThjNiJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_iron_lungs_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return IronLungsPerk.builder()
                 .id(id)
                 .displayName(displayName)

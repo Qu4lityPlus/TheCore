@@ -56,7 +56,7 @@ public final class Trades {
     }
 
     @Delayed(time = 1)
-    public static void reloadTrades(@Inject Box box){
+    public static void reloadTrades(@Inject Box box) {
         box.files().trades().pluginTrades.forEach(PluginTrade::register);
     }
 }

@@ -29,23 +29,23 @@ public abstract class AbstractPotionPerk extends Perk {
     }
 
     @Override
-    public List<String> getFormattedDescription(int level) {
+    public List<String> getFormattedDescription(double level) {
         return StringUtils.processMulti(super.getFormattedDescription(level), PlaceholderBuilder.create(
-                new Placeholder("duration", getDurationSeconds(level)),
+                new Placeholder("duration", getDurationSeconds((int)level)),
                 new Placeholder("potion_level_roman", NumberUtil.toRoman(getLevel())),
                 new Placeholder("potion_level_number", getLevel())
         ).get());
     }
 
-    protected int getFinalLevel(){
+    protected int getFinalLevel() {
         return Math.max(0, level - 1);
     }
 
-    protected int getDurationTicks(int level){
-        return baseSecondsDuration + (secondsDurationPerLevel * level) * 20;
+    protected int getDurationTicks(double level) {
+        return (int) (baseSecondsDuration + (secondsDurationPerLevel * level) * 20);
     }
 
-    private int getDurationSeconds(int level){
+    private int getDurationSeconds(int level) {
         return baseSecondsDuration + (secondsDurationPerLevel * level);
     }
 }

@@ -38,7 +38,7 @@ public final class LeavesMasterConfig extends OkaeriConfig implements PerkFile {
             .texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGU3Y2Q2MWY1MzgzZjNhOTgxN2U3MmY1YThkM2FiMzQ2NDY2MWU2ZWY0YzEwNGI5MTQwMjU3NDA4ZGI1YTM4YSJ9fX0=")
             .mainMenuLore(Collections.singletonList("%skill_leaves_master_description%"))
             .build();
-    public Perk getPerk(){
+    public Perk getPerk() {
         return LeavesMasterPerk.builder()
                 .id(id)
                 .displayName(displayName)

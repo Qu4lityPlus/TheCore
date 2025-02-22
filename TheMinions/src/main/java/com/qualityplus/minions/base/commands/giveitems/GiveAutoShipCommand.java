@@ -28,24 +28,24 @@ public final class GiveAutoShipCommand extends AssistantCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
-        if(args.length == 3){
+        if (args.length == 3) {
             Player toGive = Bukkit.getPlayer(args[1]);
 
             MinionAutoShipping automatedShipping = box.files().getAutoSell().automatedShippingUpgrades.getOrDefault(args[2], null);
 
-            if(toGive == null){
+            if (toGive == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.invalidPlayer));
                 return false;
             }
 
-            if(automatedShipping == null){
+            if (automatedShipping == null) {
                 sender.sendMessage(StringUtils.color(box.files().messages().minionMessages.invalidAutoShip));
                 return false;
             }
 
             toGive.getInventory().addItem(automatedShipping.getItemStack(0,0));
 
-        }else{
+        } else {
             sender.sendMessage(StringUtils.color(box.files().messages().pluginMessages.useSyntax.replace("%usage%", syntax)));
         }
         return false;
@@ -58,7 +58,7 @@ public final class GiveAutoShipCommand extends AssistantCommand {
     }
 
     @Delayed(time = MinecraftTimeEquivalent.SECOND)
-    public void register(@Inject Box box){
+    public void register(@Inject Box box) {
         TheAssistantPlugin.getAPI().getCommandProvider().registerCommand(this, e -> e.getCommand().setDetails(box.files().commands().giveAutomatedShippingCommand));
     }
 }

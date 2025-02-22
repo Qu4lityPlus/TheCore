@@ -56,8 +56,8 @@ public final class GameStructuresImpl implements GameStructures {
 
         Optional<DragonSpawn> spawn = getSpawn();
 
-        if(spawn.isPresent())
-            if(schematic.isPresent())
+        if (spawn.isPresent())
+            if (schematic.isPresent())
                 return worldEditPlugin.pasteSchematic(spawn.get().getLocation(), schematic.get());
             else
                 future.complete(new DefaultSession());

@@ -9,24 +9,24 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 public interface CommonHandler {
-    default void removeItemsOneByOne(Inventory inventory, Map<Integer, Integer> tableRelationSlots){
-        for(Integer value : tableRelationSlots.values()){
+    default void removeItemsOneByOne(Inventory inventory, Map<Integer, Integer> tableRelationSlots) {
+        for (Integer value : tableRelationSlots.values()) {
             ItemStack itemStack = inventory.getItem(value);
 
-            if(BukkitItemUtil.isNull(itemStack)) continue;
+            if (BukkitItemUtil.isNull(itemStack)) continue;
 
             inventory.setItem(value, BukkitItemUtil.getItemWithout(itemStack, 1));
         }
     }
 
-    default void removeOneByOneRecipe(CustomRecipe recipe, Inventory inventory, Map<Integer, Integer> tableRelationSlots){
+    default void removeOneByOneRecipe(CustomRecipe recipe, Inventory inventory, Map<Integer, Integer> tableRelationSlots) {
         Map<Integer, ItemStack> ingredients = recipe.getIngredients();
 
         //Fake Slot | Special Slot
-        for(Map.Entry<Integer, Integer> entry : tableRelationSlots.entrySet()){
+        for (Map.Entry<Integer, Integer> entry : tableRelationSlots.entrySet()) {
             ItemStack inRecipe = ingredients.getOrDefault(entry.getKey(), null);
 
-            if(BukkitItemUtil.isNull(inRecipe)) continue;
+            if (BukkitItemUtil.isNull(inRecipe)) continue;
 
             ItemStack inTable = inventory.getItem(entry.getValue());
 
@@ -34,7 +34,7 @@ public interface CommonHandler {
         }
     }
 
-    default boolean isEmptyCrafting(ItemStack itemStack){
+    default boolean isEmptyCrafting(ItemStack itemStack) {
 
         NBTItem nbtItem = new NBTItem(itemStack);
 

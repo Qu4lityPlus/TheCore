@@ -26,11 +26,11 @@ public class MinionEggSetup implements ItemSetup {
 
         String id = data.map(MinionData::getMinionId).orElse(null);
 
-        if(id == null) return;
+        if (id == null) return;
 
         Minion minion = Minions.getByID(id);
 
-        if(minion == null) return;
+        if (minion == null) return;
 
         Optional<ItemStack> itemStack = MinionEggUtil.createFromExistent(box.files().config().minionEggItem, minionEntity.getMinionUniqueId());
 

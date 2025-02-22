@@ -14,6 +14,7 @@ import com.qualityplus.bank.base.gui.main.BankInterfaceGUI;
 import com.qualityplus.bank.persistence.data.BankData;
 import com.qualityplus.bank.persistence.data.BankTransaction;
 
+import com.qualityplus.bank.persistence.data.TransactionCaller;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -26,7 +27,7 @@ public final class BankInterestHandler implements Runnable {
 
     @Override
     public void run() {
-        for(final Player player : Bukkit.getOnlinePlayers()){
+        for (final Player player : Bukkit.getOnlinePlayers()) {
             final BankData bankData = box.service().getData(player.getUniqueId()).orElse(new BankData());
 
             final Markable markable = new Markable(box.files().config().bankInterestDelay.getEffectiveTime(), bankData.getLastInterestTime());
@@ -41,12 +42,12 @@ public final class BankInterestHandler implements Runnable {
                 continue;
             }
 
-            final BankTransaction trx = new BankTransaction(interest, TransactionType.DEPOSIT, BankInterfaceGUI.GUIType.GENERAL);
+            final BankTransaction trx = new BankTransaction(interest, TransactionType.DEPOSIT, BankInterfaceGUI.GUIType.GENERAL, TransactionCaller.SERVER);
 
-            final Optional<TrxResponse> response = box.service().handleTransaction(player, trx, true);
+            final Optional<TrxResponse> response = box.service().handleTransaction(player, trx, false, false, true);
 
-            if (!response.isPresent()) {
-                return;
+            if (response.isEmpty()) {
+                continue;
             }
 
             bankData.setLastInterestTime(System.currentTimeMillis());

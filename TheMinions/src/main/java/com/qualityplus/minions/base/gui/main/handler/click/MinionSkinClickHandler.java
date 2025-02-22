@@ -24,7 +24,7 @@ public final class MinionSkinClickHandler implements ClickHandler {
 
         event.setCancelled(true);
 
-        if(event.isShiftClick()) return;
+        if (event.isShiftClick()) return;
 
         Optional<MinionData> data = TheMinions.getApi().getMinionsService().getData(minionEntity.getMinionUniqueId());
         SkinEntity entity = data.map(MinionData::getSkinEntity).orElse(null);
@@ -33,18 +33,18 @@ public final class MinionSkinClickHandler implements ClickHandler {
         ItemStack oldToGive = getTaken(box, entity, minionEntity);
         boolean cursorIsEntity = MinionUpgradeUtil.isSkin(cursor);
 
-        if(cursorIsEntity){
+        if (cursorIsEntity) {
             SkinEntity newSkin = getEntityFromItem(box, entity, data, cursor);
 
             data.ifPresent(d -> d.setSkinEntity(newSkin));
 
             player.setItemOnCursor(oldToGive);
-        }else{
-            if(entity == null) return;
+        } else {
+            if (entity == null) return;
 
-            if(BukkitItemUtil.isNull(cursor)) {
+            if (BukkitItemUtil.isNull(cursor)) {
                 Optional.ofNullable(oldToGive).ifPresent(player::setItemOnCursor);
-            }else
+            } else
                 Optional.ofNullable(oldToGive).ifPresent(item -> BukkitItemUtil.dropItem(player, item));
 
             data.ifPresent(MinionData::removeSkin);
@@ -63,12 +63,12 @@ public final class MinionSkinClickHandler implements ClickHandler {
     }
 
     @SuppressWarnings("all")
-    private ItemStack getTaken(Box box, SkinEntity skinEntity, MinionEntity entity){
-        if(skinEntity == null) return null;
+    private ItemStack getTaken(Box box, SkinEntity skinEntity, MinionEntity entity) {
+        if (skinEntity == null) return null;
 
         Optional<MinionSkin> minionSkin = Skins.getSkin(skinEntity.getId());
 
-        if(!minionSkin.isPresent()) return null;
+        if (!minionSkin.isPresent()) return null;
 
         return minionSkin.get().getItemStack();
     }

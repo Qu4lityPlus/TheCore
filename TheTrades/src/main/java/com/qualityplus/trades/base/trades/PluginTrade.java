@@ -41,11 +41,11 @@ public final class PluginTrade extends OkaeriConfig implements ItemPayable, Perm
         this.id = id;
     }
 
-    public ItemStack getResult(){
+    public ItemStack getResult() {
         return itemStack == null ? null : ItemStackUtils.makeItem(itemStack).clone();
     }
 
-    public void register(){
+    public void register() {
         Trades.registerNewTrade(this);
     }
 }

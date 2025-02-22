@@ -36,19 +36,19 @@ public final class SellHandlerImpl implements SellHandler, LevelGetter {
 
         MinionStorageState storageState = state.getStorageState();
 
-        if(storageState == null || !storageState.isHasFullStorage()) return;
+        if (storageState == null || !storageState.isHasFullStorage()) return;
 
-        if(state.isSelling()) return;
+        if (state.isSelling()) return;
 
         Optional<MinionData> minionData = TheMinions.getApi().getMinionsService().getData(petUniqueId);
 
         AutomatedShippingEntity automatedShipping = minionData.map(MinionData::getAutoSell).orElse(null);
 
-        if(automatedShipping == null) return;
+        if (automatedShipping == null) return;
 
         ItemStack item = fakeInventory.removeOneFromLastItem();
 
-        if(BukkitItemUtil.isNull(item)) return;
+        if (BukkitItemUtil.isNull(item)) return;
 
         state.setSelling(true);
 

@@ -57,33 +57,33 @@ public final class MainMenuGUI extends TheDragonGUI {
         return inventory;
     }
 
-    private List<IPlaceholder> getGuardianSpawnsPlaceholders(){
+    private List<IPlaceholder> getGuardianSpawnsPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_guardian_spawns_amount", box.files().guardians().guardianSpawns.size())).get();
     }
 
-    private List<IPlaceholder> getGuardiansPlaceholders(){
+    private List<IPlaceholder> getGuardiansPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_guardians_amount", box.files().guardians().guardianMap.size())).get();
     }
 
-    private List<IPlaceholder> getDragonsPlaceholders(){
+    private List<IPlaceholder> getDragonsPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_dragons_amount", box.files().dragons().dragonMap.size())).get();
     }
 
 
-    private List<IPlaceholder> getCrystalsPlaceholders(){
+    private List<IPlaceholder> getCrystalsPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_crystals_amount", box.structures().getCrystals().size())).get();
     }
 
 
-    private List<IPlaceholder> getAltarsPlaceholders(){
+    private List<IPlaceholder> getAltarsPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_altars_amount", box.structures().getAltars().size())).get();
     }
 
-    private List<IPlaceholder> getSchematicPlaceholders(){
+    private List<IPlaceholder> getSchematicPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_schematic_id", box.files().config().eventSettings.schematicSettings.id)).get();
     }
 
-    private List<IPlaceholder> getSpawnPlaceholders(){
+    private List<IPlaceholder> getSpawnPlaceholders() {
         return PlaceholderBuilder.create(new Placeholder("thedragon_spawn_location", LocationUtils.toString(box.structures().getSpawn()
                 .map(DragonSpawn::getLocation).
                 orElse(null))))
@@ -95,7 +95,7 @@ public final class MainMenuGUI extends TheDragonGUI {
     public void onInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
 
-        if(!getTarget(e).equals(ClickTarget.INSIDE)) return;
+        if (!getTarget(e).equals(ClickTarget.INSIDE)) return;
 
         Player player = (Player) e.getWhoClicked();
 
@@ -103,21 +103,21 @@ public final class MainMenuGUI extends TheDragonGUI {
 
         if (isItem(slot, config.getCloseGUI())) {
             player.closeInventory();
-        }else if(isItem(slot, config.getCrystalItem())){
+        } else if (isItem(slot, config.getCrystalItem())) {
             player.openInventory(new DragonCrystalsGUI(box, 1).getInventory());
-        }else if(isItem(slot, config.getAltarItem())){
+        } else if (isItem(slot, config.getAltarItem())) {
             player.openInventory(new DragonAltarsGUI(box, 1).getInventory());
-        }else if(isItem(slot, config.getDragonsItem())){
+        } else if (isItem(slot, config.getDragonsItem())) {
             player.openInventory(new DragonsGUI(box).getInventory());
-        }else if(isItem(slot, config.getGuardiansItem())){
+        } else if (isItem(slot, config.getGuardiansItem())) {
             player.openInventory(new DragonGuardiansGUI(box, 1).getInventory());
-        }else if(isItem(slot, config.getSpawnItem())) {
+        } else if (isItem(slot, config.getSpawnItem())) {
             box.structures().getSpawn()
                     .filter(Objects::nonNull)
                     .map(GameStructure::getLocation)
                     .filter(Objects::nonNull)
                     .ifPresent(player::teleport);
-        }else if(isItem(slot, config.getGuardianSpawnsItem()))
+        } else if (isItem(slot, config.getGuardianSpawnsItem()))
             player.openInventory(new GuardianSpawnsGUI(box, 1).getInventory());
     }
 

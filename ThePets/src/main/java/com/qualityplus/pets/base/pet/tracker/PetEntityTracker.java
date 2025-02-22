@@ -50,12 +50,12 @@ public final class PetEntityTracker {
         private PetParticleService petParticleService;
 
         @Scheduled(rate = 1)
-        private void tickAll(){
+        private void tickAll() {
             TRACKED_PET_ENTITIES.entrySet().forEach(petFollowService::follow);
         }
 
         @Scheduled(rate = 20)
-        private void tickAllParticles(){
+        private void tickAllParticles() {
             TRACKED_PET_ENTITIES.entrySet().forEach(petParticleService::spellParticle);
         }
     }

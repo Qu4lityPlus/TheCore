@@ -32,13 +32,13 @@ public final class SeaFortunePerk extends AbstractFortunePerk {
 
         PlayerFishEvent.State state = e.getState();
 
-        if(e.getCaught() == null || !(e.getCaught() instanceof Item)) return;
+        if (e.getCaught() == null || !(e.getCaught() instanceof Item)) return;
 
         if (state != PlayerFishEvent.State.CAUGHT_FISH && state != PlayerFishEvent.State.CAUGHT_ENTITY) return;
 
         if (state == PlayerFishEvent.State.CAUGHT_ENTITY) return;
 
-        int level = getStat(player);
+        double level = getStat(player);
 
         double chance = getChance(level);
 
@@ -62,8 +62,8 @@ public final class SeaFortunePerk extends AbstractFortunePerk {
         dropVarious(fortunePerkEvent.getToDropLocation(), fortunePerkEvent.getToDropEntity(), finalAdditional);
     }
 
-    private void dropVarious(Location location, Entity entity, int additional){
-        for(int i = 0; i<additional; i++)
+    private void dropVarious(Location location, Entity entity, int additional) {
+        for (int i = 0; i<additional; i++)
             Optional.ofNullable(location.getWorld()).ifPresent(world -> world.dropItem(location, ((Item) entity).getItemStack()));
     }
 }

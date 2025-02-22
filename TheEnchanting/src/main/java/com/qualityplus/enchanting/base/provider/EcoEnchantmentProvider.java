@@ -7,8 +7,10 @@ import com.qualityplus.enchanting.api.provider.EnchantmentProvider;
 import com.qualityplus.enchanting.base.config.enchantments.EnchantConfig;
 import com.qualityplus.enchanting.base.config.enchantments.eco.EcoEnchantments;
 import com.qualityplus.enchanting.base.factory.VanillaEnchantmentFactory;
-import com.willfp.ecoenchants.enchants.EcoEnchant;
-import com.willfp.ecoenchants.enchants.EcoEnchants;
+import com.willfp.ecoenchants.EcoEnchantsPlugin;
+import com.willfp.ecoenchants.EcoEnchantsPluginKt;
+import com.willfp.ecoenchants.enchant.EcoEnchant;
+import com.willfp.ecoenchants.enchant.EcoEnchants;
 
 
 import java.util.HashMap;
@@ -22,14 +24,14 @@ public final class EcoEnchantmentProvider implements EnchantmentProvider {
 
     @Override
     public List<ICoreEnchantment> getEnchantments() {
-        return EcoEnchants.values()
+        return EcoEnchants.INSTANCE.values()
                 .stream()
                 .map(this::build)
                 .collect(Collectors.toList());
     }
 
-    private ICoreEnchantment build(EcoEnchant ecoEnchant){
-        String id = ecoEnchant.getKey().getKey();
+    private ICoreEnchantment build(EcoEnchant ecoEnchant) {
+        String id = ecoEnchant.getEnchantmentKey().getKey();
 
         Optional<EnchantConfig> conf = Optional.ofNullable(config.customEcoOptions.getOrDefault(id, null));
 
@@ -38,22 +40,22 @@ public final class EcoEnchantmentProvider implements EnchantmentProvider {
                 .requiredPermissionsToEnchant(conf.map(EnchantConfig::getRequiredPermissionsToEnchant).orElse(new HashMap<>()))
                 .requiredXpLevelToEnchant(conf.map(EnchantConfig::getRequiredXpLevelToEnchant).orElse(new HashMap<>()))
                 .requiredMoneyToEnchant(conf.map(EnchantConfig::getRequiredMoneyToEnchant).orElse(new HashMap<>()))
-                .description(ecoEnchant.getUnformattedDescription(1))
+                .description(ecoEnchant.getRawDescription(1, null))
                 .descriptionPerLevel(descriptionPerLevel(ecoEnchant))
-                .displayName(ecoEnchant.getDisplayName())
-                .maxLevel(ecoEnchant.getMaxLevel())
-                .enchantment(ecoEnchant)
+                .displayName(ecoEnchant.getRawDisplayName())
+                .maxLevel(ecoEnchant.getMaximumLevel())
+                .enchantment(ecoEnchant.getEnchantment())
                 .requiredBookShelf(1)
                 .enabled(true)
                 .build()
                 .build(ProviderType.ECO_ENCHANT);
     }
 
-    private Map<Integer, String> descriptionPerLevel(EcoEnchant ecoEnchant){
+    private Map<Integer, String> descriptionPerLevel(EcoEnchant ecoEnchant) {
         Map<Integer, String> map = new HashMap<>();
 
-        for(int i = 1; i<=ecoEnchant.getMaxLevel(); i++)
-            map.put(i, ecoEnchant.getUnformattedDescription(i));
+        for (int i = 1; i<=ecoEnchant.getMaximumLevel(); i++)
+            map.put(i, ecoEnchant.getRawDescription(i, null));
 
         return map;
     }
